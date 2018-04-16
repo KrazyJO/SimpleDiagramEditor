@@ -6,7 +6,8 @@
     "all": "run-s lint test",
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
-    "test": "karma start"
+    "test": "karma start",
+    "devts" : "tsc --watch"
   },
   "repository": {
     "type": "git",

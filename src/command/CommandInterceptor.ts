@@ -32,7 +32,7 @@ var DEFAULT_PRIORITY = 1000;
  * inherits(CommandLogger, CommandInterceptor);
  *
  */
-export default function CommandInterceptor(eventBus) {
+export default function CommandInterceptor(eventBus : any) {
   this._eventBus = eventBus;
 }
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/features/auto-scroll/index.js"],"names":[],"mappings":"AAAA,OAAO,cAAc,MAAM,aAAa,CAAC;AACzC,OAAO,mBAAmB,MAAM,mBAAmB,CAAC;AAEpD,OAAO,UAAU,MAAM,cAAc,CAAC;AAGtC,eAAe;IACb,WAAW,EAAE;QACX,cAAc;QACd,mBAAmB;KACpB;IACD,QAAQ,EAAE,CAAE,YAAY,CAAE;IAC1B,UAAU,EAAE,CAAE,MAAM,EAAE,UAAU,CAAE;CACnC,CAAC"}
