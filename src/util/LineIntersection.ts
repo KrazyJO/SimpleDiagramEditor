@@ -1,14 +1,20 @@
 import {
-  pointDistance
+  pointDistance, Point
 } from './Geometry';
 
 import intersectPaths from 'path-intersection';
+
+interface pathIntersection {
+  point: Point,
+  bendpoint?: boolean,
+  index: number
+}
 
 var round = Math.round,
     max = Math.max;
 
 
-function circlePath(center, r) {
+function circlePath(center : any, r : any) : any {
   var x = center.x,
       y = center.y;
 
@@ -21,8 +27,8 @@ function circlePath(center, r) {
   ];
 }
 
-function linePath(points) {
-  var segments = [];
+function linePath(points : Point[]) {
+  var segments : any[] = [];
 
   points.forEach(function(p, idx) {
     segments.push([ idx === 0 ? 'M' : 'L', p.x, p.y ]);
@@ -34,7 +40,7 @@ function linePath(points) {
 
 var INTERSECTION_THRESHOLD = 10;
 
-function getBendpointIntersection(waypoints, reference) {
+function getBendpointIntersection(waypoints : Point[], reference : Point) : pathIntersection {
 
   var i, w;
 
@@ -52,7 +58,7 @@ function getBendpointIntersection(waypoints, reference) {
   return null;
 }
 
-function getPathIntersection(waypoints, reference) {
+function getPathIntersection(waypoints : Point[], reference : Point) : pathIntersection {
 
   var intersections = intersectPaths(circlePath(reference, INTERSECTION_THRESHOLD), linePath(waypoints));
 
@@ -106,6 +112,6 @@ function getPathIntersection(waypoints, reference) {
  *
  * @return {Object} intersection data (segment, point)
  */
-export function getApproxIntersection(waypoints, reference) {
+export function getApproxIntersection(waypoints : Point[], reference : Point) : object{
   return getBendpointIntersection(waypoints, reference) || getPathIntersection(waypoints, reference);
 }

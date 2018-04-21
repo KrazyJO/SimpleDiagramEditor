@@ -1,3 +1,8 @@
+export interface Point {
+  x : number,
+  y : number
+}
+
 /**
  * Computes the distance between two points
  *
@@ -6,7 +11,7 @@
  *
  * @return {Number}  distance
  */
-export function pointDistance(a, b) {
+export function pointDistance(a : Point, b : Point) {
   if (!a || !b) {
     return -1;
   }
@@ -28,7 +33,7 @@ export function pointDistance(a, b) {
  *
  * @return {Boolean}
  */
-export function pointsOnLine(p, q, r, accuracy) {
+export function pointsOnLine(p : Point, q : Point, r : Point, accuracy : number) {
 
   if (typeof accuracy === 'undefined') {
     accuracy = 5;
@@ -58,7 +63,7 @@ var ALIGNED_THRESHOLD = 2;
  *                          aligned or 'h|v' if they are aligned
  *                          horizontally / vertically.
  */
-export function pointsAligned(a, b) {
+export function pointsAligned(a : Point, b : Point) {
   if (Math.abs(a.x - b.x) <= ALIGNED_THRESHOLD) {
     return 'h';
   }
@@ -80,7 +85,7 @@ export function pointsAligned(a, b) {
  *
  * @return {Boolean}
  */
-export function pointInRect(p, rect, tolerance) {
+export function pointInRect(p : Point, rect : any, tolerance : number) : boolean {
   tolerance = tolerance || 0;
 
   return p.x > rect.x - tolerance &&
@@ -97,7 +102,7 @@ export function pointInRect(p, rect, tolerance) {
  *
  * @return {Point} middle point
  */
-export function getMidPoint(p, q) {
+export function getMidPoint(p : Point, q : Point) : Point {
   return {
     x: Math.round(p.x + ((q.x - p.x) / 2.0)),
     y: Math.round(p.y + ((q.y - p.y) / 2.0))

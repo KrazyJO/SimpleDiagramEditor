@@ -2,13 +2,14 @@ import {
   attr as svgAttr,
   create as svgCreate
 } from 'tiny-svg';
+import { Point } from './Geometry';
 
 
-export function componentsToPath(elements) {
+export function componentsToPath(elements : any) : any {
   return elements.join(',').replace(/,?([A-z]),?/g, '$1');
 }
 
-export function toSVGPoints(points) {
+export function toSVGPoints(points : Point[]) {
   var result = '';
 
   for (var i = 0, p; (p = points[i]); i++) {
@@ -18,7 +19,7 @@ export function toSVGPoints(points) {
   return result;
 }
 
-export function createLine(points, attrs) {
+export function createLine(points : Point[], attrs : any) {
 
   var line = svgCreate('polyline');
   svgAttr(line, { points: toSVGPoints(points) });
@@ -30,7 +31,7 @@ export function createLine(points, attrs) {
   return line;
 }
 
-export function updateLine(gfx, points) {
+export function updateLine(gfx : any, points : Point[]) {
   svgAttr(gfx, { points: toSVGPoints(points) });
 
   return gfx;

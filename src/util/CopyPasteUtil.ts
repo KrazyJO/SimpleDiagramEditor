@@ -3,13 +3,13 @@ import {
 } from 'min-dash';
 
 
-export function getTopLevel(elements) {
+export function getTopLevel(elements : any) : any {
   var topLevel = {},
-      parents = [],
-      result = [],
-      clearedParents = [];
+      parents : any = [],
+      result : any= [],
+      clearedParents : any = [];
 
-  forEach(elements, function(element) {
+  forEach(elements, function(element : any) {
     var parent = element.parent;
 
     if (!topLevel[parent.id]) {
@@ -23,15 +23,15 @@ export function getTopLevel(elements) {
     topLevel[parent.id].push(element);
   });
 
-  forEach(parents, function(parent) {
-    forEach(topLevel[parent], function(element) {
+  forEach(parents, function(parent : any) {
+    forEach(topLevel[parent], function(element : any) {
       if (topLevel[element.id]) {
         clearedParents.push(element.id);
       }
     });
   });
 
-  forEach(parents, function(parent) {
+  forEach(parents, function(parent : any) {
     var idx = clearedParents.indexOf(parent);
 
     if (idx === -1) {

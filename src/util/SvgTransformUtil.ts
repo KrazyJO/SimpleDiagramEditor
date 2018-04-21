@@ -11,7 +11,7 @@ import {
  * @param {Number} angle
  * @param {Number} amount
  */
-export function transform(gfx, x, y, angle, amount) {
+export function transform(gfx : SVGAElement, x : number, y : number, angle : number, amount : number) : void {
   var translate = createTransform();
   translate.setTranslate(x, y);
 
@@ -30,7 +30,7 @@ export function transform(gfx, x, y, angle, amount) {
  * @param {Number} x
  * @param {Number} y
  */
-export function translate(gfx, x, y) {
+export function translate(gfx : SVGElement, x : number, y : number) : void {
   var translate = createTransform();
   translate.setTranslate(x, y);
 
@@ -42,7 +42,7 @@ export function translate(gfx, x, y) {
  * @param {SVGElement} element
  * @param {Number} angle
  */
-export function rotate(gfx, angle) {
+export function rotate(gfx : SVGElement, angle : number ) : void {
   var rotate = createTransform();
   rotate.setRotate(angle, 0, 0);
 
@@ -54,7 +54,7 @@ export function rotate(gfx, angle) {
  * @param {SVGElement} element
  * @param {Number} amount
  */
-export function scale(gfx, amount) {
+export function scale(gfx : SVGElement, amount : number) : void {
   var scale = createTransform();
   scale.setScale(amount, amount);
 

@@ -1,72 +1,72 @@
 import {
-  isObject,
-  assign,
-  pick,
-  forEach,
-  reduce
+	isObject,
+	assign,
+	pick,
+	forEach,
+	reduce
 } from 'min-dash';
 
 import {
-  append as svgAppend,
-  attr as svgAttr,
-  create as svgCreate,
-  remove as svgRemove
+	append as svgAppend,
+	attr as svgAttr,
+	create as svgCreate,
+	remove as svgRemove
 } from 'tiny-svg';
 
 var DEFAULT_BOX_PADDING = 0;
 
 var DEFAULT_LABEL_SIZE = {
-  width: 150,
-  height: 50
+	width: 150,
+	height: 50
 };
 
 
-function parseAlign(align) {
+function parseAlign(align: string): any {
 
-  var parts = align.split('-');
+	var parts = align.split('-');
 
-  return {
-    horizontal: parts[0] || 'center',
-    vertical: parts[1] || 'top'
-  };
+	return {
+		horizontal: parts[0] || 'center',
+		vertical: parts[1] || 'top'
+	};
 }
 
-function parsePadding(padding) {
+function parsePadding(padding: any) {
 
-  if (isObject(padding)) {
-    return assign({ top: 0, left: 0, right: 0, bottom: 0 }, padding);
-  } else {
-    return {
-      top: padding,
-      left: padding,
-      right: padding,
-      bottom: padding
-    };
-  }
+	if (isObject(padding)) {
+		return assign({ top: 0, left: 0, right: 0, bottom: 0 }, padding);
+	} else {
+		return {
+			top: padding,
+			left: padding,
+			right: padding,
+			bottom: padding
+		};
+	}
 }
 
-function getTextBBox(text, fakeText) {
+function getTextBBox(text: any, fakeText: any): any {
 
-  fakeText.textContent = text;
+	fakeText.textContent = text;
 
-  try {
-    var bbox,
-        emptyLine = text === '';
+	try {
+		var bbox,
+			emptyLine = text === '';
 
-    // add dummy text, when line is empty to determine correct height
-    fakeText.textContent = emptyLine ? 'dummy' : text;
+		// add dummy text, when line is empty to determine correct height
+		fakeText.textContent = emptyLine ? 'dummy' : text;
 
-    bbox = pick(fakeText.getBBox(), [ 'width', 'height' ]);
+		bbox = pick(fakeText.getBBox(), ['width', 'height']);
 
-    if (emptyLine) {
-      // correct width
-      bbox.width = 0;
-    }
+		if (emptyLine) {
+			// correct width
+			bbox.width = 0;
+		}
 
-    return bbox;
-  } catch (e) {
-    return { width: 0, height: 0 };
-  }
+		return bbox;
+	} catch (e) {
+		return { width: 0, height: 0 };
+	}
 }
 
 
@@ -78,34 +78,34 @@ function getTextBBox(text, fakeText) {
  * @param  {Array<String>} lines
  * @return {Object} the line descriptor, an object { width, height, text }
  */
-function layoutNext(lines, maxWidth, fakeText) {
+function layoutNext(lines: string[], maxWidth: any, fakeText: any): any {
 
-  var originalLine = lines.shift(),
-      fitLine = originalLine;
+	var originalLine = lines.shift(),
+		fitLine = originalLine;
 
-  var textBBox;
+	var textBBox;
 
-  for (;;) {
-    textBBox = getTextBBox(fitLine, fakeText);
+	for (; ;) {
+		textBBox = getTextBBox(fitLine, fakeText);
 
-    textBBox.width = fitLine ? textBBox.width : 0;
+		textBBox.width = fitLine ? textBBox.width : 0;
 
-    // try to fit
-    if (fitLine === ' ' || fitLine === '' || textBBox.width < Math.round(maxWidth) || fitLine.length < 2) {
-      return fit(lines, fitLine, originalLine, textBBox);
-    }
+		// try to fit
+		if (fitLine === ' ' || fitLine === '' || textBBox.width < Math.round(maxWidth) || fitLine.length < 2) {
+			return fit(lines, fitLine, originalLine, textBBox);
+		}
 
-    fitLine = shortenLine(fitLine, textBBox.width, maxWidth);
-  }
+		fitLine = shortenLine(fitLine, textBBox.width, maxWidth);
+	}
 }
 
-function fit(lines, fitLine, originalLine, textBBox) {
-  if (fitLine.length < originalLine.length) {
-    var remainder = originalLine.slice(fitLine.length).trim();
+function fit(lines: string[], fitLine: any, originalLine: any, textBBox: any) {
+	if (fitLine.length < originalLine.length) {
+		var remainder = originalLine.slice(fitLine.length).trim();
 
-    lines.unshift(remainder);
-  }
-  return { width: textBBox.width, height: textBBox.height, text: fitLine };
+		lines.unshift(remainder);
+	}
+	return { width: textBBox.width, height: textBBox.height, text: fitLine };
 }
 
 
@@ -117,66 +117,66 @@ function fit(lines, fitLine, originalLine, textBBox) {
  * @param  {Number} maxLength the maximum characters of the string
  * @return {String} the shortened string
  */
-function semanticShorten(line, maxLength) {
-  var parts = line.split(/(\s|-)/g),
-      part,
-      shortenedParts = [],
-      length = 0;
+function semanticShorten(line: String, maxLength: number): string {
+	var parts = line.split(/(\s|-)/g),
+		part,
+		shortenedParts = [],
+		length = 0;
 
-  // try to shorten via spaces + hyphens
-  if (parts.length > 1) {
-    while ((part = parts.shift())) {
-      if (part.length + length < maxLength) {
-        shortenedParts.push(part);
-        length += part.length;
-      } else {
-        // remove previous part, too if hyphen does not fit anymore
-        if (part === '-') {
-          shortenedParts.pop();
-        }
+	// try to shorten via spaces + hyphens
+	if (parts.length > 1) {
+		while ((part = parts.shift())) {
+			if (part.length + length < maxLength) {
+				shortenedParts.push(part);
+				length += part.length;
+			} else {
+				// remove previous part, too if hyphen does not fit anymore
+				if (part === '-') {
+					shortenedParts.pop();
+				}
 
-        break;
-      }
-    }
-  }
+				break;
+			}
+		}
+	}
 
-  return shortenedParts.join('');
+	return shortenedParts.join('');
 }
 
 
-function shortenLine(line, width, maxWidth) {
-  var length = Math.max(line.length * (maxWidth / width), 1);
+function shortenLine(line: string, width: number, maxWidth: number) {
+	var length = Math.max(line.length * (maxWidth / width), 1);
 
-  // try to shorten semantically (i.e. based on spaces and hyphens)
-  var shortenedLine = semanticShorten(line, length);
+	// try to shorten semantically (i.e. based on spaces and hyphens)
+	var shortenedLine = semanticShorten(line, length);
 
-  if (!shortenedLine) {
+	if (!shortenedLine) {
 
-    // force shorten by cutting the long word
-    shortenedLine = line.slice(0, Math.max(Math.round(length - 1), 1));
-  }
+		// force shorten by cutting the long word
+		shortenedLine = line.slice(0, Math.max(Math.round(length - 1), 1));
+	}
 
-  return shortenedLine;
+	return shortenedLine;
 }
 
 
 function getHelperSvg() {
-  var helperSvg = document.getElementById('helper-svg');
+	var helperSvg = document.getElementById('helper-svg');
 
-  if (!helperSvg) {
-    helperSvg = svgCreate('svg');
+	if (!helperSvg) {
+		helperSvg = svgCreate('svg');
 
-    svgAttr(helperSvg, {
-      id: 'helper-svg',
-      width: 0,
-      height: 0,
-      style: 'visibility: hidden; position: fixed'
-    });
+		svgAttr(helperSvg, {
+			id: 'helper-svg',
+			width: 0,
+			height: 0,
+			style: 'visibility: hidden; position: fixed'
+		});
 
-    document.body.appendChild(helperSvg);
-  }
+		document.body.appendChild(helperSvg);
+	}
 
-  return helperSvg;
+	return helperSvg;
 }
 
 
@@ -189,14 +189,14 @@ function getHelperSvg() {
  * @param {Object} config.style
  * @param {String} config.align
  */
-export default function Text(config) {
+export default function Text(config: any) {
 
-  this._config = assign({}, {
-    size: DEFAULT_LABEL_SIZE,
-    padding: DEFAULT_BOX_PADDING,
-    style: {},
-    align: 'center-top'
-  }, config || {});
+	this._config = assign({}, {
+		size: DEFAULT_LABEL_SIZE,
+		padding: DEFAULT_BOX_PADDING,
+		style: {},
+		align: 'center-top'
+	}, config || {});
 }
 
 /**
@@ -207,8 +207,8 @@ export default function Text(config) {
  *
  * @return {SVGElement}
  */
-Text.prototype.createText = function(text, options) {
-  return this.layoutText(text, options).element;
+Text.prototype.createText = function (text: string, options: object): SVGElement {
+	return this.layoutText(text, options).element;
 };
 
 /**
@@ -219,8 +219,8 @@ Text.prototype.createText = function(text, options) {
  *
  * @return {Dimensions}
  */
-Text.prototype.getDimensions = function(text, options) {
-  return this.layoutText(text, options).dimensions;
+Text.prototype.getDimensions = function (text: string, options: object): any {
+	return this.layoutText(text, options).dimensions;
 };
 
 /**
@@ -239,93 +239,102 @@ Text.prototype.getDimensions = function(text, options) {
  *
  * @return {Object} { element, dimensions }
  */
-Text.prototype.layoutText = function(text, options) {
-  var box = assign({}, this._config.size, options.box),
-      style = assign({}, this._config.style, options.style),
-      align = parseAlign(options.align || this._config.align),
-      padding = parsePadding(options.padding !== undefined ? options.padding : this._config.padding),
-      fitBox = options.fitBox || false;
 
-  var lines = text.split(/\r?\n/g),
-      layouted = [];
+interface options {
+	align: string,
+	style: string,
+	fitBox: boolean,
+	box: any,
+	padding: any
+}
 
-  var maxWidth = box.width - padding.left - padding.right;
+Text.prototype.layoutText = function (text: string, options: options) {
+	var box = assign({}, this._config.size, options.box),
+		style = assign({}, this._config.style, options.style),
+		align = parseAlign(options.align || this._config.align),
+		padding = parsePadding(options.padding !== undefined ? options.padding : this._config.padding),
+		fitBox = options.fitBox || false;
 
-  // ensure correct rendering by attaching helper text node to invisible SVG
-  var helperText = svgCreate('text');
-  svgAttr(helperText, { x: 0, y: 0 });
-  svgAttr(helperText, style);
+	var lines = text.split(/\r?\n/g),
+		layouted = [];
 
-  var helperSvg = getHelperSvg();
+	var maxWidth = box.width - padding.left - padding.right;
 
-  svgAppend(helperSvg, helperText);
+	// ensure correct rendering by attaching helper text node to invisible SVG
+	var helperText = svgCreate('text');
+	svgAttr(helperText, { x: 0, y: 0 });
+	svgAttr(helperText, style);
 
-  while (lines.length) {
-    layouted.push(layoutNext(lines, maxWidth, helperText));
-  }
+	var helperSvg = getHelperSvg();
 
-  var totalHeight = reduce(layouted, function(sum, line, idx) {
-    return sum + line.height;
-  }, 0);
+	svgAppend(helperSvg, helperText);
 
-  var maxLineWidth = reduce(layouted, function(sum, line, idx) {
-    return line.width > sum ? line.width : sum;
-  }, 0);
+	while (lines.length) {
+		layouted.push(layoutNext(lines, maxWidth, helperText));
+	}
 
-  // the y position of the next line
-  var y, x;
+	var totalHeight = reduce(layouted, function (sum: number, line: any, idx: number): boolean {
+		return sum + line.height;
+	}, 0);
 
-  switch (align.vertical) {
-  case 'middle':
-    y = (box.height - totalHeight) / 2 - layouted[0].height / 4;
-    break;
+	var maxLineWidth = reduce(layouted, function (sum: number, line: any, idx: number): boolean {
+		return line.width > sum ? line.width : sum;
+	}, 0);
 
-  default:
-    y = padding.top;
-  }
+	// the y position of the next line
+	var y: number, x: number;
 
-  var textElement = svgCreate('text');
+	switch (align.vertical) {
+		case 'middle':
+			y = (box.height - totalHeight) / 2 - layouted[0].height / 4;
+			break;
 
-  svgAttr(textElement, style);
+		default:
+			y = padding.top;
+	}
 
-  // layout each line taking into account that parent
-  // shape might resize to fit text size
-  forEach(layouted, function(line) {
-    y += line.height;
+	var textElement = svgCreate('text');
 
-    switch (align.horizontal) {
-    case 'left':
-      x = padding.left;
-      break;
+	svgAttr(textElement, style);
 
-    case 'right':
-      x = ((fitBox ? maxLineWidth : maxWidth)
-        - padding.right - line.width);
-      break;
+	// layout each line taking into account that parent
+	// shape might resize to fit text size
+	forEach(layouted, function (line: any) {
+		y += line.height;
 
-    default:
-      // aka center
-      x = Math.max((((fitBox ? maxLineWidth : maxWidth)
-        - line.width) / 2 + padding.left), 0);
-    }
+		switch (align.horizontal) {
+			case 'left':
+				x = padding.left;
+				break;
 
-    var tspan = svgCreate('tspan');
-    svgAttr(tspan, { x: x, y: y });
+			case 'right':
+				x = ((fitBox ? maxLineWidth : maxWidth)
+					- padding.right - line.width);
+				break;
 
-    tspan.textContent = line.text;
+			default:
+				// aka center
+				x = Math.max((((fitBox ? maxLineWidth : maxWidth)
+					- line.width) / 2 + padding.left), 0);
+		}
 
-    svgAppend(textElement, tspan);
-  });
+		var tspan = svgCreate('tspan');
+		svgAttr(tspan, { x: x, y: y });
 
-  svgRemove(helperText);
+		tspan.textContent = line.text;
 
-  var dimensions = {
-    width: maxLineWidth,
-    height: totalHeight
-  };
+		svgAppend(textElement, tspan);
+	});
 
-  return {
-    dimensions: dimensions,
-    element: textElement
-  };
+	svgRemove(helperText);
+
+	var dimensions = {
+		width: maxLineWidth,
+		height: totalHeight
+	};
+
+	return {
+		dimensions: dimensions,
+		element: textElement
+	};
 };

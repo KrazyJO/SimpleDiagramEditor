@@ -16,7 +16,7 @@ import {
  *
  * @return {Snap<SVGElement>}
  */
-export function getVisual(gfx) {
+export function getVisual(gfx : SVGElement) : SVGElement {
   return domQuery('.djs-visual', gfx);
 }
 
@@ -26,6 +26,6 @@ export function getVisual(gfx) {
  * @param {Snap<SVGElement>} gfx
  * @return {Snap<SVGElement>}
  */
-export function getChildren(gfx) {
+export function getChildren(gfx : SVGElement) : Node {
   return gfx.parentNode.childNodes[1];
 }

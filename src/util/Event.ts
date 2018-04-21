@@ -1,4 +1,4 @@
-function __stopPropagation(event) {
+function __stopPropagation(event : any) : void {
   if (!event || typeof event.stopPropagation !== 'function') {
     return;
   }
@@ -7,7 +7,7 @@ function __stopPropagation(event) {
 }
 
 
-export function getOriginal(event) {
+export function getOriginal(event : any) : Event {
   return event.originalEvent || event.srcEvent;
 }
 
@@ -18,7 +18,7 @@ export function stopPropagation(event, immediate) {
 }
 
 
-export function toPoint(event) {
+export function toPoint(event : any) : any {
 
   if (event.pointers && event.pointers.length) {
     event = event.pointers[0];

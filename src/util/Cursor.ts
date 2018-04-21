@@ -5,7 +5,7 @@ import {
 var CURSOR_CLS_PATTERN = /^djs-cursor-.*$/;
 
 
-export function set(mode) {
+export function set(mode : any) {
   var classes = domClasses(document.body);
 
   classes.removeMatching(CURSOR_CLS_PATTERN);
@@ -19,7 +19,7 @@ export function unset() {
   set(null);
 }
 
-export function has(mode) {
+export function has(mode : any) {
   var classes = domClasses(document.body);
 
   return classes.has('djs-cursor-' + mode);
