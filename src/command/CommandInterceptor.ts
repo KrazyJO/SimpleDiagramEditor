@@ -5,6 +5,7 @@ import {
 	isNumber,
 	isObject
 } from 'min-dash';
+import EventBus from '../core/EventBus';
 
 
 var DEFAULT_PRIORITY = 1000;
@@ -40,7 +41,7 @@ function unwrapEvent(fn : Function, that : any) : Function{
  */
 
 class CommandInterceptor {
-	_eventBus : any;
+	_eventBus : EventBus;
 
 	constructor(eventBus: any) {
 		this._eventBus = eventBus;
@@ -154,60 +155,3 @@ forEach(hooks, function (hook : string) {
 // CommandInterceptor.$inject = ['eventBus'];
 
 export default CommandInterceptor;
-
-
-/**
- * Register an interceptor for a command execution
- *
- * @param {String|Array<String>} [events] list of commands to register on
- * @param {String} [hook] command hook, i.e. preExecute, executed to listen on
- * @param {Number} [priority] the priority on which to hook into the execution
- * @param {Function} handlerFn interceptor to be invoked with (event)
- * @param {Boolean} unwrap if true, unwrap the event and pass (context, command, event) to the
- *                          listener instead
- * @param {Object} [that] Pass context (`this`) to the handler function
- */
-// CommandInterceptor.prototype.on = function(events, hook, priority, handlerFn, unwrap, that) {
-
-//   if (isFunction(hook) || isNumber(hook)) {
-//     that = unwrap;
-//     unwrap = handlerFn;
-//     handlerFn = priority;
-//     priority = hook;
-//     hook = null;
-//   }
-
-//   if (isFunction(priority)) {
-//     that = unwrap;
-//     unwrap = handlerFn;
-//     handlerFn = priority;
-//     priority = DEFAULT_PRIORITY;
-//   }
-
-//   if (isObject(unwrap)) {
-//     that = unwrap;
-//     unwrap = false;
-//   }
-
-//   if (!isFunction(handlerFn)) {
-//     throw new Error('handlerFn must be a function');
-//   }
-
-//   if (!isArray(events)) {
-//     events = [ events ];
-//   }
-
-//   var eventBus = this._eventBus;
-
-//   forEach(events, function(event) {
-//     // concat commandStack(.event)?(.hook)?
-//     var fullEvent = [ 'commandStack', event, hook ].filter(function(e) { return e; }).join('.');
-
-//     eventBus.on(fullEvent, priority, unwrap ? unwrapEvent(handlerFn, that) : handlerFn, that);
-//   });
-// };
-
-
-
-
-

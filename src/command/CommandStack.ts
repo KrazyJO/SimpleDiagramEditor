@@ -2,6 +2,7 @@ import {
 	uniqueBy,
 	isArray
 } from 'min-dash';
+import EventBus from '../core/EventBus';
 
 
 /**
@@ -115,10 +116,10 @@ class CommandStack {
 	};
 
 	_injector: any;
-	_eventBus: any;
+	_eventBus: EventBus;
 	_uid = 1;
 
-	constructor(eventBus, injector) {
+	constructor(eventBus : EventBus, injector) {
 		this._injector = injector;
 		this._eventBus = eventBus;
 
