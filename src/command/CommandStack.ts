@@ -86,39 +86,41 @@ import CommandHandler from './CommandHandler';
 class CommandStack {
 
 	/**
-  * A map of all registered command handlers.
-  *
-  * @type {Object}
-  */
-	_handlerMap = {};
+	 * A map of all registered command handlers.
+	 *
+	 * @type {Object}
+	 */
+	private _handlerMap = {};
 
 	/**
 	 * A stack containing all re/undoable actions on the diagram
 	 *
 	 * @type {Array<Object>}
 	 */
-	_stack = [];
+	private _stack = [];
 
 	/**
 	 * The current index on the stack
 	 *
 	 * @type {Number}
 	 */
-	_stackIdx = -1;
+	private _stackIdx = -1;
 
 	/**
 	 * Current active commandStack execution
 	 *
 	 * @type {Object}
 	 */
-	_currentExecution = {
+	private _currentExecution = {
 		actions: [],
 		dirty: []
 	};
 
-	_injector: any;
-	_eventBus: EventBus;
-	_uid = 1;
+	private _injector: any;
+	private _eventBus: EventBus;
+	private _uid = 1;
+
+	static $inject = ['eventBus', 'injector'];
 
 	constructor(eventBus : EventBus, injector : any) {
 		this._injector = injector;
@@ -509,6 +511,6 @@ class CommandStack {
 
 }
 
-CommandStack.$inject = ['eventBus', 'injector'];
+// CommandStack.$inject = ['eventBus', 'injector'];
 
 export default CommandStack;

@@ -9,7 +9,7 @@ import { assign } from 'min-dash';
  */
 export default class ElementFactory {
 
-	_uid: number;
+	private _uid: number;
 
 	constructor() {
 		this._uid = 12;

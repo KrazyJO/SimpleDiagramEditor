@@ -1,9 +1,11 @@
+import EventBus from "../core/EventBus";
+
 /**
  * A component that handles language switching in a unified way.
  *
  * @param {EventBus} eventBus
  */
-export default function I18N(eventBus) {
+export default function I18N(eventBus : EventBus) {
 
   /**
    * Inform components that the language changed.

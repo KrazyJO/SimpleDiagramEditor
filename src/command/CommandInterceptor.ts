@@ -41,7 +41,11 @@ function unwrapEvent(fn : Function, that : any) : Function{
  */
 
 class CommandInterceptor {
-	_eventBus : EventBus;
+	
+	static $inject = ['eventBus'];
+	
+	private _eventBus : EventBus;
+
 
 	constructor(eventBus: any) {
 		this._eventBus = eventBus;
@@ -99,7 +103,7 @@ class CommandInterceptor {
 	}
 }
 
-CommandInterceptor.$inject = ['eventBus'];
+// CommandInterceptor.$inject = ['eventBus'];
 
 // export default function CommandInterceptor(eventBus : any) {
 

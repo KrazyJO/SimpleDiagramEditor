@@ -95,16 +95,22 @@ function setCTM(node : any, m : any) {
 
 class Canvas {
 
-	_eventBus : any;
-	_elementRegistry : any;
-	_graphicsFactory : any;
-	_layers : any;
-	_cachedViewbox : any;
-	_svg : any;
-	_container : any;
-	_rootElement : any;
-	_viewport : any;
+	private _eventBus : any;
+	private _elementRegistry : any;
+	private _graphicsFactory : any;
+	private _layers : any;
+	private _cachedViewbox : any;
+	private _svg : any;
+	private _container : any;
+	private _rootElement : any;
+	private _viewport : any;
 
+	static $inject = [
+		'config.canvas',
+		'eventBus',
+		'graphicsFactory',
+		'elementRegistry'
+	];
 	/**
 	 * The main drawing canvas.
 	 *
@@ -1057,11 +1063,11 @@ class Canvas {
 	}
 }
 
-Canvas.$inject = [
-	'config.canvas',
-	'eventBus',
-	'graphicsFactory',
-	'elementRegistry'
-];
+// Canvas.$inject = [
+// 	'config.canvas',
+// 	'eventBus',
+// 	'graphicsFactory',
+// 	'elementRegistry'
+// ];
 
 export default Canvas;

@@ -16,7 +16,7 @@
  *
  * @return {String} the translated string
  */
-export default function translate(template, replacements) {
+export default function translate(template : string, replacements : any) : string {
 
   replacements = replacements || {};
 

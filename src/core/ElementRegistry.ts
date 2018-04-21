@@ -9,8 +9,12 @@ import { attr as svgAttr } from 'tiny-svg';
  * A registry that keeps track of all shapes in the diagram.
  */
 export default class ElementRegistry {
-	_elements: object;
-	_eventBus: any;
+	
+	static $inject = ['eventBus'];
+	
+	private  _elements: object;
+	private _eventBus: any;
+
 	constructor(eventBus: any) {
 		this._elements = {};
 
@@ -208,5 +212,5 @@ export default class ElementRegistry {
 
 }
 
-ElementRegistry.$inject = ['eventBus'];
+// ElementRegistry.$inject = ['eventBus'];
 

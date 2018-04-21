@@ -270,7 +270,7 @@ export default class EventBus {
 	 * @return {Boolean} the events return value, if specified or false if the
 	 *                   default action was prevented by listeners
 	 */
-	public fire(type : string, data : any) : boolean | void {
+	public fire(type : string, data? : any) : boolean | void {
 
 		var event,
 			listeners,

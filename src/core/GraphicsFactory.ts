@@ -31,8 +31,10 @@ import ElementRegistry from './ElementRegistry';
  */
 export default class GraphicsFactory {
 
-	_eventBus : EventBus;
-	_elementRegistry : ElementRegistry;
+	static $inject = ['eventBus', 'elementRegistry'];
+
+	private _eventBus : EventBus;
+	private _elementRegistry : ElementRegistry;
 
 	constructor(eventBus : EventBus, elementRegistry : ElementRegistry) {
 		this._eventBus = eventBus;
@@ -224,7 +226,7 @@ export default class GraphicsFactory {
 	
 }
 
-GraphicsFactory.$inject = ['eventBus', 'elementRegistry'];
+// GraphicsFactory.$inject = ['eventBus', 'elementRegistry'];
 
 
 

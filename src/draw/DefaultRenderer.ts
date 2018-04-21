@@ -26,8 +26,10 @@ var DEFAULT_RENDER_PRIORITY = 1;
  */
 export default class DefaultRenderer {
 
-	CONNECTION_STYLE: any;
-	SHAPE_STYLE: any;
+	static $inject = ['eventBus', 'styles'];
+
+	public CONNECTION_STYLE: any;
+	public SHAPE_STYLE: any;
 
 	constructor(eventBus: EventBus, styles) {
 		BaseRenderer.call(this, eventBus, DEFAULT_RENDER_PRIORITY);
@@ -102,4 +104,4 @@ export default class DefaultRenderer {
 
 inherits(DefaultRenderer, BaseRenderer);
 
-DefaultRenderer.$inject = ['eventBus', 'styles'];
+// DefaultRenderer.$inject = ['eventBus', 'styles'];
