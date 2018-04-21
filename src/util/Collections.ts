@@ -6,19 +6,19 @@
  *
  * @return {Number} the previous index of the element
  */
-export function remove(collection : object[], element : object) : number {
+export function remove(collection: object[], element: object): number {
 
-  if (!collection || !element) {
-    return -1;
-  }
+	if (!collection || !element) {
+		return -1;
+	}
 
-  var idx = collection.indexOf(element);
+	var idx = collection.indexOf(element);
 
-  if (idx !== -1) {
-    collection.splice(idx, 1);
-  }
+	if (idx !== -1) {
+		collection.splice(idx, 1);
+	}
 
-  return idx;
+	return idx;
 }
 
 /**
@@ -29,42 +29,42 @@ export function remove(collection : object[], element : object) : number {
  * @param {Object} element
  * @param {Number} idx
  */
-export function add(collection : object[], element : object, idx : number) : void {
+export function add(collection: object[], element: object, idx: number): void {
 
-  if (!collection || !element) {
-    return;
-  }
+	if (!collection || !element) {
+		return;
+	}
 
-  if (typeof idx !== 'number') {
-    idx = -1;
-  }
+	if (typeof idx !== 'number') {
+		idx = -1;
+	}
 
-  var currentIdx = collection.indexOf(element);
+	var currentIdx = collection.indexOf(element);
 
-  if (currentIdx !== -1) {
+	if (currentIdx !== -1) {
 
-    if (currentIdx === idx) {
-      // nothing to do, position has not changed
-      return;
-    } else {
+		if (currentIdx === idx) {
+			// nothing to do, position has not changed
+			return;
+		} else {
 
-      if (idx !== -1) {
-        // remove from current position
-        collection.splice(currentIdx, 1);
-      } else {
-        // already exists in collection
-        return;
-      }
-    }
-  }
+			if (idx !== -1) {
+				// remove from current position
+				collection.splice(currentIdx, 1);
+			} else {
+				// already exists in collection
+				return;
+			}
+		}
+	}
 
-  if (idx !== -1) {
-    // insert at specified position
-    collection.splice(idx, 0, element);
-  } else {
-    // push to end
-    collection.push(element);
-  }
+	if (idx !== -1) {
+		// insert at specified position
+		collection.splice(idx, 0, element);
+	} else {
+		// push to end
+		collection.push(element);
+	}
 }
 
 
@@ -77,11 +77,11 @@ export function add(collection : object[], element : object, idx : number) : voi
  * @return {Number} the index or -1 if collection or element do
  *                  not exist or the element is not contained.
  */
-export function indexOf(collection : object[], element : object) : number {
+export function indexOf(collection: object[], element: object): number {
 
-  if (!collection || !element) {
-    return -1;
-  }
+	if (!collection || !element) {
+		return -1;
+	}
 
-  return collection.indexOf(element);
+	return collection.indexOf(element);
 }

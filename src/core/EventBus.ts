@@ -165,7 +165,7 @@ export default class EventBus {
 	 * @param {Function} callback the callback to execute
 	 * @param {Object} [that] Pass context (`this`) to the callback
 	 */
-	public once(event, priority, callback, that) {
+	public once(event : string, priority : number, callback : Function, that? : any) {
 		var self = this;
 
 		if (isFunction(priority)) {
@@ -200,7 +200,7 @@ export default class EventBus {
 	 * @param {String} event
 	 * @param {Function} [callback]
 	 */
-	public off(event : string, callback : Function) : void {
+	public off(event : string, callback? : Function) : void {
 		var listeners = this._getListeners(event),
 			listener,
 			listenerCallback,
@@ -231,7 +231,7 @@ export default class EventBus {
 	 *
 	 * @return {Object} event, recognized by the eventBus
 	 */
-	public createEvent(data : any) : any {
+	public createEvent(data : any) : InternalEvent {
 		var event = new InternalEvent();
 
 		event.init(data);
@@ -428,7 +428,7 @@ export default class EventBus {
 	};
 
 
-	private _getListeners(name) {
+	private _getListeners(name : string) {
 		var listeners = this._listeners[name];
 
 		if (!listeners) {
@@ -447,6 +447,11 @@ export default class EventBus {
  * A event that is emitted via the event bus.
  */
 class InternalEvent {
+
+	private cancelBubble : boolean;
+	private defaultPrevented : boolean;
+
+
 	public stopPropagation() {
 		this.cancelBubble = true;
 	};
@@ -455,7 +460,7 @@ class InternalEvent {
 		this.defaultPrevented = true;
 	};
 	
-	public init(data) {
+	public init(data : any) {
 		assign(this, data || {});
 	};
 }
