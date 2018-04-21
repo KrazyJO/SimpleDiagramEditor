@@ -132,6 +132,10 @@ class Canvas {
 		this._init(config || {});
 	}
 
+	public getContainer() : any {
+		return this._container;
+	}
+
 	private _init(config: any): void {
 
 		var eventBus = this._eventBus;
@@ -880,7 +884,7 @@ class Canvas {
 	 *
 	 * @return {Number} the current scale
 	 */
-	public zoom(newScale : string | number, center : any) : number {
+	public zoom(newScale? : string | number, center? : any) : number {
 
 		if (!newScale) {
 			return this.viewbox(newScale).scale;

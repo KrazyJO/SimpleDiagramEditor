@@ -124,7 +124,7 @@ export default class EventBus {
 	 * @param {Function} callback
 	 * @param {Object} [that] Pass context (`this`) to the callback
 	 */
-	public on(events : any, priority : number, callback : Function, that? : any) {
+	public on(events : any, priority : number, callback? : Function, that? : any) {
 
 		events = isArray(events) ? events : [events];
 

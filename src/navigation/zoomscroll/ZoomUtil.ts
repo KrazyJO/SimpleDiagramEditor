@@ -9,7 +9,7 @@ import {
  * @param {number} range.min - Range minimum.
  * @param {number} range.max - Range maximum.
  */
-export function getStepSize(range, steps) {
+export function getStepSize(range : any, steps : any) : any {
 
   var minLinearRange = log10(range.min),
       maxLinearRange = log10(range.max);
@@ -19,6 +19,6 @@ export function getStepSize(range, steps) {
   return absoluteLinearRange / steps;
 }
 
-export function cap(range, scale) {
+export function cap(range : any, scale : any) {
   return Math.max(range.min, Math.min(range.max, scale));
 }
