@@ -9,8 +9,8 @@ import {
 
 var DEFAULT_PRIORITY = 1000;
 
-function unwrapEvent(fn, that) {
-	return function (event) {
+function unwrapEvent(fn : Function, that : any) : Function{
+	return function (event : any) {
 		return fn.call(that || null, event.context, event.command, event);
 	};
 }
@@ -41,7 +41,6 @@ function unwrapEvent(fn, that) {
 
 class CommandInterceptor {
 	_eventBus : any;
-	$inject = ['eventBus'];
 
 	constructor(eventBus: any) {
 		this._eventBus = eventBus;
@@ -58,7 +57,7 @@ class CommandInterceptor {
    *                          listener instead
    * @param {Object} [that] Pass context (`this`) to the handler function
    */
-	on(events: (string | string[]), hook: string, priority: number, handlerFn : any, unwrap: boolean, that: any) {
+	public on(events: (string | string[]), hook: string, priority: number, handlerFn : any, unwrap: boolean, that: any) : void {
 
 		if (isFunction(hook) || isNumber(hook)) {
 			that = unwrap;
@@ -98,6 +97,8 @@ class CommandInterceptor {
 		});
 	}
 }
+
+CommandInterceptor.$inject = ['eventBus'];
 
 // export default function CommandInterceptor(eventBus : any) {
 

@@ -11,7 +11,7 @@ class CommandHandler {
 	 *
 	 * @return {Array<djs.model.Base>} list of touched (áka dirty) diagram elements
 	 */
-	execute(context: any) {
+	public execute(context: any) {
 
 	}
 
@@ -22,7 +22,7 @@ class CommandHandler {
 	 *
 	 * @return {Array<djs.model.Base>} list of touched (áka dirty) diagram elements
 	 */
-	revert(context: any) {
+	public revert(context: any) {
 
 	}
 
@@ -35,7 +35,7 @@ class CommandHandler {
 	 *
 	 * @return {Boolean} true if executing in the context is possible
 	 */
-	canExecute(context: any) {
+	public canExecute(context: any) : boolean {
 		return true;
 	};
 
@@ -46,7 +46,7 @@ class CommandHandler {
 	 *
 	 * @param {Object} context the execution context
 	 */
-	preExecute(context: any) {
+	public preExecute(context: any) {
 
 	}
 
@@ -56,7 +56,7 @@ class CommandHandler {
 	 *d
 	 * @param {Object} context the execution context
 	 */
-	postExecute(context: any) {
+	public postExecute(context: any) {
 
 	}
 }

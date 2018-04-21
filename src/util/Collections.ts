@@ -6,7 +6,7 @@
  *
  * @return {Number} the previous index of the element
  */
-export function remove(collection, element) {
+export function remove(collection : object[], element : object) : number {
 
   if (!collection || !element) {
     return -1;
@@ -29,7 +29,7 @@ export function remove(collection, element) {
  * @param {Object} element
  * @param {Number} idx
  */
-export function add(collection, element, idx) {
+export function add(collection : object[], element : object, idx : number) : void {
 
   if (!collection || !element) {
     return;
@@ -77,7 +77,7 @@ export function add(collection, element, idx) {
  * @return {Number} the index or -1 if collection or element do
  *                  not exist or the element is not contained.
  */
-export function indexOf(collection, element) {
+export function indexOf(collection : object[], element : object) : number {
 
   if (!collection || !element) {
     return -1;
