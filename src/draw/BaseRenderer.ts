@@ -1,3 +1,5 @@
+import EventBus from "../core/EventBus";
+
 var DEFAULT_RENDER_PRIORITY = 1000;
 
 /**
@@ -6,80 +8,87 @@ var DEFAULT_RENDER_PRIORITY = 1000;
  * @param {EventBus} eventBus
  * @param {Number} [renderPriority=1000]
  */
-export default function BaseRenderer(eventBus, renderPriority) {
-  var self = this;
+export default class BaseRenderer {
 
-  renderPriority = renderPriority || DEFAULT_RENDER_PRIORITY;
 
-  eventBus.on([ 'render.shape', 'render.connection' ], renderPriority, function(evt, context) {
-    var type = evt.type,
-        element = context.element,
-        visuals = context.gfx;
 
-    if (self.canRender(element)) {
-      if (type === 'render.shape') {
-        return self.drawShape(visuals, element);
-      } else {
-        return self.drawConnection(visuals, element);
-      }
-    }
-  });
+	constructor(eventBus: EventBus, renderPriority: number) {
+		var self = this;
 
-  eventBus.on([ 'render.getShapePath', 'render.getConnectionPath'], renderPriority, function(evt, element) {
-    if (self.canRender(element)) {
-      if (evt.type === 'render.getShapePath') {
-        return self.getShapePath(element);
-      } else {
-        return self.getConnectionPath(element);
-      }
-    }
-  });
+		renderPriority = renderPriority || DEFAULT_RENDER_PRIORITY;
+
+		eventBus.on(['render.shape', 'render.connection'], renderPriority, function (evt: Event, context: any) {
+			var type = evt.type,
+				element = context.element,
+				visuals = context.gfx;
+
+			if (self.canRender(element)) {
+				if (type === 'render.shape') {
+					return self.drawShape(visuals, element);
+				} else {
+					return self.drawConnection(visuals, element);
+				}
+			}
+		});
+
+		eventBus.on(['render.getShapePath', 'render.getConnectionPath'], renderPriority, function (evt: Event, element: any) {
+			if (self.canRender(element)) {
+				if (evt.type === 'render.getShapePath') {
+					return self.getShapePath(element);
+				} else {
+					return self.getConnectionPath(element);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Should check whether *this* renderer can render
+	 * the element/connection.
+	 *
+	 * @param {element} element
+	 *
+	 * @returns {Boolean}
+	 */
+	canRender() { };
+
+	/**
+	 * Provides the shape's snap svg element to be drawn on the `canvas`.
+	 *
+	 * @param {djs.Graphics} visuals
+	 * @param {Shape} shape
+	 *
+	 * @returns {Snap.svg} [returns a Snap.svg paper element ]
+	 */
+	drawShape() { };
+
+	/**
+	 * Provides the shape's snap svg element to be drawn on the `canvas`.
+	 *
+	 * @param {djs.Graphics} visuals
+	 * @param {Connection} connection
+	 *
+	 * @returns {Snap.svg} [returns a Snap.svg paper element ]
+	 */
+	drawConnection() { };
+
+	/**
+	 * Gets the SVG path of a shape that represents it's visual bounds.
+	 *
+	 * @param {Shape} shape
+	 *
+	 * @return {string} svg path
+	 */
+	getShapePath() { };
+
+	/**
+	 * Gets the SVG path of a connection that represents it's visual bounds.
+	 *
+	 * @param {Connection} connection
+	 *
+	 * @return {string} svg path
+	 */
+	getConnectionPath() { };
+
 }
 
-/**
- * Should check whether *this* renderer can render
- * the element/connection.
- *
- * @param {element} element
- *
- * @returns {Boolean}
- */
-BaseRenderer.prototype.canRender = function() {};
-
-/**
- * Provides the shape's snap svg element to be drawn on the `canvas`.
- *
- * @param {djs.Graphics} visuals
- * @param {Shape} shape
- *
- * @returns {Snap.svg} [returns a Snap.svg paper element ]
- */
-BaseRenderer.prototype.drawShape = function() {};
-
-/**
- * Provides the shape's snap svg element to be drawn on the `canvas`.
- *
- * @param {djs.Graphics} visuals
- * @param {Connection} connection
- *
- * @returns {Snap.svg} [returns a Snap.svg paper element ]
- */
-BaseRenderer.prototype.drawConnection = function() {};
-
-/**
- * Gets the SVG path of a shape that represents it's visual bounds.
- *
- * @param {Shape} shape
- *
- * @return {string} svg path
- */
-BaseRenderer.prototype.getShapePath = function() {};
-
-/**
- * Gets the SVG path of a connection that represents it's visual bounds.
- *
- * @param {Connection} connection
- *
- * @return {string} svg path
- */
-BaseRenderer.prototype.getConnectionPath = function() {};
