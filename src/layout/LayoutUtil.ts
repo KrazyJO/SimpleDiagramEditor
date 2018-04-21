@@ -1,31 +1,35 @@
 import {
-  isObject,
-  sortBy
+	isObject,
+	sortBy
 } from 'min-dash';
 
 import {
-  pointDistance
+	pointDistance
 } from '../util/Geometry';
 
 import intersectPaths from 'path-intersection';
 
 
 export function roundBounds(bounds) {
-  return {
-    x: Math.round(bounds.x),
-    y: Math.round(bounds.y),
-    width: Math.round(bounds.width),
-    height: Math.round(bounds.height)
-  };
+	return {
+		x: Math.round(bounds.x),
+		y: Math.round(bounds.y),
+		width: Math.round(bounds.width),
+		height: Math.round(bounds.height)
+	};
 }
 
+export interface roundpoint {
+	x: number,
+	y: number
+}
 
-export function roundPoint(point) {
+export function roundPoint(point): roundpoint {
 
-  return {
-    x: Math.round(point.x),
-    y: Math.round(point.y)
-  };
+	return {
+		x: Math.round(point.x),
+		y: Math.round(point.y)
+	};
 }
 
 
@@ -37,12 +41,12 @@ export function roundPoint(point) {
  * @return {Object}
  */
 export function asTRBL(bounds) {
-  return {
-    top: bounds.y,
-    right: bounds.x + (bounds.width || 0),
-    bottom: bounds.y + (bounds.height || 0),
-    left: bounds.x
-  };
+	return {
+		top: bounds.y,
+		right: bounds.x + (bounds.width || 0),
+		bottom: bounds.y + (bounds.height || 0),
+		left: bounds.x
+	};
 }
 
 
@@ -54,12 +58,12 @@ export function asTRBL(bounds) {
  * @return {Bounds}
  */
 export function asBounds(trbl) {
-  return {
-    x: trbl.left,
-    y: trbl.top,
-    width: trbl.right - trbl.left,
-    height: trbl.bottom - trbl.top
-  };
+	return {
+		x: trbl.left,
+		y: trbl.top,
+		width: trbl.right - trbl.left,
+		height: trbl.bottom - trbl.top
+	};
 }
 
 
@@ -71,10 +75,10 @@ export function asBounds(trbl) {
  * @return {Point}
  */
 export function getMid(bounds) {
-  return roundPoint({
-    x: bounds.x + (bounds.width || 0) / 2,
-    y: bounds.y + (bounds.height || 0) / 2
-  });
+	return roundPoint({
+		x: bounds.x + (bounds.width || 0) / 2,
+		y: bounds.y + (bounds.height || 0) / 2
+	});
 }
 
 
@@ -95,31 +99,31 @@ export function getMid(bounds) {
  */
 export function getOrientation(rect, reference, padding) {
 
-  padding = padding || 0;
+	padding = padding || 0;
 
-  // make sure we can use an object, too
-  // for individual { x, y } padding
-  if (!isObject(padding)) {
-    padding = { x: padding, y: padding };
-  }
+	// make sure we can use an object, too
+	// for individual { x, y } padding
+	if (!isObject(padding)) {
+		padding = { x: padding, y: padding };
+	}
 
 
-  var rectOrientation = asTRBL(rect),
-      referenceOrientation = asTRBL(reference);
+	var rectOrientation = asTRBL(rect),
+		referenceOrientation = asTRBL(reference);
 
-  var top = rectOrientation.bottom + padding.y <= referenceOrientation.top,
-      right = rectOrientation.left - padding.x >= referenceOrientation.right,
-      bottom = rectOrientation.top - padding.y >= referenceOrientation.bottom,
-      left = rectOrientation.right + padding.x <= referenceOrientation.left;
+	var top = rectOrientation.bottom + padding.y <= referenceOrientation.top,
+		right = rectOrientation.left - padding.x >= referenceOrientation.right,
+		bottom = rectOrientation.top - padding.y >= referenceOrientation.bottom,
+		left = rectOrientation.right + padding.x <= referenceOrientation.left;
 
-  var vertical = top ? 'top' : (bottom ? 'bottom' : null),
-      horizontal = left ? 'left' : (right ? 'right' : null);
+	var vertical = top ? 'top' : (bottom ? 'bottom' : null),
+		horizontal = left ? 'left' : (right ? 'right' : null);
 
-  if (horizontal && vertical) {
-    return vertical + '-' + horizontal;
-  } else {
-    return horizontal || vertical || 'intersect';
-  }
+	if (horizontal && vertical) {
+		return vertical + '-' + horizontal;
+	} else {
+		return horizontal || vertical || 'intersect';
+	}
 }
 
 
@@ -134,43 +138,43 @@ export function getOrientation(rect, reference, padding) {
  *
  * @return {Point}
  */
-export function getElementLineIntersection(elementPath, linePath, cropStart) {
+export function getElementLineIntersection(elementPath, linePath, cropStart) : any {
 
-  var intersections = getIntersections(elementPath, linePath);
+	var intersections = getIntersections(elementPath, linePath);
 
-  // recognize intersections
-  // only one -> choose
-  // two close together -> choose first
-  // two or more distinct -> pull out appropriate one
-  // none -> ok (fallback to point itself)
-  if (intersections.length === 1) {
-    return roundPoint(intersections[0]);
-  } else if (intersections.length === 2 && pointDistance(intersections[0], intersections[1]) < 1) {
-    return roundPoint(intersections[0]);
-  } else if (intersections.length > 1) {
+	// recognize intersections
+	// only one -> choose
+	// two close together -> choose first
+	// two or more distinct -> pull out appropriate one
+	// none -> ok (fallback to point itself)
+	if (intersections.length === 1) {
+		return roundPoint(intersections[0]);
+	} else if (intersections.length === 2 && pointDistance(intersections[0], intersections[1]) < 1) {
+		return roundPoint(intersections[0]);
+	} else if (intersections.length > 1) {
 
-    // sort by intersections based on connection segment +
-    // distance from start
-    intersections = sortBy(intersections, function(i) {
-      var distance = Math.floor(i.t2 * 100) || 1;
+		// sort by intersections based on connection segment +
+		// distance from start
+		intersections = sortBy(intersections, function (i) {
+			var distance = Math.floor(i.t2 * 100) || 1;
 
-      distance = 100 - distance;
+			distance = 100 - distance;
 
-      distance = (distance < 10 ? '0' : '') + distance;
+			distance = (distance < 10 ? '0' : '') + distance;
 
-      // create a sort string that makes sure we sort
-      // line segment ASC + line segment position DESC (for cropStart)
-      // line segment ASC + line segment position ASC (for cropEnd)
-      return i.segment2 + '#' + distance;
-    });
+			// create a sort string that makes sure we sort
+			// line segment ASC + line segment position DESC (for cropStart)
+			// line segment ASC + line segment position ASC (for cropEnd)
+			return i.segment2 + '#' + distance;
+		});
 
-    return roundPoint(intersections[cropStart ? 0 : intersections.length - 1]);
-  }
+		return roundPoint(intersections[cropStart ? 0 : intersections.length - 1]);
+	}
 
-  return null;
+	return null;
 }
 
 
 export function getIntersections(a, b) {
-  return intersectPaths(a, b);
+	return intersectPaths(a, b);
 }
