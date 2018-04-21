@@ -94,7 +94,7 @@ class CommandInterceptor {
 
 		var eventBus = this._eventBus;
 
-		forEach(events, function (event) {
+		forEach(events, function (event : any) {
 			// concat commandStack(.event)?(.hook)?
 			var fullEvent = ['commandStack', event, hook].filter(function (e) { return e; }).join('.');
 

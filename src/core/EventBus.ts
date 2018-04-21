@@ -152,7 +152,7 @@ export default class EventBus {
 		var self = this,
 			listener = { priority: priority, callback: actualCallback };
 
-		events.forEach(function (e) {
+		events.forEach(function (e : any) {
 			self._addListener(e, listener);
 		});
 	};
@@ -342,7 +342,7 @@ export default class EventBus {
 		this._listeners = {};
 	};
 
-	private _invokeListeners(event : Event, args : any[], listeners : any) : any{
+	private _invokeListeners(event : InternalEvent, args : any[], listeners : any) : any{
 
 		var idx,
 			listener,
@@ -361,7 +361,7 @@ export default class EventBus {
 		return returnValue;
 	};
 
-	private _invokeListener(event : Event, args : any[], listener : any) : any {
+	private _invokeListener(event : InternalEvent, args : any[], listener : any) : any {
 
 		var returnValue;
 
@@ -448,8 +448,8 @@ export default class EventBus {
  */
 class InternalEvent {
 
-	private cancelBubble : boolean;
-	private defaultPrevented : boolean;
+	public cancelBubble : boolean;
+	public defaultPrevented : boolean;
 
 
 	public stopPropagation() {

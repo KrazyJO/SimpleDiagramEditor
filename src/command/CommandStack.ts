@@ -83,6 +83,12 @@ import CommandHandler from './CommandHandler';
  * @param {Injector} injector
  */
 
+interface currentExecution {
+	actions: any[],
+	dirty: any[],
+	atomic? : boolean
+}
+
 class CommandStack {
 
 	/**
@@ -97,21 +103,21 @@ class CommandStack {
 	 *
 	 * @type {Array<Object>}
 	 */
-	private _stack = [];
+	private _stack : object[] = [];
 
 	/**
 	 * The current index on the stack
 	 *
 	 * @type {Number}
 	 */
-	private _stackIdx = -1;
+	private _stackIdx : number = -1;
 
 	/**
 	 * Current active commandStack execution
 	 *
 	 * @type {Object}
 	 */
-	private _currentExecution = {
+	private _currentExecution : currentExecution = {
 		actions: [],
 		dirty: []
 	};
