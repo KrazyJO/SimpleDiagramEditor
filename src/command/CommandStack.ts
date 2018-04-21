@@ -3,6 +3,7 @@ import {
 	isArray
 } from 'min-dash';
 import EventBus from '../core/EventBus';
+import CommandHandler from './CommandHandler';
 
 
 /**
@@ -119,7 +120,7 @@ class CommandStack {
 	_eventBus: EventBus;
 	_uid = 1;
 
-	constructor(eventBus : EventBus, injector) {
+	constructor(eventBus : EventBus, injector : any) {
 		this._injector = injector;
 		this._eventBus = eventBus;
 
@@ -146,7 +147,8 @@ class CommandStack {
 
 		this._pushAction(action);
 		this._internalExecute(action);
-		this._popAction(action);
+		// this._popAction(action);
+		this._popAction();
 	}
 
 	/**
@@ -210,8 +212,8 @@ class CommandStack {
 	 * Undo last command(s)
 	 */
 	public undo() : void {
-		var action = this._getUndoAction(),
-			next;
+		var action : any = this._getUndoAction(),
+			next : any;
 
 		if (action) {
 			this._pushAction(action);
@@ -236,8 +238,8 @@ class CommandStack {
 	 * Redo last command(s)
 	 */
 	public redo() : void {
-		var action = this._getRedoAction(),
-			next;
+		var action : any = this._getRedoAction(),
+			next : any;
 
 		if (action) {
 			this._pushAction(action);
@@ -264,7 +266,7 @@ class CommandStack {
 	 * @param {String} command
 	 * @param {CommandHandler} handler
 	 */
-	public register(command: string, handler) : void {
+	public register(command: string, handler : CommandHandler) : void {
 		this._setHandler(command, handler);
 	};
 
@@ -308,13 +310,13 @@ class CommandStack {
 
 	// internal functionality //////////////////////
 
-	private _internalUndo(action) : void {
+	private _internalUndo(action : any) : void {
 		var self = this;
 
 		var command = action.command,
 			context = action.context;
 
-		var handler = this._getHandler(command);
+		var handler : CommandHandler = this._getHandler(command);
 
 		// guard against illegal nested command stack invocations
 		this._atomicDo(function () {
@@ -359,7 +361,7 @@ class CommandStack {
 
 	private _atomicDo(fn: Function) : void {
 
-		var execution = this._currentExecution;
+		var execution : any = this._currentExecution;
 
 		execution.atomic = true;
 
@@ -370,7 +372,7 @@ class CommandStack {
 		}
 	};
 
-	private _internalExecute(action, redo) : void {
+	private _internalExecute(action : any, redo? : boolean) : void {
 		var self = this;
 
 		var command = action.command,
@@ -425,7 +427,7 @@ class CommandStack {
 	};
 
 
-	private _pushAction(action) : void {
+	private _pushAction(action : any) : void {
 
 		var execution = this._currentExecution,
 			actions = execution.actions;
@@ -461,7 +463,7 @@ class CommandStack {
 	};
 
 
-	private _markDirty(elements) {
+	private _markDirty(elements : any) : void {
 		var execution = this._currentExecution;
 
 		if (!elements) {
@@ -474,7 +476,7 @@ class CommandStack {
 	};
 
 
-	private _executedAction(action, redo) {
+	private _executedAction(action : any, redo : boolean) {
 		var stackIdx = ++this._stackIdx;
 
 		if (!redo) {
@@ -488,11 +490,11 @@ class CommandStack {
 	};
 
 
-	private _getHandler(command: string) : Function {
+	private _getHandler(command: string) : CommandHandler {
 		return this._handlerMap[command];
 	};
 
-	private _setHandler(command: string, handler: Function) : void {
+	private _setHandler(command: string, handler: CommandHandler) : void {
 		if (!command || !handler) {
 			throw new Error('command and handler required');
 		}

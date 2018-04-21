@@ -65,7 +65,7 @@ export default function Styles() {
   this.computeStyle = function(custom, traits, defaultStyles) {
     if (!isArray(traits)) {
       defaultStyles = traits;
-      traits = [];
+      traits = []; 
     }
 
     return self.style(traits || [], assign({}, defaultStyles, custom || {}));
