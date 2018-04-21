@@ -32,7 +32,7 @@ function round(number : number, resolution : number) {
 	return Math.round(number * resolution) / resolution;
 }
 
-function ensurePx(number : number) {
+function ensurePx(number : number) : any {
 	return isNumber(number) ? number + 'px' : number;
 }
 
@@ -43,7 +43,7 @@ function ensurePx(number : number) {
  * @param  {Object} options
  * @return {HTMLElement} the container element
  */
-function createContainer(options : any) {
+function createContainer(options : any) : any {
 
 	options = assign({}, { width: '100%', height: '100%' }, options);
 
@@ -67,7 +67,7 @@ function createContainer(options : any) {
 	return parent;
 }
 
-function createGroup(parent : any, cls : any, childIndex? : any) {
+function createGroup(parent : any, cls : any, childIndex? : any) : any {
 	var group = svgCreate('g');
 	svgClasses(group).add(cls);
 
@@ -93,13 +93,44 @@ function setCTM(node : any, m : any) {
 
 // export default 
 
+interface cachedViewbox {
+	x: number,
+	y: number,
+	width: number,
+	height: number,
+	scale: any,
+	inner: {
+		width: number,
+		height: number,
+		x: number,
+		y: number
+	},
+	outer: any
+};
+
+interface delta {
+	dx : number,
+	dy : number
+}
+
+interface Dimensions {
+	width : number,
+	height : number
+}
+
+interface Bounds {
+	x: number,
+	y: number,
+	width: number,
+	height: number
+}
 class Canvas {
 
 	private _eventBus : any;
 	private _elementRegistry : any;
 	private _graphicsFactory : any;
 	private _layers : any;
-	private _cachedViewbox : any;
+	private _cachedViewbox : cachedViewbox | null;
 	private _svg : any;
 	private _container : any;
 	private _rootElement : any;
@@ -130,10 +161,6 @@ class Canvas {
 		this._graphicsFactory = graphicsFactory;
 
 		this._init(config || {});
-	}
-
-	public getContainer() : any {
-		return this._container;
 	}
 
 	private _init(config: any): void {
@@ -734,7 +761,7 @@ class Canvas {
 		this._viewboxChanged();
 	}
 
-	private _viewboxChanged() {
+	private _viewboxChanged() : void {
 		this._eventBus.fire('canvas.viewbox.changed', { viewbox: this.viewbox() });
 	}
 
@@ -784,7 +811,7 @@ class Canvas {
 	 *
 	 * @return {Object} the current view box
 	 */
-	public viewbox(box? : object  | any) {
+	public viewbox(box? : cachedViewbox) : cachedViewbox {
 
 		if (box === undefined && this._cachedViewbox) {
 			return this._cachedViewbox;
@@ -852,7 +879,7 @@ class Canvas {
 	 * @param {Number} [delta.dx]
 	 * @param {Number} [delta.dy]
 	 */
-	public scroll(delta : any) {
+	public scroll(delta : delta) : object {
 
 		var node = this._viewport;
 		var matrix = node.getCTM();
@@ -1005,7 +1032,7 @@ class Canvas {
 	 * @return {Dimensions}
 	 */
 	//just to test
-	public getSize() {
+	public getSize() : Dimensions {
 		return {
 			width: this._container.clientWidth,
 			height: this._container.clientHeight
@@ -1023,7 +1050,7 @@ class Canvas {
 	 * @param  {ElementDescriptor} element
 	 * @return {Bounds} the absolute bounding box
 	 */
-	public getAbsoluteBBox(element : any) : any {
+	public getAbsoluteBBox(element : any) : Bounds {
 		var vbox = this.viewbox();
 		var bbox;
 

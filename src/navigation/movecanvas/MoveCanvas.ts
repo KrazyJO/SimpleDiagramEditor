@@ -19,20 +19,27 @@ import {
 import {
   toPoint
 } from '../../util/Event';
+import EventBus from '../../core/EventBus';
+import Canvas from '../../core/Canvas';
 
 
-function length(point) {
+interface Point {
+  x : number, 
+  y : number
+}
+
+function length(point : Point) : number {
   return Math.sqrt(Math.pow(point.x, 2) + Math.pow(point.y, 2));
 }
 
 var THRESHOLD = 15;
 
 
-export default function MoveCanvas(eventBus, canvas) {
+export default function MoveCanvas(eventBus : EventBus, canvas : Canvas) {
 
-  var context;
+  var context : any;
 
-  function handleMove(event) {
+  function handleMove(event : any) {
 
     var start = context.start,
         position = toPoint(event),
@@ -65,7 +72,7 @@ export default function MoveCanvas(eventBus, canvas) {
   }
 
 
-  function handleEnd(event) {
+  function handleEnd(/*event*/) {
     domEvent.unbind(document, 'mousemove', handleMove);
     domEvent.unbind(document, 'mouseup', handleEnd);
 
@@ -74,7 +81,7 @@ export default function MoveCanvas(eventBus, canvas) {
     cursorUnset();
   }
 
-  function handleStart(event) {
+  function handleStart(event : any) : boolean | void{
     // event is already handled by '.djs-draggable'
     if (domClosest(event.target, '.djs-draggable')) {
       return;

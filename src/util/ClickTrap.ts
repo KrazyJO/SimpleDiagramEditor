@@ -1,3 +1,5 @@
+import EventBus from "../core/EventBus";
+
 var TRAP_PRIORITY = 5000;
 
 /**
@@ -5,7 +7,7 @@ var TRAP_PRIORITY = 5000;
  *
  * @return {Function} a function to immediately remove the installed trap.
  */
-export function install(eventBus, eventName) {
+export function install(eventBus : EventBus, eventName? : string) {
 
   eventName = eventName || 'element.click';
 
