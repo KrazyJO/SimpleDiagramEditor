@@ -21,12 +21,8 @@ import {
 } from '../../util/Event';
 import EventBus from '../../core/EventBus';
 import Canvas from '../../core/Canvas';
+import { Point } from '../../interfaces';
 
-
-interface Point {
-  x : number, 
-  y : number
-}
 
 function length(point : Point) : number {
   return Math.sqrt(Math.pow(point.x, 2) + Math.pow(point.y, 2));
@@ -107,7 +103,7 @@ export default function MoveCanvas(eventBus : EventBus, canvas : Canvas) {
   // listen for move on element mouse down;
   // allow others to hook into the event before us though
   // (dragging / element moving will do this)
-  eventBus.on('element.mousedown', 500, function(e) {
+  eventBus.on('element.mousedown', 500, function(e : any) : any {
     return handleStart(e.originalEvent);
   });
 

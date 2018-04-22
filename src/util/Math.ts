@@ -1,4 +1,4 @@
-import { Point } from "./Geometry";
+import { Point } from "../interfaces";
 
 /**
  * Get the logarithm of x with base 10

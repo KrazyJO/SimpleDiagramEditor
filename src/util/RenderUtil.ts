@@ -2,7 +2,7 @@ import {
   attr as svgAttr,
   create as svgCreate
 } from 'tiny-svg';
-import { Point } from './Geometry';
+import { Point } from '../interfaces';
 
 
 export function componentsToPath(elements : any) : any {
