@@ -11,20 +11,20 @@ import CoreModule from './core';
  *
  * @return {didi.Injector} a injector to use to access the components
  */
-function bootstrap(bootstrapModules) {
+function bootstrap(bootstrapModules : any) : any {
 
-  var modules = [],
-      components = [];
+  var modules : any[] = [],
+      components : any[] = [];
 
-  function hasModule(m) {
+  function hasModule(m : any) {
     return modules.indexOf(m) >= 0;
   }
 
-  function addModule(m) {
+  function addModule(m : any) {
     modules.push(m);
   }
 
-  function visit(m) {
+  function visit(m : any) {
     if (hasModule(m)) {
       return;
     }
@@ -37,7 +37,7 @@ function bootstrap(bootstrapModules) {
 
     addModule(m);
 
-    (m.__init__ || []).forEach(function(c) {
+    (m.__init__ || []).forEach(function(c : any) {
       components.push(c);
     });
   }
@@ -69,7 +69,7 @@ function bootstrap(bootstrapModules) {
  * @param  {Object} options
  * @return {didi.Injector}
  */
-function createInjector(options) {
+function createInjector(options : any) {
 
   options = options || {};
 
@@ -132,7 +132,7 @@ function createInjector(options) {
  * @param {Array<didi.Module>} [options.modules] external modules to instantiate with the diagram
  * @param {didi.Injector} [injector] an (optional) injector to bootstrap the diagram with
  */
-export default function Diagram(options, injector) {
+export default function Diagram(options : any, injector : any) : void {
 
   // create injector unless explicitly specified
   this.injector = injector = injector || createInjector(options);

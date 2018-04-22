@@ -18,47 +18,47 @@ import ExamplePaletteProvider from './ExamplePaletteProvider';
 import ExampleRuleProvider from './ExampleRuleProvider';
 
 var ExampleModule = {
-  __init__: [
-    'exampleContextPadProvider',
-    'examplePaletteProvider',
-    'exampleRuleProvider'
-  ],
-  exampleContextPadProvider: [ 'type', ExampleContextPadProvider ],
-  examplePaletteProvider: [ 'type', ExamplePaletteProvider ],
-  exampleRuleProvider: [ 'type', ExampleRuleProvider ]
+	__init__: [
+		'exampleContextPadProvider',
+		'examplePaletteProvider',
+		'exampleRuleProvider'
+	],
+	exampleContextPadProvider: ['type', ExampleContextPadProvider],
+	examplePaletteProvider: ['type', ExamplePaletteProvider],
+	exampleRuleProvider: ['type', ExampleRuleProvider]
 };
 
 var container = document.querySelector('#container');
 
 var diagram = new Diagram({
-  canvas: {
-    container: container
-  },
-  modules: [
-    SelectionModule,
-    ZoomScrollModule,
-    MoveCanvasModule,
-    ModelingModule,
-    MoveModule,
-    OutlineModule,
-    LassoToolModule,
-    PaletteModule,
-    CreateModule,
-    ContextPadModule,
-    ConnectModule,
-    RulesModule,
-    ExampleModule
-  ]
+	canvas: {
+		container: container
+	},
+	modules: [
+		SelectionModule,
+		ZoomScrollModule,
+		MoveCanvasModule,
+		ModelingModule,
+		MoveModule,
+		OutlineModule,
+		LassoToolModule,
+		PaletteModule,
+		CreateModule,
+		ContextPadModule,
+		ConnectModule,
+		RulesModule,
+		ExampleModule
+	]
 });
 
 // get instances from diagram
 var canvas = diagram.get('canvas'),
-    defaultRenderer = diagram.get('defaultRenderer'),
-    elementFactory = diagram.get('elementFactory'),
-    styles = diagram.get('styles');
+	defaultRenderer = diagram.get('defaultRenderer'),
+	elementFactory = diagram.get('elementFactory'),
+	styles = diagram.get('styles');
 
 // override default stroke color
-defaultRenderer.CONNECTION_STYLE = styles.style([ 'no-fill' ], { strokeWidth: 5, stroke: '#000' });
+defaultRenderer.CONNECTION_STYLE = styles.style(['no-fill'], { strokeWidth: 5, stroke: '#000' });
 defaultRenderer.SHAPE_STYLE = styles.style({ fill: 'white', stroke: '#000', strokeWidth: 2 });
 
 // add root
@@ -68,19 +68,19 @@ canvas.setRootElement(root);
 
 // add shapes
 var shape1 = elementFactory.createShape({
-  x: 200,
-  y: 100,
-  width: 100,
-  height: 80
+	x: 200,
+	y: 100,
+	width: 100,
+	height: 80
 });
 
 canvas.addShape(shape1, root);
 
 var shape2 = elementFactory.createShape({
-  x: 300,
-  y: 200,
-  width: 100,
-  height: 80
+	x: 300,
+	y: 200,
+	width: 100,
+	height: 80
 });
 
 canvas.addShape(shape2, root);
