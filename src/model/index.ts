@@ -4,10 +4,10 @@ import inherits from 'inherits';
 import Refs from 'object-refs';
 
 var parentRefs = new Refs({ name: 'children', enumerable: true, collection: true }, { name: 'parent' }),
-    labelRefs = new Refs({ name: 'label', enumerable: true }, { name: 'labelTarget' }),
-    attacherRefs = new Refs({ name: 'attachers', collection: true }, { name: 'host' }),
-    outgoingRefs = new Refs({ name: 'outgoing', collection: true }, { name: 'source' }),
-    incomingRefs = new Refs({ name: 'incoming', collection: true }, { name: 'target' });
+	labelRefs = new Refs({ name: 'label', enumerable: true }, { name: 'labelTarget' }),
+	attacherRefs = new Refs({ name: 'attachers', collection: true }, { name: 'host' }),
+	outgoingRefs = new Refs({ name: 'outgoing', collection: true }, { name: 'source' }),
+	incomingRefs = new Refs({ name: 'incoming', collection: true }, { name: 'target' });
 
 /**
  * @namespace djs.model
@@ -26,45 +26,45 @@ var parentRefs = new Refs({ name: 'children', enumerable: true, collection: true
  */
 export function Base() {
 
-  /**
-   * The object that backs up the shape
-   *
-   * @name Base#businessObject
-   * @type Object
-   */
-  Object.defineProperty(this, 'businessObject', {
-    writable: true
-  });
+	/**
+	 * The object that backs up the shape
+	 *
+	 * @name Base#businessObject
+	 * @type Object
+	 */
+	Object.defineProperty(this, 'businessObject', {
+		writable: true
+	});
 
-  /**
-   * The parent shape
-   *
-   * @name Base#parent
-   * @type Shape
-   */
-  parentRefs.bind(this, 'parent');
+	/**
+	 * The parent shape
+	 *
+	 * @name Base#parent
+	 * @type Shape
+	 */
+	parentRefs.bind(this, 'parent');
 
-  /**
-   * @name Base#label
-   * @type Label
-   */
-  labelRefs.bind(this, 'label');
+	/**
+	 * @name Base#label
+	 * @type Label
+	 */
+	labelRefs.bind(this, 'label');
 
-  /**
-   * The list of outgoing connections
-   *
-   * @name Base#outgoing
-   * @type Array<Connection>
-   */
-  outgoingRefs.bind(this, 'outgoing');
+	/**
+	 * The list of outgoing connections
+	 *
+	 * @name Base#outgoing
+	 * @type Array<Connection>
+	 */
+	outgoingRefs.bind(this, 'outgoing');
 
-  /**
-   * The list of incoming connections
-   *
-   * @name Base#incoming
-   * @type Array<Connection>
-   */
-  incomingRefs.bind(this, 'incoming');
+	/**
+	 * The list of incoming connections
+	 *
+	 * @name Base#incoming
+	 * @type Array<Connection>
+	 */
+	incomingRefs.bind(this, 'incoming');
 }
 
 
@@ -77,27 +77,27 @@ export function Base() {
  * @extends Base
  */
 export function Shape() {
-  Base.call(this);
+	Base.call(this);
 
-  /**
-   * The list of children
-   *
-   * @name Shape#children
-   * @type Array<Base>
-   */
-  parentRefs.bind(this, 'children');
+	/**
+	 * The list of children
+	 *
+	 * @name Shape#children
+	 * @type Array<Base>
+	 */
+	parentRefs.bind(this, 'children');
 
-  /**
-   * @name Shape#host
-   * @type Shape
-   */
-  attacherRefs.bind(this, 'host');
+	/**
+	 * @name Shape#host
+	 * @type Shape
+	 */
+	attacherRefs.bind(this, 'host');
 
-  /**
-   * @name Shape#attachers
-   * @type Shape
-   */
-  attacherRefs.bind(this, 'attachers');
+	/**
+	 * @name Shape#attachers
+	 * @type Shape
+	 */
+	attacherRefs.bind(this, 'attachers');
 }
 
 inherits(Shape, Base);
@@ -112,7 +112,7 @@ inherits(Shape, Base);
  * @extends Shape
  */
 export function Root() {
-  Shape.call(this);
+	Shape.call(this);
 }
 
 inherits(Root, Shape);
@@ -127,15 +127,15 @@ inherits(Root, Shape);
  * @extends Shape
  */
 export function Label() {
-  Shape.call(this);
+	Shape.call(this);
 
-  /**
-   * The labeled element
-   *
-   * @name Label#labelTarget
-   * @type Base
-   */
-  labelRefs.bind(this, 'labelTarget');
+	/**
+	 * The labeled element
+	 *
+	 * @name Label#labelTarget
+	 * @type Base
+	 */
+	labelRefs.bind(this, 'labelTarget');
 }
 
 inherits(Label, Shape);
@@ -150,33 +150,33 @@ inherits(Label, Shape);
  * @extends Base
  */
 export function Connection() {
-  Base.call(this);
+	Base.call(this);
 
-  /**
-   * The element this connection originates from
-   *
-   * @name Connection#source
-   * @type Base
-   */
-  outgoingRefs.bind(this, 'source');
+	/**
+	 * The element this connection originates from
+	 *
+	 * @name Connection#source
+	 * @type Base
+	 */
+	outgoingRefs.bind(this, 'source');
 
-  /**
-   * The element this connection points to
-   *
-   * @name Connection#target
-   * @type Base
-   */
-  incomingRefs.bind(this, 'target');
+	/**
+	 * The element this connection points to
+	 *
+	 * @name Connection#target
+	 * @type Base
+	 */
+	incomingRefs.bind(this, 'target');
 }
 
 inherits(Connection, Base);
 
 
 var types = {
-  connection: Connection,
-  shape: Shape,
-  label: Label,
-  root: Root
+	connection: Connection,
+	shape: Shape,
+	label: Label,
+	root: Root
 };
 
 /**
@@ -196,10 +196,10 @@ var types = {
  *
  * @return {Base} the new model instance
  */
-export function create(type : string, attrs : any) : any {
-  var Type = types[type];
-  if (!Type) {
-    throw new Error('unknown type: <' + type + '>');
-  }
-  return assign(new Type(), attrs);
+export function create(type: string, attrs: any): any {
+	var Type = types[type];
+	if (!Type) {
+		throw new Error('unknown type: <' + type + '>');
+	}
+	return assign(new Type(), attrs);
 }

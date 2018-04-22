@@ -1,6 +1,7 @@
 import {
-  log10
+	log10
 } from '../../util/Math';
+import { Range } from '../../interfaces';
 
 /**
  * Get step size for given range and number of steps.
@@ -9,16 +10,16 @@ import {
  * @param {number} range.min - Range minimum.
  * @param {number} range.max - Range maximum.
  */
-export function getStepSize(range : any, steps : any) : any {
+export function getStepSize(range: Range, steps: any): number {
 
-  var minLinearRange = log10(range.min),
-      maxLinearRange = log10(range.max);
+	var minLinearRange = log10(range.min),
+		maxLinearRange = log10(range.max);
 
-  var absoluteLinearRange = Math.abs(minLinearRange) + Math.abs(maxLinearRange);
+	var absoluteLinearRange = Math.abs(minLinearRange) + Math.abs(maxLinearRange);
 
-  return absoluteLinearRange / steps;
+	return absoluteLinearRange / steps;
 }
 
-export function cap(range : any, scale : any) {
-  return Math.max(range.min, Math.min(range.max, scale));
+export function cap(range: Range, scale: number) : number {
+	return Math.max(range.min, Math.min(range.max, scale));
 }

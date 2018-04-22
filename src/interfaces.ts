@@ -16,4 +16,9 @@ export interface Point {
 	original? : Point
 	x : number,
 	y : number
-  }
+	}
+	
+export interface Range {
+	min : number,
+	max : number
+}

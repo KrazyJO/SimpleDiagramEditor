@@ -1,10 +1,10 @@
 import {
-  roundPoint
+	roundPoint
 } from '../layout/LayoutUtil';
 
 import {
-  center,
-  delta
+	center,
+	delta
 } from './PositionUtil';
 import { Point, Bounds } from '../interfaces';
 
@@ -18,20 +18,20 @@ import { Point, Bounds } from '../interfaces';
  *
  * @return {point} point [absolute]
  */
-export function getNewAttachPoint(point : Point, oldBounds : Bounds, newBounds : Bounds) : Point {
-  var oldCenter = center(oldBounds),
-      newCenter = center(newBounds),
-      oldDelta = delta(point, oldCenter);
+export function getNewAttachPoint(point: Point, oldBounds: Bounds, newBounds: Bounds): Point {
+	var oldCenter = center(oldBounds),
+		newCenter = center(newBounds),
+		oldDelta = delta(point, oldCenter);
 
-  var newDelta = {
-    x: oldDelta.x * (newBounds.width / oldBounds.width),
-    y: oldDelta.y * (newBounds.height / oldBounds.height)
-  };
+	var newDelta = {
+		x: oldDelta.x * (newBounds.width / oldBounds.width),
+		y: oldDelta.y * (newBounds.height / oldBounds.height)
+	};
 
-  return roundPoint({
-    x: newCenter.x + newDelta.x,
-    y: newCenter.y + newDelta.y
-  });
+	return roundPoint({
+		x: newCenter.x + newDelta.x,
+		y: newCenter.y + newDelta.y
+	});
 }
 
 
@@ -45,25 +45,25 @@ export function getNewAttachPoint(point : Point, oldBounds : Bounds, newBounds :
  *
  * @return {delta} delta
  */
-export function getNewAttachShapeDelta(shape : any, oldBounds : Bounds, newBounds : Bounds) {
-  var shapeCenter = center(shape),
-      oldCenter = center(oldBounds),
-      newCenter = center(newBounds),
-      shapeDelta = delta(shape, shapeCenter),
-      oldCenterDelta = delta(shapeCenter, oldCenter);
+export function getNewAttachShapeDelta(shape: any, oldBounds: Bounds, newBounds: Bounds): Point {
+	var shapeCenter = center(shape),
+		oldCenter = center(oldBounds),
+		newCenter = center(newBounds),
+		shapeDelta = delta(shape, shapeCenter),
+		oldCenterDelta = delta(shapeCenter, oldCenter);
 
-  var newCenterDelta = {
-    x: oldCenterDelta.x * (newBounds.width / oldBounds.width),
-    y: oldCenterDelta.y * (newBounds.height / oldBounds.height)
-  };
+	var newCenterDelta = {
+		x: oldCenterDelta.x * (newBounds.width / oldBounds.width),
+		y: oldCenterDelta.y * (newBounds.height / oldBounds.height)
+	};
 
-  var newShapeCenter = {
-    x: newCenter.x + newCenterDelta.x,
-    y: newCenter.y + newCenterDelta.y
-  };
+	var newShapeCenter = {
+		x: newCenter.x + newCenterDelta.x,
+		y: newCenter.y + newCenterDelta.y
+	};
 
-  return roundPoint({
-    x: newShapeCenter.x + shapeDelta.x - shape.x,
-    y: newShapeCenter.y + shapeDelta.y - shape.y
-  });
+	return roundPoint({
+		x: newShapeCenter.x + shapeDelta.x - shape.x,
+		y: newShapeCenter.y + shapeDelta.y - shape.y
+	});
 }

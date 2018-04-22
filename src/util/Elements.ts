@@ -1,8 +1,8 @@
 import {
-  isArray,
-  isNumber,
-  groupBy,
-  forEach
+	isArray,
+	isNumber,
+	groupBy,
+	forEach
 } from 'min-dash';
 
 
@@ -14,14 +14,14 @@ import {
  * @param {Object} e
  * @param {Boolean} unique
  */
-export function add(elements : object[], e : object, unique : boolean) : boolean {
-  var canAdd = !unique || elements.indexOf(e) === -1;
+export function add(elements: object[], e: object, unique: boolean): boolean {
+	var canAdd = !unique || elements.indexOf(e) === -1;
 
-  if (canAdd) {
-    elements.push(e);
-  }
+	if (canAdd) {
+		elements.push(e);
+	}
 
-  return canAdd;
+	return canAdd;
 }
 
 
@@ -35,21 +35,21 @@ export function add(elements : object[], e : object, unique : boolean) : boolean
  * @param  {Function} fn iterator function called with (element, index, recursionDepth)
  * @param  {Number} [depth] maximum recursion depth
  */
-export function eachElement(elements : object | object[], fn : Function, depth? : number) : void {
+export function eachElement(elements: object | object[], fn: Function, depth?: number): void {
 
-  depth = depth || 0;
+	depth = depth || 0;
 
-  if (!isArray(elements)) {
-    elements = [ elements ];
-  }
+	if (!isArray(elements)) {
+		elements = [elements];
+	}
 
-  forEach(elements, function(s : any, i : any) {
-    var filter = fn(s, i, depth);
+	forEach(elements, function (s: any, i: any) {
+		var filter = fn(s, i, depth);
 
-    if (isArray(filter) && filter.length) {
-      eachElement(filter, fn, depth + 1);
-    }
-  });
+		if (isArray(filter) && filter.length) {
+			eachElement(filter, fn, depth + 1);
+		}
+	});
 }
 
 
@@ -62,26 +62,26 @@ export function eachElement(elements : object | object[], fn : Function, depth? 
  *
  * @return {Array<djs.model.Base>} found elements
  */
-export function selfAndChildren(elements : any, unique : boolean, maxDepth : number) {
-  var result : any[] = [],
-      processedChildren : any[] = [];
+export function selfAndChildren(elements: any, unique: boolean, maxDepth: number) {
+	var result: any[] = [],
+		processedChildren: any[] = [];
 
-  eachElement(elements, function(element : any, i : any, depth : number) {
-    add(result, element, unique);
+	eachElement(elements, function (element: any, i: any, depth: number) {
+		add(result, element, unique);
 
-    var children = element.children;
+		var children = element.children;
 
-    // max traversal depth not reached yet
-    if (maxDepth === -1 || depth < maxDepth) {
+		// max traversal depth not reached yet
+		if (maxDepth === -1 || depth < maxDepth) {
 
-      // children exist && children not yet processed
-      if (children && add(processedChildren, children, unique)) {
-        return children;
-      }
-    }
-  });
+			// children exist && children not yet processed
+			if (children && add(processedChildren, children, unique)) {
+				return children;
+			}
+		}
+	});
 
-  return result;
+	return result;
 }
 
 /**
@@ -92,8 +92,8 @@ export function selfAndChildren(elements : any, unique : boolean, maxDepth : num
  *
  * @return {Array<djs.model.Base>} the collected elements
  */
-export function selfAndDirectChildren(elements : any, allowDuplicates : boolean) : any {
-  return selfAndChildren(elements, !allowDuplicates, 1);
+export function selfAndDirectChildren(elements: any, allowDuplicates: boolean): any {
+	return selfAndChildren(elements, !allowDuplicates, 1);
 }
 
 
@@ -105,8 +105,8 @@ export function selfAndDirectChildren(elements : any, allowDuplicates : boolean)
  *
  * @return {Array<djs.model.Base>} the collected elements
  */
-export function selfAndAllChildren(elements : any, allowDuplicates : boolean) : any{
-  return selfAndChildren(elements, !allowDuplicates, -1);
+export function selfAndAllChildren(elements: any, allowDuplicates: boolean): any {
+	return selfAndChildren(elements, !allowDuplicates, -1);
 }
 
 
@@ -117,60 +117,60 @@ export function selfAndAllChildren(elements : any, allowDuplicates : boolean) : 
  * @param {Array<djs.model.Base>} elements
  * @return {Object} enclosure
  */
-export function getClosure(elements : any) : any {
+export function getClosure(elements: any): any {
 
-  // original elements passed to this function
-  var topLevel = groupBy(elements, function(e : any) { return e.id; });
+	// original elements passed to this function
+	var topLevel = groupBy(elements, function (e: any) { return e.id; });
 
-  var allShapes = {},
-      allConnections = {},
-      enclosedElements = {},
-      enclosedConnections = {};
+	var allShapes = {},
+		allConnections = {},
+		enclosedElements = {},
+		enclosedConnections = {};
 
-  function handleConnection(c : any) {
-    if (topLevel[c.source.id] && topLevel[c.target.id]) {
-      topLevel[c.id] = [ c ];
-    }
+	function handleConnection(c: any) {
+		if (topLevel[c.source.id] && topLevel[c.target.id]) {
+			topLevel[c.id] = [c];
+		}
 
-    // not enclosed as a child, but maybe logically
-    // (connecting two moved elements?)
-    if (allShapes[c.source.id] && allShapes[c.target.id]) {
-      enclosedConnections[c.id] = enclosedElements[c.id] = c;
-    }
+		// not enclosed as a child, but maybe logically
+		// (connecting two moved elements?)
+		if (allShapes[c.source.id] && allShapes[c.target.id]) {
+			enclosedConnections[c.id] = enclosedElements[c.id] = c;
+		}
 
-    allConnections[c.id] = c;
-  }
+		allConnections[c.id] = c;
+	}
 
-  function handleElement(element : any) {
+	function handleElement(element: any) {
 
-    enclosedElements[element.id] = element;
+		enclosedElements[element.id] = element;
 
-    if (element.waypoints) {
-      // remember connection
-      enclosedConnections[element.id] = allConnections[element.id] = element;
-    } else {
-      // remember shape
-      allShapes[element.id] = element;
+		if (element.waypoints) {
+			// remember connection
+			enclosedConnections[element.id] = allConnections[element.id] = element;
+		} else {
+			// remember shape
+			allShapes[element.id] = element;
 
-      // remember all connections
-      forEach(element.incoming, handleConnection);
+			// remember all connections
+			forEach(element.incoming, handleConnection);
 
-      forEach(element.outgoing, handleConnection);
+			forEach(element.outgoing, handleConnection);
 
-      // recurse into children
-      return element.children;
-    }
-  }
+			// recurse into children
+			return element.children;
+		}
+	}
 
-  eachElement(elements, handleElement);
+	eachElement(elements, handleElement);
 
-  return {
-    allShapes: allShapes,
-    allConnections: allConnections,
-    topLevel: topLevel,
-    enclosedConnections: enclosedConnections,
-    enclosedElements: enclosedElements
-  };
+	return {
+		allShapes: allShapes,
+		allConnections: allConnections,
+		topLevel: topLevel,
+		enclosedConnections: enclosedConnections,
+		enclosedElements: enclosedElements
+	};
 }
 
 /**
@@ -180,52 +180,52 @@ export function getClosure(elements : any) : any {
  * @param {Array<djs.model.Shape>|djs.model.Shape} elements
  * @param {Boolean} stopRecursion
  */
-export function getBBox(elements : any, stopRecursion? : boolean) {
+export function getBBox(elements: any, stopRecursion?: boolean) {
 
-  stopRecursion = !!stopRecursion;
-  if (!isArray(elements)) {
-    elements = [elements];
-  }
+	stopRecursion = !!stopRecursion;
+	if (!isArray(elements)) {
+		elements = [elements];
+	}
 
-  var minX : number,
-      minY : number,
-      maxX : number,
-      maxY : number;
+	var minX: number,
+		minY: number,
+		maxX: number,
+		maxY: number;
 
-  forEach(elements, function(element : any) {
+	forEach(elements, function (element: any) {
 
-    // If element is a connection the bbox must be computed first
-    var bbox = element;
-    if (element.waypoints && !stopRecursion) {
-      bbox = getBBox(element.waypoints, true);
-    }
+		// If element is a connection the bbox must be computed first
+		var bbox = element;
+		if (element.waypoints && !stopRecursion) {
+			bbox = getBBox(element.waypoints, true);
+		}
 
-    var x = bbox.x,
-        y = bbox.y,
-        height = bbox.height || 0,
-        width = bbox.width || 0;
+		var x = bbox.x,
+			y = bbox.y,
+			height = bbox.height || 0,
+			width = bbox.width || 0;
 
-    if (x < minX || minX === undefined) {
-      minX = x;
-    }
-    if (y < minY || minY === undefined) {
-      minY = y;
-    }
+		if (x < minX || minX === undefined) {
+			minX = x;
+		}
+		if (y < minY || minY === undefined) {
+			minY = y;
+		}
 
-    if ((x + width) > maxX || maxX === undefined) {
-      maxX = x + width;
-    }
-    if ((y + height) > maxY || maxY === undefined) {
-      maxY = y + height;
-    }
-  });
+		if ((x + width) > maxX || maxX === undefined) {
+			maxX = x + width;
+		}
+		if ((y + height) > maxY || maxY === undefined) {
+			maxY = y + height;
+		}
+	});
 
-  return {
-    x: minX,
-    y: minY,
-    height: maxY - minY,
-    width: maxX - minX
-  };
+	return {
+		x: minX,
+		y: minY,
+		height: maxY - minY,
+		width: maxX - minX
+	};
 }
 
 
@@ -242,49 +242,49 @@ export function getBBox(elements : any, stopRecursion? : boolean) {
  *
  * @return {Array<djs.model.Shape>} enclosed elements
  */
-export function getEnclosedElements(elements : any, bbox : any) {
+export function getEnclosedElements(elements: any, bbox: any) {
 
-  var filteredElements = {};
+	var filteredElements = {};
 
-  forEach(elements, function(element : any ) {
+	forEach(elements, function (element: any) {
 
-    var e = element;
+		var e = element;
 
-    if (e.waypoints) {
-      e = getBBox(e);
-    }
+		if (e.waypoints) {
+			e = getBBox(e);
+		}
 
-    if (!isNumber(bbox.y) && (e.x > bbox.x)) {
-      filteredElements[element.id] = element;
-    }
-    if (!isNumber(bbox.x) && (e.y > bbox.y)) {
-      filteredElements[element.id] = element;
-    }
-    if (e.x > bbox.x && e.y > bbox.y) {
-      if (isNumber(bbox.width) && isNumber(bbox.height) &&
-          e.width + e.x < bbox.width + bbox.x &&
-          e.height + e.y < bbox.height + bbox.y) {
+		if (!isNumber(bbox.y) && (e.x > bbox.x)) {
+			filteredElements[element.id] = element;
+		}
+		if (!isNumber(bbox.x) && (e.y > bbox.y)) {
+			filteredElements[element.id] = element;
+		}
+		if (e.x > bbox.x && e.y > bbox.y) {
+			if (isNumber(bbox.width) && isNumber(bbox.height) &&
+				e.width + e.x < bbox.width + bbox.x &&
+				e.height + e.y < bbox.height + bbox.y) {
 
-        filteredElements[element.id] = element;
-      } else if (!isNumber(bbox.width) || !isNumber(bbox.height)) {
-        filteredElements[element.id] = element;
-      }
-    }
-  });
+				filteredElements[element.id] = element;
+			} else if (!isNumber(bbox.width) || !isNumber(bbox.height)) {
+				filteredElements[element.id] = element;
+			}
+		}
+	});
 
-  return filteredElements;
+	return filteredElements;
 }
 
 
-export function getType(element : any) {
+export function getType(element: any) {
 
-  if ('waypoints' in element) {
-    return 'connection';
-  }
+	if ('waypoints' in element) {
+		return 'connection';
+	}
 
-  if ('x' in element) {
-    return 'shape';
-  }
+	if ('x' in element) {
+		return 'shape';
+	}
 
-  return 'root';
+	return 'root';
 }

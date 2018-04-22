@@ -8,15 +8,15 @@ import { Point } from "../interfaces";
  *
  * @return {Number}  distance
  */
-export function pointDistance(a : Point, b : Point) {
-  if (!a || !b) {
-    return -1;
-  }
+export function pointDistance(a: Point, b: Point) {
+	if (!a || !b) {
+		return -1;
+	}
 
-  return Math.sqrt(
-    Math.pow(a.x - b.x, 2) +
-    Math.pow(a.y - b.y, 2)
-  );
+	return Math.sqrt(
+		Math.pow(a.x - b.x, 2) +
+		Math.pow(a.y - b.y, 2)
+	);
 }
 
 
@@ -30,21 +30,21 @@ export function pointDistance(a : Point, b : Point) {
  *
  * @return {Boolean}
  */
-export function pointsOnLine(p : Point, q : Point, r : Point, accuracy : number) {
+export function pointsOnLine(p: Point, q: Point, r: Point, accuracy: number) {
 
-  if (typeof accuracy === 'undefined') {
-    accuracy = 5;
-  }
+	if (typeof accuracy === 'undefined') {
+		accuracy = 5;
+	}
 
-  if (!p || !q || !r) {
-    return false;
-  }
+	if (!p || !q || !r) {
+		return false;
+	}
 
-  var val = (q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x),
-      dist = pointDistance(p, q);
+	var val = (q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x),
+		dist = pointDistance(p, q);
 
-  // @see http://stackoverflow.com/a/907491/412190
-  return Math.abs(val / dist) <= accuracy;
+	// @see http://stackoverflow.com/a/907491/412190
+	return Math.abs(val / dist) <= accuracy;
 }
 
 
@@ -60,16 +60,16 @@ var ALIGNED_THRESHOLD = 2;
  *                          aligned or 'h|v' if they are aligned
  *                          horizontally / vertically.
  */
-export function pointsAligned(a : Point, b : Point) {
-  if (Math.abs(a.x - b.x) <= ALIGNED_THRESHOLD) {
-    return 'h';
-  }
+export function pointsAligned(a: Point, b: Point) {
+	if (Math.abs(a.x - b.x) <= ALIGNED_THRESHOLD) {
+		return 'h';
+	}
 
-  if (Math.abs(a.y - b.y) <= ALIGNED_THRESHOLD) {
-    return 'v';
-  }
+	if (Math.abs(a.y - b.y) <= ALIGNED_THRESHOLD) {
+		return 'v';
+	}
 
-  return false;
+	return false;
 }
 
 
@@ -82,13 +82,13 @@ export function pointsAligned(a : Point, b : Point) {
  *
  * @return {Boolean}
  */
-export function pointInRect(p : Point, rect : any, tolerance : number) : boolean {
-  tolerance = tolerance || 0;
+export function pointInRect(p: Point, rect: any, tolerance: number): boolean {
+	tolerance = tolerance || 0;
 
-  return p.x > rect.x - tolerance &&
-         p.y > rect.y - tolerance &&
-         p.x < rect.x + rect.width + tolerance &&
-         p.y < rect.y + rect.height + tolerance;
+	return p.x > rect.x - tolerance &&
+		p.y > rect.y - tolerance &&
+		p.x < rect.x + rect.width + tolerance &&
+		p.y < rect.y + rect.height + tolerance;
 }
 
 /**
@@ -99,9 +99,9 @@ export function pointInRect(p : Point, rect : any, tolerance : number) : boolean
  *
  * @return {Point} middle point
  */
-export function getMidPoint(p : Point, q : Point) : Point {
-  return {
-    x: Math.round(p.x + ((q.x - p.x) / 2.0)),
-    y: Math.round(p.y + ((q.y - p.y) / 2.0))
-  };
+export function getMidPoint(p: Point, q: Point): Point {
+	return {
+		x: Math.round(p.x + ((q.x - p.x) / 2.0)),
+		y: Math.round(p.y + ((q.y - p.y) / 2.0))
+	};
 }

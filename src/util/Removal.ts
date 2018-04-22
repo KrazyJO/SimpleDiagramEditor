@@ -14,21 +14,21 @@
  *
  * @return {Array<Object>} the cleared collection
  */
-export function saveClear(collection : any[], removeFn : Function) : any {
+export function saveClear(collection: any[], removeFn: Function): any {
 
-  if (typeof removeFn !== 'function') {
-    throw new Error('removeFn iterator must be a function');
-  }
+	if (typeof removeFn !== 'function') {
+		throw new Error('removeFn iterator must be a function');
+	}
 
-  if (!collection) {
-    return;
-  }
+	if (!collection) {
+		return;
+	}
 
-  var e;
+	var e;
 
-  while ((e = collection[0])) {
-    removeFn(e);
-  }
+	while ((e = collection[0])) {
+		removeFn(e);
+	}
 
-  return collection;
+	return collection;
 }

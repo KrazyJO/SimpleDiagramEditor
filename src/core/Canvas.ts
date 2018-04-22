@@ -98,14 +98,14 @@ interface cachedViewbox {
 	y: number,
 	width: number,
 	height: number,
-	scale: any,
-	inner: {
+	scale?: any,
+	inner?: {
 		width: number,
 		height: number,
 		x: number,
 		y: number
 	},
-	outer: any
+	outer?: any
 };
 
 interface delta {
@@ -811,7 +811,7 @@ class Canvas {
 	 *
 	 * @return {Object} the current view box
 	 */
-	public viewbox(box? : cachedViewbox) : cachedViewbox {
+	public viewbox(box? : cachedViewbox | boolean) : cachedViewbox {
 
 		if (box === undefined && this._cachedViewbox) {
 			return this._cachedViewbox;

@@ -1,6 +1,6 @@
 import {
-  transform as svgTransform,
-  createTransform
+	transform as svgTransform,
+	createTransform
 } from 'tiny-svg';
 
 
@@ -11,17 +11,17 @@ import {
  * @param {Number} angle
  * @param {Number} amount
  */
-export function transform(gfx : SVGAElement, x : number, y : number, angle : number, amount : number) : void {
-  var translate = createTransform();
-  translate.setTranslate(x, y);
+export function transform(gfx: SVGAElement, x: number, y: number, angle: number, amount: number): void {
+	var translate = createTransform();
+	translate.setTranslate(x, y);
 
-  var rotate = createTransform();
-  rotate.setRotate(angle, 0, 0);
+	var rotate = createTransform();
+	rotate.setRotate(angle, 0, 0);
 
-  var scale = createTransform();
-  scale.setScale(amount || 1, amount || 1);
+	var scale = createTransform();
+	scale.setScale(amount || 1, amount || 1);
 
-  svgTransform(gfx, [ translate, rotate, scale ]);
+	svgTransform(gfx, [translate, rotate, scale]);
 }
 
 
@@ -30,11 +30,11 @@ export function transform(gfx : SVGAElement, x : number, y : number, angle : num
  * @param {Number} x
  * @param {Number} y
  */
-export function translate(gfx : SVGElement, x : number, y : number) : void {
-  var translate = createTransform();
-  translate.setTranslate(x, y);
+export function translate(gfx: SVGElement, x: number, y: number): void {
+	var translate = createTransform();
+	translate.setTranslate(x, y);
 
-  svgTransform(gfx, translate);
+	svgTransform(gfx, translate);
 }
 
 
@@ -42,11 +42,11 @@ export function translate(gfx : SVGElement, x : number, y : number) : void {
  * @param {SVGElement} element
  * @param {Number} angle
  */
-export function rotate(gfx : SVGElement, angle : number ) : void {
-  var rotate = createTransform();
-  rotate.setRotate(angle, 0, 0);
+export function rotate(gfx: SVGElement, angle: number): void {
+	var rotate = createTransform();
+	rotate.setRotate(angle, 0, 0);
 
-  svgTransform(gfx, rotate);
+	svgTransform(gfx, rotate);
 }
 
 
@@ -54,9 +54,9 @@ export function rotate(gfx : SVGElement, angle : number ) : void {
  * @param {SVGElement} element
  * @param {Number} amount
  */
-export function scale(gfx : SVGElement, amount : number) : void {
-  var scale = createTransform();
-  scale.setScale(amount, amount);
+export function scale(gfx: SVGElement, amount: number): void {
+	var scale = createTransform();
+	scale.setScale(amount, amount);
 
-  svgTransform(gfx, scale);
+	svgTransform(gfx, scale);
 }

@@ -1,26 +1,26 @@
 import {
-  classes as domClasses
+	classes as domClasses
 } from 'min-dom';
 
 var CURSOR_CLS_PATTERN = /^djs-cursor-.*$/;
 
 
-export function set(mode : any) {
-  var classes = domClasses(document.body);
+export function set(mode: any) {
+	var classes = domClasses(document.body);
 
-  classes.removeMatching(CURSOR_CLS_PATTERN);
+	classes.removeMatching(CURSOR_CLS_PATTERN);
 
-  if (mode) {
-    classes.add('djs-cursor-' + mode);
-  }
+	if (mode) {
+		classes.add('djs-cursor-' + mode);
+	}
 }
 
 export function unset() {
-  set(null);
+	set(null);
 }
 
-export function has(mode : any) {
-  var classes = domClasses(document.body);
+export function has(mode: any) {
+	var classes = domClasses(document.body);
 
-  return classes.has('djs-cursor-' + mode);
+	return classes.has('djs-cursor-' + mode);
 }

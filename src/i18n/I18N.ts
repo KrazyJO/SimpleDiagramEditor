@@ -5,16 +5,16 @@ import EventBus from "../core/EventBus";
  *
  * @param {EventBus} eventBus
  */
-export default function I18N(eventBus : EventBus) {
+export default function I18N(eventBus: EventBus) {
 
-  /**
-   * Inform components that the language changed.
-   *
-   * Emit a `i18n.changed` event for others to hook into, too.
-   */
-  this.changed = function changed() {
-    eventBus.fire('i18n.changed');
-  };
+	/**
+	 * Inform components that the language changed.
+	 *
+	 * Emit a `i18n.changed` event for others to hook into, too.
+	 */
+	this.changed = function changed() {
+		eventBus.fire('i18n.changed');
+	};
 }
 
-I18N.$inject = [ 'eventBus' ];
+I18N.$inject = ['eventBus'];
