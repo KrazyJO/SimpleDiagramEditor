@@ -2,6 +2,7 @@
  * A command handler that may be registered with the
  * {@link CommandStack} via {@link CommandStack#registerHandler}.
  */
+//this is my very special string
 class CommandHandler {
 
 	/**

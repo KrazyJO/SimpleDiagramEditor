@@ -1,7 +1,4 @@
-export interface Point {
-  x : number,
-  y : number
-}
+import { Point } from "../interfaces";
 
 /**
  * Computes the distance between two points

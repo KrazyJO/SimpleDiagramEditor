@@ -31,7 +31,7 @@ export default class DefaultRenderer {
 	public CONNECTION_STYLE: any;
 	public SHAPE_STYLE: any;
 
-	constructor(eventBus: EventBus, styles) {
+	constructor(eventBus: EventBus, styles : any) {
 		BaseRenderer.call(this, eventBus, DEFAULT_RENDER_PRIORITY);
 
 		this.CONNECTION_STYLE = styles.style(['no-fill'], { strokeWidth: 5, stroke: 'fuchsia' });

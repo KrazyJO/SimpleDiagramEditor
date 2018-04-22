@@ -34,7 +34,7 @@ export default function Styles() {
    *
    * @return {Object} the style defintion
    */
-  this.cls = function(className, traits, additionalAttrs) {
+  this.cls = function(className : string, traits : string[], additionalAttrs : any) : any{
     var attrs = this.style(traits, additionalAttrs);
 
     return assign(attrs, { 'class': className });
@@ -48,21 +48,21 @@ export default function Styles() {
    *
    * @return {Object} the style defintion
    */
-  this.style = function(traits, additionalAttrs) {
+  this.style = function(traits : string[], additionalAttrs : any) : any {
 
     if (!isArray(traits) && !additionalAttrs) {
       additionalAttrs = traits;
       traits = [];
     }
 
-    var attrs = reduce(traits, function(attrs, t) {
+    var attrs = reduce(traits, function(attrs : any, t : any) {
       return assign(attrs, defaultTraits[t] || {});
     }, {});
 
     return additionalAttrs ? assign(attrs, additionalAttrs) : attrs;
   };
 
-  this.computeStyle = function(custom, traits, defaultStyles) {
+  this.computeStyle = function(custom : any, traits : string[], defaultStyles : any) {
     if (!isArray(traits)) {
       defaultStyles = traits;
       traits = []; 

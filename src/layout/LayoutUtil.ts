@@ -8,9 +8,10 @@ import {
 } from '../util/Geometry';
 
 import intersectPaths from 'path-intersection';
+import { Point, Bounds } from '../interfaces';
 
 
-export function roundBounds(bounds) {
+export function roundBounds(bounds : Bounds) : Bounds {
 	return {
 		x: Math.round(bounds.x),
 		y: Math.round(bounds.y),
@@ -19,12 +20,12 @@ export function roundBounds(bounds) {
 	};
 }
 
-export interface roundpoint {
-	x: number,
-	y: number
-}
+// export interface roundpoint {
+// 	x: number,
+// 	y: number
+// }
 
-export function roundPoint(point): roundpoint {
+export function roundPoint(point : Point): Point {
 
 	return {
 		x: Math.round(point.x),
@@ -40,7 +41,7 @@ export function roundPoint(point): roundpoint {
  *
  * @return {Object}
  */
-export function asTRBL(bounds) {
+export function asTRBL(bounds : Bounds) {
 	return {
 		top: bounds.y,
 		right: bounds.x + (bounds.width || 0),
@@ -49,7 +50,6 @@ export function asTRBL(bounds) {
 	};
 }
 
-
 /**
  * Convert a { top, left, bottom, right } to an objects bounds.
  *
@@ -57,7 +57,7 @@ export function asTRBL(bounds) {
  *
  * @return {Bounds}
  */
-export function asBounds(trbl) {
+export function asBounds(trbl : any) : Bounds {
 	return {
 		x: trbl.left,
 		y: trbl.top,
@@ -74,7 +74,7 @@ export function asBounds(trbl) {
  *
  * @return {Point}
  */
-export function getMid(bounds) {
+export function getMid(bounds : Bounds) : Point {
 	return roundPoint({
 		x: bounds.x + (bounds.width || 0) / 2,
 		y: bounds.y + (bounds.height || 0) / 2
@@ -97,7 +97,7 @@ export function getMid(bounds) {
  *
  * @return {String} the orientation; one of top, top-left, left, ..., bottom, right or intersect.
  */
-export function getOrientation(rect, reference, padding) {
+export function getOrientation(rect : any, reference : any, padding? : any) : string {
 
 	padding = padding || 0;
 
@@ -138,7 +138,7 @@ export function getOrientation(rect, reference, padding) {
  *
  * @return {Point}
  */
-export function getElementLineIntersection(elementPath, linePath, cropStart) : any {
+export function getElementLineIntersection(elementPath : any, linePath : any, cropStart : boolean) : Point {
 
 	var intersections = getIntersections(elementPath, linePath);
 
@@ -155,8 +155,8 @@ export function getElementLineIntersection(elementPath, linePath, cropStart) : a
 
 		// sort by intersections based on connection segment +
 		// distance from start
-		intersections = sortBy(intersections, function (i) {
-			var distance = Math.floor(i.t2 * 100) || 1;
+		intersections = sortBy(intersections, function (i : any) {
+			var distance : number | string = Math.floor(i.t2 * 100) || 1;
 
 			distance = 100 - distance;
 
@@ -175,6 +175,6 @@ export function getElementLineIntersection(elementPath, linePath, cropStart) : a
 }
 
 
-export function getIntersections(a, b) {
+export function getIntersections(a : any, b : any) {
 	return intersectPaths(a, b);
 }

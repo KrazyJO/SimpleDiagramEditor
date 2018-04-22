@@ -6,6 +6,7 @@ import {
   center,
   delta
 } from './PositionUtil';
+import { Point, Bounds } from '../interfaces';
 
 
 /**
@@ -17,7 +18,7 @@ import {
  *
  * @return {point} point [absolute]
  */
-export function getNewAttachPoint(point, oldBounds, newBounds) {
+export function getNewAttachPoint(point : Point, oldBounds : Bounds, newBounds : Bounds) : Point {
   var oldCenter = center(oldBounds),
       newCenter = center(newBounds),
       oldDelta = delta(point, oldCenter);
@@ -44,7 +45,7 @@ export function getNewAttachPoint(point, oldBounds, newBounds) {
  *
  * @return {delta} delta
  */
-export function getNewAttachShapeDelta(shape, oldBounds, newBounds) {
+export function getNewAttachShapeDelta(shape : any, oldBounds : Bounds, newBounds : Bounds) {
   var shapeCenter = center(shape),
       oldCenter = center(oldBounds),
       newCenter = center(newBounds),

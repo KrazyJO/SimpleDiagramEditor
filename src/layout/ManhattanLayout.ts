@@ -15,6 +15,7 @@ import {
   pointDistance,
   pointsAligned
 } from '../util/Geometry';
+import { Bounds , Point, hints } from '../interfaces';
 
 var INTERSECTION_THRESHOLD = 20,
     ORIENTATION_THRESHOLD = {
@@ -46,7 +47,7 @@ var INTERSECTION_THRESHOLD = 20,
  *
  * @return {Array<Point>}
  */
-export function getBendpoints(a, b, directions) {
+export function getBendpoints(a : Point, b : Point, directions : string) : Point[] {
 
   directions = directions || 'h:h';
 
@@ -97,9 +98,9 @@ export function getBendpoints(a, b, directions) {
  *
  * @return {Array<Point>}
  */
-export function connectPoints(a, b, directions) {
+export function connectPoints(a : Point, b : Point, directions : string) : Point[] {
 
-  var points = [];
+  var points : Point[] = [];
 
   if (!pointsAligned(a, b)) {
     points = getBendpoints(a, b, directions);
@@ -128,7 +129,7 @@ export function connectPoints(a, b, directions) {
  *
  * @return {Array<Point>} connection points
  */
-export function connectRectangles(source, target, start, end, hints) {
+export function connectRectangles(source : Bounds, target : Bounds, start : Point, end : Point, hints : any) : Point[] {
 
   var preferredLayouts = hints && hints.preferredLayouts || [];
 
@@ -187,7 +188,6 @@ export function connectRectangles(source, target, start, end, hints) {
   return connectPoints(start, end, directions);
 }
 
-
 /**
  * Repair the connection between two rectangles, of which one has been updated.
  *
@@ -203,7 +203,7 @@ export function connectRectangles(source, target, start, end, hints) {
  *
  * @return {Array<Point>} repaired waypoints
  */
-export function repairConnection(source, target, start, end, waypoints, hints) {
+export function repairConnection(source : Bounds, target : Bounds, start : Point, end : Point, waypoints : Point[], hints : hints) : Point[] {
 
   if (isArray(start)) {
     waypoints = start;
@@ -252,11 +252,11 @@ export function repairConnection(source, target, start, end, waypoints, hints) {
 }
 
 
-function inRange(a, start, end) {
+function inRange(a : any, start : any, end : any) : boolean{
   return a >= start && a <= end;
 }
 
-function isInRange(axis, a, b) {
+function isInRange(axis : any, a : any, b : any) : boolean {
   var size = {
     x: 'width',
     y: 'height'
@@ -276,8 +276,8 @@ function isInRange(axis, a, b) {
  *
  * @return {Array<Point>} waypoints if straight layout worked
  */
-export function layoutStraight(source, target, start, end, hints) {
-  var axis = {},
+export function layoutStraight(source : Bounds, target : Bounds, start : Point, end : Point, hints : hints) : Point[]{
+  var axis : any = {},
       primaryAxis,
       orientation;
 
@@ -357,9 +357,9 @@ export function layoutStraight(source, target, start, end, hints) {
  *
  * @return {Array<Point>} the repaired points between the two rectangles
  */
-export function _repairConnectionSide(moved, other, newDocking, points) {
+export function _repairConnectionSide(moved : Bounds, other : Bounds, newDocking : Point, points : Point[]) : Point[] {
 
-  function needsRelayout(moved, other, points) {
+  function needsRelayout(moved : Bounds, other : Bounds, points : Point[]) : boolean{
 
     if (points.length < 3) {
       return true;
@@ -371,14 +371,14 @@ export function _repairConnectionSide(moved, other, newDocking, points) {
 
     // relayout if two points overlap
     // this is most likely due to
-    return !!find(points, function(p, idx) {
+    return !!find(points, function(p : Point, idx : number) {
       var q = points[idx - 1];
 
       return q && pointDistance(p, q) < 3;
     });
   }
 
-  function repairBendpoint(candidate, oldPeer, newPeer) {
+  function repairBendpoint(candidate : any, oldPeer : any, newPeer : any) {
 
     var alignment = pointsAligned(oldPeer, candidate);
 
@@ -394,7 +394,7 @@ export function _repairConnectionSide(moved, other, newDocking, points) {
     return { x: candidate.x, y: candidate. y };
   }
 
-  function removeOverlapping(points, a, b) {
+  function removeOverlapping(points : Point[], a : any, b : any) {
     var i;
 
     for (i = points.length - 2; i !== 0; i--) {
@@ -461,7 +461,7 @@ export function _repairConnectionSide(moved, other, newDocking, points) {
  *
  * @return {String}
  */
-function getDirections(orientation, defaultLayout) {
+function getDirections(orientation : string, defaultLayout : string) : string{
 
   switch (orientation) {
   case 'intersect':

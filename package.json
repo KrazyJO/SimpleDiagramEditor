@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
     "test": "karma start",
-    "devts" : "tsc --watch"
+    "devts": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -53,6 +53,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "@types/inherits": "0.0.30",
     "css.escape": "^1.5.1",
     "didi": "^4.0.0",
     "hammerjs": "^2.0.1",

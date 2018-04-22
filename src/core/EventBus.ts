@@ -272,7 +272,7 @@ export default class EventBus {
 	 */
 	public fire(type : string, data? : any) : boolean | void {
 
-		var event,
+		var event : any,
 			listeners,
 			returnValue,
 			args;

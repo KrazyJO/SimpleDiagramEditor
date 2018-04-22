@@ -196,7 +196,7 @@ var types = {
  *
  * @return {Base} the new model instance
  */
-export function create(type, attrs) {
+export function create(type : string, attrs : any) : any {
   var Type = types[type];
   if (!Type) {
     throw new Error('unknown type: <' + type + '>');
