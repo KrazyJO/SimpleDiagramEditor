@@ -64,7 +64,7 @@ export default class CroppingConnectionDocking {
 	 *
 	 * @inheritDoc ConnectionDocking#getDockingPoint
 	 */
-	public getDockingPoint(connection : any, shape : any, dockStart : any) : dockingPoint {
+	public getDockingPoint(connection : any, shape : any, dockStart? : any) : dockingPoint {
 
 		var waypoints = connection.waypoints,
 			dockingIdx,
