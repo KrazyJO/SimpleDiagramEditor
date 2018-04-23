@@ -146,7 +146,7 @@ export function connectRectangles(source: Bounds, target: Bounds, start: Point, 
 
 	// overlapping elements
 	if (!directions) {
-		return;
+		return undefined;
 	}
 
 	if (directions === 'h:h') {
