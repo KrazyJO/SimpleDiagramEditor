@@ -31,7 +31,7 @@ export default class CroppingConnectionDocking {
 
 	static $inject = ['elementRegistry', 'graphicsFactory'];
 
-	private _elementRegistry: ElementRegistry;
+	_elementRegistry: ElementRegistry;
 	private _graphicsFactory: GraphicsFactory;
 
 	constructor(elementRegistry: ElementRegistry, graphicsFactory: GraphicsFactory) {

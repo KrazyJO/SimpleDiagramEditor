@@ -992,7 +992,7 @@ class Canvas {
 
 
 	//yes, it it used... somewhere over the rainbow... maybe by the seven dwarfts...
-	private _setZoom(scale : any, center : any) : any{
+	_setZoom(scale : any, center : any) : any{
 
 		var svg = this._svg,
 			viewport = this._viewport;
