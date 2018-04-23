@@ -203,10 +203,10 @@ export function connectRectangles(source: Bounds, target: Bounds, start: Point, 
  *
  * @return {Array<Point>} repaired waypoints
  */
-export function repairConnection(source: Bounds, target: Bounds, start: Point, end: Point, waypoints: Point[], hints: hints): Point[] {
+export function repairConnection(source: Bounds, target: Bounds, start: Point, end: Point, waypoints: Point[] | any, hints: hints | any): Point[] {
 
 	if (isArray(start)) {
-		waypoints = start;
+		waypoints = start;// =  start;
 		hints = end;
 
 		start = getMid(source);
