@@ -22,11 +22,9 @@ import {
 	attr as svgAttr,
 	classes as svgClasses,
 	create as svgCreate,
-	transform as svgTransform
+	transform as svgTransform,
+	createMatrix as createMatrix
 } from 'tiny-svg';
-
-import { createMatrix as createMatrix } from 'tiny-svg';
-
 
 function round(number : number, resolution : number) {
 	return Math.round(number * resolution) / resolution;

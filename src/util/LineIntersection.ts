@@ -1,8 +1,9 @@
 import {
-	pointDistance, Point
+	pointDistance
 } from './Geometry';
 
 import intersectPaths from 'path-intersection';
+import { Point } from '../interfaces';
 
 interface pathIntersection {
 	point: Point,
