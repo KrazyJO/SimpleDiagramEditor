@@ -50,7 +50,7 @@ export default class BaseRenderer {
 	 *
 	 * @returns {Boolean}
 	 */
-	canRender() { };
+	canRender(a : any) : any { };
 
 	/**
 	 * Provides the shape's snap svg element to be drawn on the `canvas`.
@@ -60,7 +60,7 @@ export default class BaseRenderer {
 	 *
 	 * @returns {Snap.svg} [returns a Snap.svg paper element ]
 	 */
-	drawShape() { };
+	drawShape(a : any, b : any) { };
 
 	/**
 	 * Provides the shape's snap svg element to be drawn on the `canvas`.
@@ -70,7 +70,7 @@ export default class BaseRenderer {
 	 *
 	 * @returns {Snap.svg} [returns a Snap.svg paper element ]
 	 */
-	drawConnection() { };
+	drawConnection(a : any, b : any) : any { };
 
 	/**
 	 * Gets the SVG path of a shape that represents it's visual bounds.
@@ -79,7 +79,7 @@ export default class BaseRenderer {
 	 *
 	 * @return {string} svg path
 	 */
-	getShapePath() { };
+	getShapePath(a : any) { };
 
 	/**
 	 * Gets the SVG path of a connection that represents it's visual bounds.
@@ -88,7 +88,7 @@ export default class BaseRenderer {
 	 *
 	 * @return {string} svg path
 	 */
-	getConnectionPath() { };
+	getConnectionPath(a : any) { };
 
 }
 

@@ -102,9 +102,9 @@ export default class CroppingConnectionDocking {
 		return this._graphicsFactory.getShapePath(shape);
 	};
 
-	private _getGfx(element : any) {
-		return this._elementRegistry.getGraphics(element);
-	};
+	// private _getGfx(element : any) {
+	// 	return this._elementRegistry.getGraphics(element);
+	// };
 
 
 }
