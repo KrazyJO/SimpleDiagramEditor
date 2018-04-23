@@ -36,9 +36,12 @@ function length(point: Point): number {
 var THRESHOLD = 15;
 
 
-export default function MoveCanvas(eventBus: EventBus, canvas: Canvas) {
+export default class MoveCanvas {
 
-	var context: any;
+	static $inject = ['eventBus', 'canvas'];
+
+	constructor(eventBus: EventBus, canvas: Canvas) {
+		var context: any;
 
 	function handleMove(event: any) {
 
@@ -111,8 +114,10 @@ export default function MoveCanvas(eventBus: EventBus, canvas: Canvas) {
 	eventBus.on('element.mousedown', 500, function (e: any): any {
 		return handleStart(e.originalEvent);
 	});
+	}
+	
 
 }
 
 
-MoveCanvas.$inject = ['eventBus', 'canvas'];
+// MoveCanvas.$inject = ['eventBus', 'canvas'];
