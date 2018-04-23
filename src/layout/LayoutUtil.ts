@@ -7,7 +7,7 @@ import {
 	pointDistance
 } from '../util/Geometry';
 
-import intersectPaths from 'path-intersection';
+import intersectPaths from 'path-intersection'; 
 import { Point, Bounds } from '../interfaces';
 
 

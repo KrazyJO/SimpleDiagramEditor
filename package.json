@@ -23,6 +23,7 @@
   "license": "MIT",
   "sideEffects": false,
   "devDependencies": {
+    "@types/object-refs": "^0.1.1",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",

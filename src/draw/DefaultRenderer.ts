@@ -13,6 +13,7 @@ import {
 	attr as svgAttr,
 	create as svgCreate
 } from 'tiny-svg';
+// import * as TinySvg from 'tiny-svg';
 // let tinySvg = require('tiny-svg');
 import EventBus from '../core/EventBus';
 
