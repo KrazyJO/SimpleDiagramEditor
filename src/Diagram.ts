@@ -1,4 +1,5 @@
-import { Injector } from 'didi';
+// import { Injector } from 'didi';
+const { Injector } = require('didi');
 
 import CoreModule from './core';
 
