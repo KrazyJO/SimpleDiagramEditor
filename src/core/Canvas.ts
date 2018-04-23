@@ -928,8 +928,8 @@ class Canvas {
 			return this._fitViewport(center);
 		}
 
-		var outer,
-			matrix;
+		var outer : any,
+			matrix : any;
 
 		this._changeViewbox(function () {
 
@@ -944,7 +944,6 @@ class Canvas {
 
 			matrix = this._setZoom(newScale, center);
 		}.bind(this));
-
 		return round(matrix.a, 1000);
 	}; 
 
