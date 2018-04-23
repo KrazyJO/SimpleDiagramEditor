@@ -1,4 +1,5 @@
-import inherits from 'inherits';
+// import {inherits as inherits} from 'inherits';
+let inherits = require('inherits');
 
 import BaseRenderer from './BaseRenderer';
 
@@ -12,6 +13,7 @@ import {
 	attr as svgAttr,
 	create as svgCreate
 } from 'tiny-svg';
+// let tinySvg = require('tiny-svg');
 import EventBus from '../core/EventBus';
 
 // apply default renderer with lowest possible priority
