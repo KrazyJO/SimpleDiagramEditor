@@ -17,14 +17,23 @@ import {
 	getType
 } from '../util/Elements';
 
-import {
-	append as svgAppend,
-	attr as svgAttr,
-	classes as svgClasses,
-	create as svgCreate,
-	transform as svgTransform,
-	createMatrix as createMatrix
-} from 'tiny-svg';
+// import {
+// 	append as svgAppend,
+// 	attr as svgAttr,
+// 	classes as svgClasses,
+// 	create as svgCreate,
+// 	transform as svgTransform,
+// 	createMatrix as createMatrix
+// } from 'tiny-svg';
+
+const {
+	append,
+	attr,
+	classes,
+	create,
+	transform,
+	createMatrix
+} = require('tiny-svg');
 
 function round(number : number, resolution : number) {
 	return Math.round(number * resolution) / resolution;
@@ -66,8 +75,8 @@ function createContainer(options : any) : any {
 }
 
 function createGroup(parent : any, cls : any, childIndex? : any) : any {
-	var group = svgCreate('g');
-	svgClasses(group).add(cls);
+	var group = create('g');
+	classes(group).add(cls);
 
 	var index = childIndex !== undefined ? childIndex : parent.childNodes.length - 1;
 
@@ -180,10 +189,10 @@ class Canvas {
 		// html container
 		var container = this._container = createContainer(config);
 
-		var svg = this._svg = svgCreate('svg');
-		svgAttr(svg, { width: '100%', height: '100%' });
+		var svg = this._svg = create('svg');
+		attr(svg, { width: '100%', height: '100%' });
 
-		svgAppend(container, svg);
+		append(container, svg);
 
 		var viewport = this._viewport = createGroup(svg, 'viewport');
 
@@ -375,9 +384,9 @@ class Canvas {
 			if (gfx) {
 				// invoke either addClass or removeClass based on mode
 				if (add) {
-					svgClasses(gfx).add(marker);
+					classes(gfx).add(marker);
 				} else {
-					svgClasses(gfx).remove(marker);
+					classes(gfx).remove(marker);
 				}
 			}
 		});
@@ -441,7 +450,7 @@ class Canvas {
 
 		var gfx = this.getGraphics(element);
 
-		return svgClasses(gfx).has(marker);
+		return classes(gfx).has(marker);
 	}
 
 	/**
@@ -819,7 +828,7 @@ class Canvas {
 			innerBox,
 			outerBox = this.getSize(),
 			matrix,
-			transform,
+			transform2,
 			scale,
 			x, y;
 
@@ -829,8 +838,8 @@ class Canvas {
 			// external components, such as overlays
 			innerBox = this.getDefaultLayer().getBBox();
 
-			transform = svgTransform(viewport);
-			matrix = transform ? transform.matrix : createMatrix();
+			transform2 = transform(viewport);
+			matrix = transform2 ? transform2.matrix : createMatrix();
 			scale = round(matrix.a, 1000);
 
 			x = round(-matrix.e || 0, 1000);
@@ -861,7 +870,7 @@ class Canvas {
 					.scale(scale)
 					.translate(-box.x, -box.y);
 
-				svgTransform(viewport, matrix);
+				transform(viewport, matrix);
 			});
 		}
 
