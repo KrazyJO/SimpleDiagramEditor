@@ -165,7 +165,7 @@ export default class EventBus {
 	 * @param {Function} callback the callback to execute
 	 * @param {Object} [that] Pass context (`this`) to the callback
 	 */
-	public once(event : string, priority : number | Function, callback : Function | number, that? : any) {
+	public once(event : string, priority : number | Function, callback : any, that? : any) {
 		var self = this;
 
 		if (isFunction(priority)) {

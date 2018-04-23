@@ -818,7 +818,7 @@ class Canvas {
 	 *
 	 * @return {Object} the current view box
 	 */
-	public viewbox(box? : cachedViewbox | boolean) : cachedViewbox {
+	public viewbox(box? : cachedViewbox) : cachedViewbox {
 
 		if (box === undefined && this._cachedViewbox) {
 			return this._cachedViewbox;
@@ -918,7 +918,7 @@ class Canvas {
 	 *
 	 * @return {Number} the current scale
 	 */
-	public zoom(newScale? : string | number, center? : any) : number {
+	public zoom(newScale? : any, center? : any) : number {
 
 		if (!newScale) {
 			return this.viewbox(newScale).scale;
@@ -988,10 +988,11 @@ class Canvas {
 
 		this.viewbox(newViewbox);
 
-		return this.viewbox(false).scale;
+		return this.viewbox().scale;
 	}
 
 
+	//yes, it it used... somewhere over the rainbow... maybe by the seven dwarfts...
 	private _setZoom(scale : any, center : any) : any{
 
 		var svg = this._svg,

@@ -62,7 +62,7 @@ class CommandInterceptor {
    *                          listener instead
    * @param {Object} [that] Pass context (`this`) to the handler function
    */
-	public on(events: (string | string[]), hook: string, priority: number, handlerFn : any, unwrap: boolean, that: any) : void {
+	public on(events: any, hook: string, priority: any, handlerFn : any, unwrap: boolean, that: any) : void {
 
 		if (isFunction(hook) || isNumber(hook)) {
 			that = unwrap;
@@ -141,7 +141,7 @@ forEach(hooks, function (hook : string) {
 	 *                          listener instead
 	 * @param {Object} [that] Pass context (`this`) to the handler function
 	 */
-	CommandInterceptor.prototype[hook] = function (events: (string | string[]), priority: number, handlerFn: any, unwrap: boolean, that: any) {
+	CommandInterceptor.prototype[hook] = function (events: (string | string[]), priority: any, handlerFn: any, unwrap: boolean, that: any) {
 
 		if (isFunction(events) || isNumber(events)) {
 			that = unwrap;
