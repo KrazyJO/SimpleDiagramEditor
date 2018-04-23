@@ -1,11 +1,11 @@
 import {
-	isNumber,
-	assign,
-	forEach,
-	every,
-	debounce,
-	bind,
-	reduce
+	isNumber as isNumber,
+	assign as assign,
+	forEach as forEach,
+	every as every,
+	debounce as debounce,
+	bind as bind,
+	reduce as reduce
 } from 'min-dash';
 
 import {
