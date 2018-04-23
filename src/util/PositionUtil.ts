@@ -1,4 +1,4 @@
-import { Point } from "./Geometry";
+import { Point } from "../interfaces";
 
 export function center(bounds: any): Point {
 	return {
