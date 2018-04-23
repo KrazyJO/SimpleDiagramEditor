@@ -124,7 +124,7 @@ export default class EventBus {
 	 * @param {Function} callback
 	 * @param {Object} [that] Pass context (`this`) to the callback
 	 */
-	public on(events : any, priority : number, callback? : Function, that? : any) {
+	public on(events : any, priority : number | Function, callback? : Function | number, that? : any) {
 
 		events = isArray(events) ? events : [events];
 
@@ -165,7 +165,7 @@ export default class EventBus {
 	 * @param {Function} callback the callback to execute
 	 * @param {Object} [that] Pass context (`this`) to the callback
 	 */
-	public once(event : string, priority : number, callback : Function, that? : any) {
+	public once(event : string, priority : number | Function, callback : Function | number, that? : any) {
 		var self = this;
 
 		if (isFunction(priority)) {
@@ -447,7 +447,7 @@ export default class EventBus {
  * A event that is emitted via the event bus.
  */
 class InternalEvent {
-
+	public returnValue : any;
 	public cancelBubble : boolean;
 	public defaultPrevented : boolean;
 

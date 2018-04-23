@@ -3,6 +3,11 @@ import {
 	createTransform
 } from 'tiny-svg';
 
+// const {
+// 	transform,
+// 	createTransform
+// } = require('tiny-svg');
+
 
 /**
  * @param {<SVGElement>} element

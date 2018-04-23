@@ -8,11 +8,16 @@ import {
 	createLine
 } from '../util/RenderUtil';
 
-import {
-	append as svgAppend,
-	attr as svgAttr,
-	create as svgCreate
-} from 'tiny-svg';
+// import {
+// 	append as svgAppend,
+// 	attr as svgAttr,
+// 	create as svgCreate
+// } from 'tiny-svg';
+const {
+	append,
+	attr,
+	create
+} = require('tiny-svg');
 // import * as TinySvg from 'tiny-svg';
 // let tinySvg = require('tiny-svg');
 import EventBus from '../core/EventBus';
@@ -47,16 +52,16 @@ export default class DefaultRenderer {
 
 	public drawShape = function drawShape(visuals: any, element: any): any {
 
-		var rect = svgCreate('rect');
-		svgAttr(rect, {
+		var rect = create('rect');
+		attr(rect, {
 			x: 0,
 			y: 0,
 			width: element.width || 0,
 			height: element.height || 0
 		});
-		svgAttr(rect, this.SHAPE_STYLE);
+		attr(rect, this.SHAPE_STYLE);
 
-		svgAppend(visuals, rect);
+		append(visuals, rect);
 
 		return rect;
 	};
@@ -64,7 +69,7 @@ export default class DefaultRenderer {
 	public drawConnection = function drawConnection(visuals: any, connection: any): any {
 
 		var line = createLine(connection.waypoints, this.CONNECTION_STYLE);
-		svgAppend(visuals, line);
+		append(visuals, line);
 
 		return line;
 	};

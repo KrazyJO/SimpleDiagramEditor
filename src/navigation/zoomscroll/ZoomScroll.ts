@@ -1,7 +1,12 @@
-import {
-	event as domEvent,
-	closest as domClosest
-} from 'min-dom';
+// import {
+// 	event as domEvent,
+// 	closest as domClosest
+// } from 'min-dom';
+
+const {
+	event,
+	closest
+} = require('min-dom');
 
 import {
 	getStepSize,
@@ -69,7 +74,7 @@ export default class ZoomScroll {
 
 
 		//TODO das hier geht ja ger nicht :(
-		eventBus.on('canvas.init', function (e) {
+		eventBus.on('canvas.init', function (e : any) {
 			self._init(config.enabled !== false);
 		});
 	}
@@ -114,7 +119,7 @@ export default class ZoomScroll {
 
 	private _handleWheel(event: any) : void {
 		// event is already handled by '.djs-scrollable'
-		if (domClosest(event.target, '.djs-scrollable', true)) {
+		if (closest(event.target, '.djs-scrollable', true)) {
 			return;
 		}
 
@@ -236,7 +241,7 @@ export default class ZoomScroll {
 
 			// add or remove wheel listener based on
 			// changed enabled state
-			domEvent[newEnabled ? 'bind' : 'unbind'](element, 'wheel', handleWheel, false);
+			event[newEnabled ? 'bind' : 'unbind'](element, 'wheel', handleWheel, false);
 		}
 
 		this._enabled = newEnabled;

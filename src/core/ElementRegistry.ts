@@ -1,6 +1,6 @@
 var ELEMENT_ID = 'data-element-id';
 
-import { attr as svgAttr } from 'tiny-svg';
+const { attr } = require('tiny-svg');
 
 
 /**
@@ -36,10 +36,10 @@ export default class ElementRegistry {
 		this._validateId(id);
 
 		// associate dom node with element
-		svgAttr(gfx, ELEMENT_ID, id);
+		attr(gfx, ELEMENT_ID, id);
 
 		if (secondaryGfx) {
-			svgAttr(secondaryGfx, ELEMENT_ID, id);
+			attr(secondaryGfx, ELEMENT_ID, id);
 		}
 
 		this._elements[id] = { element: element, gfx: gfx, secondaryGfx: secondaryGfx };
@@ -58,10 +58,10 @@ export default class ElementRegistry {
 		if (container) {
 
 			// unset element id on gfx
-			svgAttr(container.gfx, ELEMENT_ID, '');
+			attr(container.gfx, ELEMENT_ID, '');
 
 			if (container.secondaryGfx) {
-				svgAttr(container.secondaryGfx, ELEMENT_ID, '');
+				attr(container.secondaryGfx, ELEMENT_ID, '');
 			}
 
 			delete elements[id];
@@ -116,7 +116,7 @@ export default class ElementRegistry {
 		if (typeof filter === 'string') {
 			id = filter;
 		} else {
-			id = filter && svgAttr(filter, ELEMENT_ID);
+			id = filter && attr(filter, ELEMENT_ID);
 		}
 
 		var container = this._elements[id];

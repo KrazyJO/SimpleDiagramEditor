@@ -1,7 +1,11 @@
-import {
-	attr as svgAttr,
-	create as svgCreate
-} from 'tiny-svg';
+// import {
+// 	attr as svgAttr,
+// 	create as svgCreate
+// } from 'tiny-svg';
+const {
+	attr,
+	create
+} = require('tiny-svg');
 import { Point } from '../interfaces';
 
 
@@ -21,18 +25,18 @@ export function toSVGPoints(points: Point[]) {
 
 export function createLine(points: Point[], attrs: any) {
 
-	var line = svgCreate('polyline');
-	svgAttr(line, { points: toSVGPoints(points) });
+	var line = create('polyline');
+	attr(line, { points: toSVGPoints(points) });
 
 	if (attrs) {
-		svgAttr(line, attrs);
+		attr(line, attrs);
 	}
 
 	return line;
 }
 
 export function updateLine(gfx: any, points: Point[]) {
-	svgAttr(gfx, { points: toSVGPoints(points) });
+	attr(gfx, { points: toSVGPoints(points) });
 
 	return gfx;
 }

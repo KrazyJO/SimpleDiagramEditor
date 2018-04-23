@@ -11,10 +11,15 @@ import {
 	substract
 } from '../../util/Math';
 
-import {
-	event as domEvent,
-	closest as domClosest
-} from 'min-dom';
+// import {
+// 	event as domEvent,
+// 	closest as domClosest
+// } from 'min-dom';
+
+const {
+	event,
+	closest
+} = require('min-dom');
 
 import {
 	toPoint
@@ -69,8 +74,8 @@ export default function MoveCanvas(eventBus: EventBus, canvas: Canvas) {
 
 
 	function handleEnd(/*event*/) {
-		domEvent.unbind(document, 'mousemove', handleMove);
-		domEvent.unbind(document, 'mouseup', handleEnd);
+		event.unbind(document, 'mousemove', handleMove);
+		event.unbind(document, 'mouseup', handleEnd);
 
 		context = null;
 
@@ -79,7 +84,7 @@ export default function MoveCanvas(eventBus: EventBus, canvas: Canvas) {
 
 	function handleStart(event: any): boolean | void {
 		// event is already handled by '.djs-draggable'
-		if (domClosest(event.target, '.djs-draggable')) {
+		if (closest(event.target, '.djs-draggable')) {
 			return;
 		}
 
@@ -93,8 +98,8 @@ export default function MoveCanvas(eventBus: EventBus, canvas: Canvas) {
 			start: toPoint(event)
 		};
 
-		domEvent.bind(document, 'mousemove', handleMove);
-		domEvent.bind(document, 'mouseup', handleEnd);
+		event.bind(document, 'mousemove', handleMove);
+		event.bind(document, 'mouseup', handleEnd);
 
 		// we've handled the event
 		return true;

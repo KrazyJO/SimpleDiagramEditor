@@ -6,12 +6,19 @@ import {
 	reduce
 } from 'min-dash';
 
-import {
-	append as svgAppend,
-	attr as svgAttr,
-	create as svgCreate,
-	remove as svgRemove
-} from 'tiny-svg';
+// import {
+// 	append as svgAppend,
+// 	attr as svgAttr,
+// 	create as svgCreate,
+// 	remove as svgRemove
+// } from 'tiny-svg';
+
+const {
+	append,
+	attr,
+	create,
+	remove
+} = require('tiny-svg');
 
 var DEFAULT_BOX_PADDING = 0;
 
@@ -164,9 +171,9 @@ function getHelperSvg() {
 	var helperSvg = document.getElementById('helper-svg');
 
 	if (!helperSvg) {
-		helperSvg = svgCreate('svg');
+		helperSvg = create('svg');
 
-		svgAttr(helperSvg, {
+		attr(helperSvg, {
 			id: 'helper-svg',
 			width: 0,
 			height: 0,
@@ -261,13 +268,13 @@ Text.prototype.layoutText = function (text: string, options: options) {
 	var maxWidth = box.width - padding.left - padding.right;
 
 	// ensure correct rendering by attaching helper text node to invisible SVG
-	var helperText = svgCreate('text');
-	svgAttr(helperText, { x: 0, y: 0 });
-	svgAttr(helperText, style);
+	var helperText = create('text');
+	attr(helperText, { x: 0, y: 0 });
+	attr(helperText, style);
 
 	var helperSvg = getHelperSvg();
 
-	svgAppend(helperSvg, helperText);
+	append(helperSvg, helperText);
 
 	while (lines.length) {
 		layouted.push(layoutNext(lines, maxWidth, helperText));
@@ -293,9 +300,9 @@ Text.prototype.layoutText = function (text: string, options: options) {
 			y = padding.top;
 	}
 
-	var textElement = svgCreate('text');
+	var textElement = create('text');
 
-	svgAttr(textElement, style);
+	attr(textElement, style);
 
 	// layout each line taking into account that parent
 	// shape might resize to fit text size
@@ -318,15 +325,15 @@ Text.prototype.layoutText = function (text: string, options: options) {
 					- line.width) / 2 + padding.left), 0);
 		}
 
-		var tspan = svgCreate('tspan');
-		svgAttr(tspan, { x: x, y: y });
+		var tspan = create('tspan');
+		attr(tspan, { x: x, y: y });
 
 		tspan.textContent = line.text;
 
-		svgAppend(textElement, tspan);
+		append(textElement, tspan);
 	});
 
-	svgRemove(helperText);
+	remove(helperText);
 
 	var dimensions = {
 		width: maxLineWidth,

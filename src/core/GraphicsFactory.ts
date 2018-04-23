@@ -10,15 +10,18 @@ import {
 
 import { translate } from '../util/SvgTransformUtil';
 
-import { clear as domClear } from 'min-dom';
+const { clear }  = require('min-dom');
 
-import {
-	append as svgAppend,
-	attr as svgAttr,
-	classes as svgClasses,
-	create as svgCreate,
-	remove as svgRemove
-} from 'tiny-svg';
+// import {
+// 	append as svgAppend,
+// 	attr as svgAttr,
+// 	classes as svgClasses,
+// 	create as svgCreate,
+// 	remove as svgRemove
+// } from 'tiny-svg';
+const {
+	append,attr,classes,create,remove
+} = require('tiny-svg');
 import EventBus from './EventBus';
 import ElementRegistry from './ElementRegistry';
 
@@ -53,10 +56,10 @@ export default class GraphicsFactory {
 		} else {
 			childrenGfx = getChildren(gfx);
 			if (!childrenGfx) {
-				childrenGfx = svgCreate('g');
-				svgClasses(childrenGfx).add('djs-children');
+				childrenGfx = create('g');
+				classes(childrenGfx).add('djs-children');
 	
-				svgAppend(gfx.parentNode, childrenGfx);
+				append(gfx.parentNode, childrenGfx);
 			}
 		}
 	
@@ -70,7 +73,7 @@ export default class GraphicsFactory {
 	private _clear(gfx : any) : any {
 		var visual = getVisual(gfx);
 	
-		domClear(visual);
+		clear(visual);
 	
 		return visual;
 	};
@@ -100,27 +103,27 @@ export default class GraphicsFactory {
 	 * @param {Number} [parentIndex] position to create container in parent
 	 */
 	private _createContainer(type : any, childrenGfx : any, parentIndex : number ) : void {
-		var outerGfx = svgCreate('g');
-		svgClasses(outerGfx).add('djs-group');
+		var outerGfx = create('g');
+		classes(outerGfx).add('djs-group');
 	
 		// insert node at position
 		if (typeof parentIndex !== 'undefined') {
 			prependTo(outerGfx, childrenGfx, childrenGfx.childNodes[parentIndex]);
 		} else {
-			svgAppend(childrenGfx, outerGfx);
+			append(childrenGfx, outerGfx);
 		}
 	
-		var gfx = svgCreate('g');
-		svgClasses(gfx).add('djs-element');
-		svgClasses(gfx).add('djs-' + type);
+		var gfx = create('g');
+		classes(gfx).add('djs-element');
+		classes(gfx).add('djs-' + type);
 	
-		svgAppend(outerGfx, gfx);
+		append(outerGfx, gfx);
 	
 		// create visual
-		var visual = svgCreate('g');
-		svgClasses(visual).add('djs-visual');
+		var visual = create('g');
+		classes(visual).add('djs-visual');
 	
-		svgAppend(gfx, visual);
+		append(gfx, visual);
 	
 		return gfx;
 	};
@@ -211,9 +214,9 @@ export default class GraphicsFactory {
 			}
 	
 		if (element.hidden) {
-			svgAttr(gfx, 'display', 'none');
+			attr(gfx, 'display', 'none');
 		} else {
-			svgAttr(gfx, 'display', 'block');
+			attr(gfx, 'display', 'block');
 		}
 	};
 	
@@ -221,7 +224,7 @@ export default class GraphicsFactory {
 		var gfx = this._elementRegistry.getGraphics(element);
 	
 		// remove
-		svgRemove(gfx.parentNode);
+		remove(gfx.parentNode);
 	};
 	
 }
