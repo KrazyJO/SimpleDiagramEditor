@@ -21,6 +21,7 @@ const {
 // import * as TinySvg from 'tiny-svg';
 // let tinySvg = require('tiny-svg');
 import EventBus from '../core/EventBus';
+import Styles from './Styles';
 
 // apply default renderer with lowest possible priority
 // so that it only kicks in if noone else could render
@@ -39,7 +40,7 @@ export default class DefaultRenderer {
 	public CONNECTION_STYLE: any;
 	public SHAPE_STYLE: any;
 
-	constructor(eventBus: EventBus, styles : any) {
+	constructor(eventBus: EventBus, styles : Styles) {
 		BaseRenderer.call(this, eventBus, DEFAULT_RENDER_PRIORITY);
 
 		this.CONNECTION_STYLE = styles.style(['no-fill'], { strokeWidth: 5, stroke: 'fuchsia' });

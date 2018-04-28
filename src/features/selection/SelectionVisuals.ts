@@ -4,6 +4,7 @@ import {
 import EventBus from '../../core/EventBus';
 import Canvas from '../../core/Canvas';
 import Selection from './Selection';
+import Styles from '../../draw/Styles';
 
 var MARKER_HOVER = 'hover',
 	MARKER_SELECTED = 'selected';
@@ -32,7 +33,7 @@ export default class SelectionVisuals {
 		'styles'
 	];
 
-	constructor(events: EventBus, canvas: Canvas, selection: Selection, styles: any) {
+	constructor(events: EventBus, canvas: Canvas, selection: Selection, styles: Styles) {
 		this._multiSelectionBox = null;
 
 		function addMarker(e: any, cls: any) {

@@ -10,6 +10,7 @@ import {
 } from 'tiny-svg';
 import ElementRegistry from '../../core/ElementRegistry';
 import Canvas from '../../core/Canvas';
+import Styles from '../../draw/Styles';
 
 
 /**
@@ -19,7 +20,7 @@ export default class PreviewSupport {
 
   private _elementRegistry : ElementRegistry;
   public _canvas : Canvas;
-  private _styles : any;
+  private _styles : Styles;
 
   public static $inject = [
 	'elementRegistry',
@@ -27,7 +28,7 @@ export default class PreviewSupport {
 	'styles'
   ];
 
-  constructor(elementRegistry : ElementRegistry, canvas : Canvas, styles : any) {
+  constructor(elementRegistry : ElementRegistry, canvas : Canvas, styles : Styles) {
     this._elementRegistry = elementRegistry;
     this._canvas = canvas;
     this._styles = styles;

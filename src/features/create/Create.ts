@@ -22,6 +22,7 @@ import Modeling from '../modeling/Modeling';
 import Canvas from '../../core/Canvas';
 import GraphicsFactory from '../../core/GraphicsFactory';
 import Dragging from '../dragging/Dragging';
+import Styles from '../../draw/Styles';
 
 
 /**
@@ -86,7 +87,7 @@ export default class Create {
 
 	constructor(
 		eventBus: EventBus, dragging: Dragging, rules: Rules, modeling: Modeling,
-		canvas: Canvas, styles: any, graphicsFactory: GraphicsFactory) {
+		canvas: Canvas, styles: Styles, graphicsFactory: GraphicsFactory) {
 
 
 		// rules
