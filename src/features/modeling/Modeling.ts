@@ -263,7 +263,7 @@ export default class Modeling {
    *
    * @return {djs.model.Shape} the created shape
    */
-  public createShape(shape : any, position : Point, target : any, parentIndex : any, hints : any)  : any{
+  public createShape(shape : any, position : Point, target : any, parentIndex? : number, hints? : any)  : any{
   
 	if (typeof parentIndex !== 'number') {
 	  hints = parentIndex;
