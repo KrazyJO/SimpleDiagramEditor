@@ -16,6 +16,9 @@ import {
 import {
 	getType
 } from '../util/Elements';
+import EventBus from './EventBus';
+import GraphicsFactory from './GraphicsFactory';
+import ElementRegistry from './ElementRegistry';
 
 // import {
 // 	append as svgAppend,
@@ -35,11 +38,11 @@ const {
 	createMatrix
 } = require('tiny-svg');
 
-function round(number : number, resolution : number) {
+function round(number: number, resolution: number) {
 	return Math.round(number * resolution) / resolution;
 }
 
-function ensurePx(number : number) : any {
+function ensurePx(number: number): any {
 	return isNumber(number) ? number + 'px' : number;
 }
 
@@ -50,7 +53,7 @@ function ensurePx(number : number) : any {
  * @param  {Object} options
  * @return {HTMLElement} the container element
  */
-function createContainer(options : any) : any {
+function createContainer(options: any): any {
 
 	options = assign({}, { width: '100%', height: '100%' }, options);
 
@@ -74,7 +77,7 @@ function createContainer(options : any) : any {
 	return parent;
 }
 
-function createGroup(parent : any, cls : any, childIndex? : any) : any {
+function createGroup(parent: any, cls: any, childIndex?: any): any {
 	var group = create('g');
 	classes(group).add(cls);
 
@@ -93,7 +96,7 @@ var REQUIRED_MODEL_ATTRS = {
 	connection: ['waypoints']
 };
 
-function setCTM(node : any, m : any) {
+function setCTM(node: any, m: any) {
 	var mstr = 'matrix(' + m.a + ',' + m.b + ',' + m.c + ',' + m.d + ',' + m.e + ',' + m.f + ')';
 	node.setAttribute('transform', mstr);
 }
@@ -116,13 +119,13 @@ interface cachedViewbox {
 };
 
 interface delta {
-	dx : number,
-	dy : number
+	dx: number,
+	dy: number
 }
 
 interface Dimensions {
-	width : number,
-	height : number
+	width: number,
+	height: number
 }
 
 interface Bounds {
@@ -133,16 +136,16 @@ interface Bounds {
 }
 class Canvas {
 
-	private _eventBus : any;
-	private _elementRegistry : any;
-	private _graphicsFactory : any;
-	private _layers : any;
-	private _cachedViewbox : cachedViewbox | null;
-	private _svg : any;
+	private _eventBus: EventBus;
+	private _elementRegistry: ElementRegistry;
+	private _graphicsFactory: GraphicsFactory;
+	private _layers: any;
+	private _cachedViewbox: cachedViewbox | null;
+	private _svg: any;
 	//since Dragging is reading _container, it is public...
-	public _container : any;
-	private _rootElement : any;
-	private _viewport : any;
+	public _container: any;
+	private _rootElement: any;
+	private _viewport: any;
 
 	static $inject = [
 		'config.canvas',
@@ -163,7 +166,7 @@ class Canvas {
 	 * @param {GraphicsFactory} graphicsFactory
 	 * @param {ElementRegistry} elementRegistry
 	 */
-	constructor(config: object, eventBus : any, graphicsFactory : any, elementRegistry : any) {
+	constructor(config: object, eventBus: EventBus, graphicsFactory: GraphicsFactory, elementRegistry: ElementRegistry) {
 		this._eventBus = eventBus;
 		this._elementRegistry = elementRegistry;
 		this._graphicsFactory = graphicsFactory;
@@ -241,7 +244,7 @@ class Canvas {
 		eventBus.on('diagram.clear', 500, this._clear, this);
 	}
 
-	private _destroy(emit : any): void {
+	private _destroy(emit: any): void {
 		this._eventBus.fire('canvas.destroy', {
 			svg: this._svg,
 			viewport: this._viewport
@@ -267,7 +270,7 @@ class Canvas {
 		var allElements = this._elementRegistry.getAll();
 
 		// remove all elements
-		allElements.forEach(function (element : any) {
+		allElements.forEach(function (element: any) {
 			var type = getType(element);
 
 			if (type === 'root') {
@@ -288,7 +291,7 @@ class Canvas {
 	 *
 	 * @returns {SVGElement}
 	 */
-	public getDefaultLayer() : any {
+	public getDefaultLayer(): any {
 		return this.getLayer(BASE_LAYER, 0);
 	};
 
@@ -307,7 +310,7 @@ class Canvas {
  *
  * @returns {SVGElement}
  */
-	public getLayer(name: string, index: number) : SVGElement {
+	public getLayer(name: string, index: number): SVGElement {
 
 		if (!name) {
 			throw new Error('must specify a name');
@@ -336,13 +339,13 @@ class Canvas {
 	 *
 	 * @return {Object} layer descriptor with { index, group: SVGGroup }
 	 */
-	private _createLayer(name: string, index: number) : object {
+	private _createLayer(name: string, index: number): object {
 
 		if (!index) {
 			index = 0;
 		}
 
-		var childIndex = reduce(this._layers, function (childIndex : number, layer : any) {
+		var childIndex = reduce(this._layers, function (childIndex: number, layer: any) {
 			if (index >= layer.index) {
 				childIndex++;
 			}
@@ -367,7 +370,7 @@ class Canvas {
 		return this._container;
 	};
 
-	private _updateMarker(element : any, marker : any, add : any) : void {
+	private _updateMarker(element: any, marker: any, add: any): void {
 		var container;
 
 		if (!element.id) {
@@ -381,7 +384,7 @@ class Canvas {
 			return;
 		}
 
-		forEach([container.gfx, container.secondaryGfx], function (gfx : any) {
+		forEach([container.gfx, container.secondaryGfx], function (gfx: any) {
 			if (gfx) {
 				// invoke either addClass or removeClass based on mode
 				if (add) {
@@ -421,7 +424,7 @@ class Canvas {
 	 * @param {String|djs.model.Base} element
 	 * @param {String} marker
 	 */
-	public addMarker(element : any, marker: string) {
+	public addMarker(element: any, marker: string) {
 		this._updateMarker(element, marker, true);
 	};
 
@@ -434,7 +437,7 @@ class Canvas {
  * @param  {String|djs.model.Base} element
  * @param  {String} marker
  */
-	public removeMarker(element : any, marker: string) {
+	public removeMarker(element: any, marker: string) {
 		this._updateMarker(element, marker, false);
 	}
 
@@ -444,7 +447,7 @@ class Canvas {
 	 * @param  {String|djs.model.Base} element
 	 * @param  {String} marker
 	 */
-	public hasMarker(element : any, marker: string) {
+	public hasMarker(element: any, marker: string) {
 		if (!element.id) {
 			element = this._elementRegistry.get(element);
 		}
@@ -463,7 +466,7 @@ class Canvas {
 	 * @param  {String|djs.model.Base} element
 	 * @param  {String} marker
 	 */
-	public toggleMarker(element : any, marker: string): void {
+	public toggleMarker(element: any, marker: string): void {
 		if (this.hasMarker(element, marker)) {
 			this.removeMarker(element, marker);
 		} else {
@@ -492,7 +495,7 @@ class Canvas {
 	 *
 	 * @return {Object|djs.model.Root} new root element
 	 */
-	public setRootElement(element : any, override?: boolean) {
+	public setRootElement(element: any, override?: boolean) {
 
 		if (element) {
 			this._ensureValid('root', element);
@@ -534,7 +537,7 @@ class Canvas {
 
 	// add functionality //////////////////////
 
-	private _ensureValid(type : any, element : any) : any {
+	private _ensureValid(type: any, element: any): any {
 		if (!element.id) {
 			throw new Error('element must have an id');
 		}
@@ -545,7 +548,7 @@ class Canvas {
 
 		var requiredAttrs = REQUIRED_MODEL_ATTRS[type];
 
-		var valid = every(requiredAttrs, function (attr : string) {
+		var valid = every(requiredAttrs, function (attr: string) {
 			return typeof element[attr] !== 'undefined';
 		});
 
@@ -555,7 +558,7 @@ class Canvas {
 		}
 	}
 
-	private _setParent(element : any, parent : any, parentIndex : any) : void {
+	private _setParent(element: any, parent: any, parentIndex: any): void {
 		collectionAdd(parent.children, element, parentIndex);
 		element.parent = parent;
 	}
@@ -580,7 +583,7 @@ class Canvas {
 	 *
 	 * @return {Object|djs.model.Base} the added element
 	 */
-	private _addElement(type : string, element : any, parent : any, parentIndex : number) : any {
+	private _addElement(type: string, element: any, parent: any, parentIndex: number): any {
 
 		parent = parent || this.getRootElement();
 
@@ -615,7 +618,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Shape} the added shape
 	 */
-	public addShape(shape : any, parent : any, parentIndex? : number) : any {
+	public addShape(shape: any, parent: any, parentIndex?: number): any {
 		return this._addElement('shape', shape, parent, parentIndex);
 	}
 
@@ -628,7 +631,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Connection} the added connection
 	 */
-	public addConnection(connection : any, parent : any, parentIndex? : number) : any {
+	public addConnection(connection: any, parent: any, parentIndex?: number): any {
 		return this._addElement('connection', connection, parent, parentIndex);
 	}
 
@@ -636,7 +639,7 @@ class Canvas {
 	/**
 	 * Internal remove element
 	 */
-	private _removeElement(element : any, type : string) : any{
+	private _removeElement(element: any, type: string): any {
 
 		var elementRegistry = this._elementRegistry,
 			graphicsFactory = this._graphicsFactory,
@@ -672,7 +675,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Shape} the removed shape
 	 */
-	public removeShape(shape : any) : any {
+	public removeShape(shape: any): any {
 
 		/**
 		 * An event indicating that a shape is about to be removed from the canvas.
@@ -706,7 +709,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Connection} the removed connection
 	 */
-	public removeConnection(connection : any) {
+	public removeConnection(connection: any) {
 
 		/**
 		 * An event indicating that a connection is about to be removed from the canvas.
@@ -741,7 +744,7 @@ class Canvas {
 	 *
 	 * @return {SVGElement}
 	 */
-	public getGraphics(element : any, secondary? : boolean) {
+	public getGraphics(element: any, secondary?: boolean) {
 		return this._elementRegistry.getGraphics(element, secondary);
 	}
 
@@ -751,7 +754,7 @@ class Canvas {
 	 *
 	 * @param {Function} changeFn
 	 */
-	private _changeViewbox(changeFn : Function) {
+	private _changeViewbox(changeFn: Function) {
 
 		// notify others of the upcoming viewbox change
 		this._eventBus.fire('canvas.viewbox.changing');
@@ -769,7 +772,7 @@ class Canvas {
 		this._viewboxChanged();
 	}
 
-	private _viewboxChanged() : void {
+	private _viewboxChanged(): void {
 		this._eventBus.fire('canvas.viewbox.changed', { viewbox: this.viewbox() });
 	}
 
@@ -819,7 +822,7 @@ class Canvas {
 	 *
 	 * @return {Object} the current view box
 	 */
-	public viewbox(box? : cachedViewbox) : cachedViewbox {
+	public viewbox(box?: cachedViewbox): cachedViewbox {
 
 		if (box === undefined && this._cachedViewbox) {
 			return this._cachedViewbox;
@@ -887,7 +890,7 @@ class Canvas {
 	 * @param {Number} [delta.dx]
 	 * @param {Number} [delta.dy]
 	 */
-	public scroll(delta : delta) : object {
+	public scroll(delta: delta): object {
 
 		var node = this._viewport;
 		var matrix = node.getCTM();
@@ -919,7 +922,7 @@ class Canvas {
 	 *
 	 * @return {Number} the current scale
 	 */
-	public zoom(newScale? : any, center? : any) : number {
+	public zoom(newScale?: any, center?: any): number {
 
 		if (!newScale) {
 			return this.viewbox(newScale).scale;
@@ -929,8 +932,8 @@ class Canvas {
 			return this._fitViewport(center);
 		}
 
-		var outer : any,
-			matrix : any;
+		var outer: any,
+			matrix: any;
 
 		this._changeViewbox(function () {
 
@@ -946,9 +949,9 @@ class Canvas {
 			matrix = this._setZoom(newScale, center);
 		}.bind(this));
 		return round(matrix.a, 1000);
-	}; 
+	};
 
-	private _fitViewport(center : any) {
+	private _fitViewport(center: any) {
 
 		var vbox = this.viewbox(),
 			outer = vbox.outer,
@@ -993,7 +996,7 @@ class Canvas {
 
 
 	//yes, it it used... somewhere over the rainbow... maybe by the seven dwarfts...
-	_setZoom(scale : any, center : any) : any{
+	_setZoom(scale: any, center: any): any {
 
 		var svg = this._svg,
 			viewport = this._viewport;
@@ -1040,7 +1043,7 @@ class Canvas {
 	 * @return {Dimensions}
 	 */
 	//just to test
-	public getSize() : Dimensions {
+	public getSize(): Dimensions {
 		return {
 			width: this._container.clientWidth,
 			height: this._container.clientHeight
@@ -1058,7 +1061,7 @@ class Canvas {
 	 * @param  {ElementDescriptor} element
 	 * @return {Bounds} the absolute bounding box
 	 */
-	public getAbsoluteBBox(element : any) : Bounds {
+	public getAbsoluteBBox(element: any): Bounds {
 		var vbox = this.viewbox();
 		var bbox;
 

@@ -12,7 +12,7 @@ export default class ElementRegistry {
 	
 	static $inject = ['eventBus'];
 	
-	private  _elements: object;
+	public  _elements: object;
 	private _eventBus: any;
 
 	constructor(eventBus: any) {
@@ -29,7 +29,7 @@ export default class ElementRegistry {
 	 * @param {SVGElement} gfx
 	 * @param {SVGElement} [secondaryGfx] optional other element to register, too
 	 */
-	public add(element : any, gfx : any, secondaryGfx : any) : void {
+	public add(element : any, gfx : any, secondaryGfx? : any) : void {
 
 		var id = element.id;
 

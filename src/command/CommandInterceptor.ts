@@ -47,7 +47,7 @@ class CommandInterceptor {
 	private _eventBus : EventBus;
 
 
-	constructor(eventBus: any) {
+	constructor(eventBus: EventBus) {
 		this._eventBus = eventBus;
 	}
 	
