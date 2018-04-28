@@ -1,23 +1,24 @@
-export default function UpdateWaypointsHandler() { }
+export default class UpdateWaypointsHandler {
+	public execute(context: any) {
 
-UpdateWaypointsHandler.prototype.execute = function(context) {
+		var connection = context.connection,
+			newWaypoints = context.newWaypoints;
 
-  var connection = context.connection,
-      newWaypoints = context.newWaypoints;
+		context.oldWaypoints = connection.waypoints;
 
-  context.oldWaypoints = connection.waypoints;
+		connection.waypoints = newWaypoints;
 
-  connection.waypoints = newWaypoints;
+		return connection;
+	};
 
-  return connection;
-};
+	public revert(context: any) {
 
-UpdateWaypointsHandler.prototype.revert = function(context) {
+		var connection = context.connection,
+			oldWaypoints = context.oldWaypoints;
 
-  var connection = context.connection,
-      oldWaypoints = context.oldWaypoints;
+		connection.waypoints = oldWaypoints;
 
-  connection.waypoints = oldWaypoints;
+		return connection;
+	};
+}
 
-  return connection;
-};
