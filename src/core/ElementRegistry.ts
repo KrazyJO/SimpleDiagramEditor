@@ -1,3 +1,5 @@
+import EventBus from "./EventBus";
+
 var ELEMENT_ID = 'data-element-id';
 
 const { attr } = require('tiny-svg');
@@ -13,9 +15,9 @@ export default class ElementRegistry {
 	static $inject = ['eventBus'];
 	
 	public  _elements: object;
-	private _eventBus: any;
+	private _eventBus: EventBus;
 
-	constructor(eventBus: any) {
+	constructor(eventBus: EventBus) {
 		this._elements = {};
 
 		this._eventBus = eventBus;

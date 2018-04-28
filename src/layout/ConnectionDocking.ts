@@ -1,3 +1,5 @@
+import { Shape, Connection } from "../model";
+
 /**
  * @memberOf djs.layout
  */
@@ -51,7 +53,7 @@ export default class ConnectionDocking {
 	 *
 	 * @return {DockingPointDescriptor}
 	 */
-	public getDockingPoint(connection: any, shape: any, dockStart: any): any {
+	public getDockingPoint(connection: any, shape: Shape, dockStart: any): any {
 
 		var waypoints = connection.waypoints,
 			dockingIdx,

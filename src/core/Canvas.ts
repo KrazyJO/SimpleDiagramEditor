@@ -19,6 +19,7 @@ import {
 import EventBus from './EventBus';
 import GraphicsFactory from './GraphicsFactory';
 import ElementRegistry from './ElementRegistry';
+import { Shape, Connection, Base } from '../model';
 
 // import {
 // 	append as svgAppend,
@@ -424,7 +425,7 @@ class Canvas {
 	 * @param {String|djs.model.Base} element
 	 * @param {String} marker
 	 */
-	public addMarker(element: any, marker: string) {
+	public addMarker(element: Base, marker: string) {
 		this._updateMarker(element, marker, true);
 	};
 
@@ -437,7 +438,7 @@ class Canvas {
  * @param  {String|djs.model.Base} element
  * @param  {String} marker
  */
-	public removeMarker(element: any, marker: string) {
+	public removeMarker(element: Base, marker: string) {
 		this._updateMarker(element, marker, false);
 	}
 
@@ -558,7 +559,7 @@ class Canvas {
 		}
 	}
 
-	private _setParent(element: any, parent: any, parentIndex: any): void {
+	private _setParent(element: Base, parent: Shape, parentIndex: any): void {
 		collectionAdd(parent.children, element, parentIndex);
 		element.parent = parent;
 	}
@@ -583,7 +584,7 @@ class Canvas {
 	 *
 	 * @return {Object|djs.model.Base} the added element
 	 */
-	private _addElement(type: string, element: any, parent: any, parentIndex: number): any {
+	private _addElement(type: string, element: Base, parent: Shape, parentIndex: number): any {
 
 		parent = parent || this.getRootElement();
 
@@ -618,7 +619,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Shape} the added shape
 	 */
-	public addShape(shape: any, parent: any, parentIndex?: number): any {
+	public addShape(shape: Shape, parent: Shape, parentIndex?: number): Shape {
 		return this._addElement('shape', shape, parent, parentIndex);
 	}
 
@@ -631,7 +632,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Connection} the added connection
 	 */
-	public addConnection(connection: any, parent: any, parentIndex?: number): any {
+	public addConnection(connection: Connection, parent: Shape, parentIndex?: number): any {
 		return this._addElement('connection', connection, parent, parentIndex);
 	}
 
@@ -675,7 +676,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Shape} the removed shape
 	 */
-	public removeShape(shape: any): any {
+	public removeShape(shape: Shape): Shape {
 
 		/**
 		 * An event indicating that a shape is about to be removed from the canvas.
@@ -709,7 +710,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Connection} the removed connection
 	 */
-	public removeConnection(connection: any) {
+	public removeConnection(connection: Connection) {
 
 		/**
 		 * An event indicating that a connection is about to be removed from the canvas.
@@ -744,7 +745,7 @@ class Canvas {
 	 *
 	 * @return {SVGElement}
 	 */
-	public getGraphics(element: any, secondary?: boolean) {
+	public getGraphics(element: Base, secondary?: boolean) {
 		return this._elementRegistry.getGraphics(element, secondary);
 	}
 

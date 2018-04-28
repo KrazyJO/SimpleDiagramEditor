@@ -3,6 +3,7 @@ import {
   forEach,
   sortBy
 } from 'min-dash';
+import Modeling from '../modeling/Modeling';
 
 function last(arr: any[]): any {
   return arr && arr[arr.length - 1];
@@ -39,11 +40,11 @@ var ALIGNMENT_SORTING = {
 
 export default class AlignElements {
 
-  private _modeling: any;
+  private _modeling: Modeling;
 
   public static $inject = ['modeling'];
 
-  constructor(modeling: any) {
+  constructor(modeling: Modeling) {
     this._modeling = modeling;
   }
 

@@ -20,6 +20,7 @@ import EventBus from '../../core/EventBus';
 import ElementRegistry from '../../core/ElementRegistry';
 import Rules from '../rules/Rules';
 import { Bounds } from '../../interfaces';
+import Modeling from '../modeling/Modeling';
 
 
 /**
@@ -41,11 +42,11 @@ export default class AutoResize extends CommandInterceptor {
 	];
 
 	private _elementRegistry: ElementRegistry;
-	public _modeling: any;
+	public _modeling: Modeling;
 	private _rules: Rules;
 	public postExecuted: any;
 
-	constructor(eventBus: EventBus, elementRegistry: ElementRegistry, modeling: any, rules: Rules) {
+	constructor(eventBus: EventBus, elementRegistry: ElementRegistry, modeling: Modeling, rules: Rules) {
 		super(eventBus);
 		// CommandInterceptor.call(this, eventBus);
 
