@@ -25,6 +25,12 @@ var parentRefs: any = new Refs({ name: 'children', enumerable: true, collection:
  */
 export class Base {
 
+	public incoming : any;
+	public outgoing : any;
+	public label : any;
+	public parent : any;
+	public businessObject : any;
+
 	constructor() {
 		/**
 		 * The object that backs up the shape
@@ -66,7 +72,6 @@ export class Base {
 		 */
 		incomingRefs.bind(this, 'incoming');
 	}
-
 }
 
 
@@ -79,6 +84,11 @@ export class Base {
  * @extends Base
  */
 export class Shape extends Base {
+
+	public children : any;
+	public host : any;
+	public attachers : any;
+
 	constructor() {
 		super();
 		// Base.call(this);
@@ -134,6 +144,8 @@ export class Root extends Shape {
  */
 export class Label extends Shape {
 
+	public labelTarget : any;
+
 	constructor() {
 		super();
 
@@ -158,6 +170,9 @@ export class Label extends Shape {
  * @extends Base
  */
 export class Connection extends Base {
+
+	public source : any;
+	public target : any;
 
 	constructor() {
 

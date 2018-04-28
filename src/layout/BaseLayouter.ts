@@ -1,6 +1,7 @@
 import {
 	getMid
 } from './LayoutUtil';
+import { Connection } from '../model';
 
 
 /**
@@ -22,7 +23,7 @@ export default class BaseLayouter {
 	 *
 	 * @return {Array<Point>} the layouted connection waypoints
 	 */
-	public layoutConnection(connection : any, hints : any) {
+	public layoutConnection(connection : Connection, hints : any) {
 
 		hints = hints || {};
 
