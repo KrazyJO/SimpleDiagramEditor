@@ -2,6 +2,7 @@ import {
 	forEach
 } from 'min-dash';
 import EventBus from '../../core/EventBus';
+import Dragging from '../dragging/Dragging';
 
 var LOW_PRIORITY = 250;
 
