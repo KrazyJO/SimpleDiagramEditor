@@ -1,14 +1,17 @@
 import {
-  closest as domClosest
+	closest as domClosest
 } from 'min-dom';
 
 import {
-  toPoint
+	toPoint
 } from '../../util/Event';
+import EventBus from '../../core/EventBus';
+import Dragging from './Dragging';
+import ElementRegistry from '../../core/ElementRegistry';
 
-function getGfx(target) {
-  var node = domClosest(target, 'svg, .djs-element', true);
-  return node;
+function getGfx(target: any) {
+	var node = domClosest(target, 'svg, .djs-element', true);
+	return node;
 }
 
 
@@ -25,69 +28,76 @@ function getGfx(target) {
  * @param {Dragging} dragging
  * @param {ElementRegistry} elementRegistry
  */
-export default function HoverFix(eventBus, dragging, elementRegistry) {
+export default class HoverFix {
 
-  var self = this;
+	public static $inject = [
+		'eventBus',
+		'dragging',
+		'elementRegistry'
+	];
 
-  // we wait for a specific sequence of events before
-  // emitting a fake drag.hover event.
-  //
-  // Event Sequence:
-  //
-  // drag.start
-  // drag.move
-  // drag.move >> ensure we are hovering
-  //
-  eventBus.on('drag.start', function(event) {
+	public ensureHover: Function;
 
-    eventBus.once('drag.move', function() {
+	constructor(eventBus: EventBus, dragging: Dragging, elementRegistry: ElementRegistry) {
+		var self = this;
 
-      eventBus.once('drag.move', function(event) {
+		// we wait for a specific sequence of events before
+		// emitting a fake drag.hover event.
+		//
+		// Event Sequence:
+		//
+		// drag.start
+		// drag.move
+		// drag.move >> ensure we are hovering
+		//
+		eventBus.on('drag.start', function (event: any) {
 
-        self.ensureHover(event);
-      });
-    });
-  });
+			eventBus.once('drag.move', function () {
 
-  /**
-   * Make sure we are god damn hovering!
-   *
-   * @param {Event} dragging event
-   */
-  this.ensureHover = function(event) {
+				eventBus.once('drag.move', function (event: any) {
 
-    if (event.hover) {
-      return;
-    }
+					self.ensureHover(event);
+				});
+			});
+		});
 
-    var originalEvent = event.originalEvent,
-        position,
-        target,
-        element,
-        gfx;
 
-    if (!(originalEvent instanceof MouseEvent)) {
-      return;
-    }
 
-    position = toPoint(originalEvent);
 
-    // damn expensive operation, ouch!
-    target = document.elementFromPoint(position.x, position.y);
+		/**
+		 * Make sure we are god damn hovering!
+		 *
+		 * @param {Event} dragging event
+		 */
+		this.ensureHover = function (event: any) {
 
-    gfx = getGfx(target);
+			if (event.hover) {
+				return;
+			}
 
-    if (gfx) {
-      element = elementRegistry.get(gfx);
+			var originalEvent = event.originalEvent,
+				position,
+				target,
+				element,
+				gfx: any;
 
-      dragging.hover({ element: element, gfx: gfx });
-    }
-  };
+			if (!(originalEvent instanceof MouseEvent)) {
+				return;
+			}
+
+			position = toPoint(originalEvent);
+
+			// damn expensive operation, ouch!
+			target = document.elementFromPoint(position.x, position.y);
+
+			gfx = getGfx(target);
+
+			if (gfx) {
+				element = elementRegistry.get(gfx);
+
+				dragging.hover({ element: element, gfx: gfx });
+			}
+		};
+	}
 
 }
-
-HoverFix.$inject = [
-  'eventBus',
-  'dragging',
-  'elementRegistry'
-];
