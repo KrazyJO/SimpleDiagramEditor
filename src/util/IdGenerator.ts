@@ -9,19 +9,26 @@
  *
  * @param {String} prefix a prefix to prepend to generated ids (for better readability)
  */
-export default function IdGenerator(prefix: string) {
+export default class IdGenerator {
 
-	this._counter = 0;
-	this._prefix = (prefix ? prefix + '-' : '') + Math.floor(Math.random() * 1000000000) + '-';
+	private _counter : number;
+	private _prefix : string;
+
+	constructor(prefix: string) {
+		this._counter = 0;
+		this._prefix = (prefix ? prefix + '-' : '') + Math.floor(Math.random() * 1000000000) + '-';
+	}
+
+	/**
+	 * Returns a next unique ID.
+	*
+	* @method djs.util.IdGenerator#next
+	*
+	* @returns {String} the id
+	*/
+	next(): string {
+		return this._prefix + (++this._counter);
+	};
+
 }
 
-/**
- * Returns a next unique ID.
- *
- * @method djs.util.IdGenerator#next
- *
- * @returns {String} the id
- */
-IdGenerator.prototype.next = function (): string {
-	return this._prefix + (++this._counter);
-};
