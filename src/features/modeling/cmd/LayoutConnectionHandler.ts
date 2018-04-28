@@ -11,7 +11,7 @@ export default class LayoutConnectionHandler {
 	public static $inject = ['layouter', 'canvas'];
 
 	private _layouter: BaseLayouter;
-	private _canvas: Canvas;
+	public _canvas: Canvas;
 
 	constructor(layouter: BaseLayouter, canvas: Canvas) {
 		this._layouter = layouter;
