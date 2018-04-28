@@ -191,7 +191,7 @@ export default class ContextPad {
 		forEach(entries, function (entry: any, id: any) {
 			var grouping = entry.group || 'default',
 				control = domify(entry.html || '<div class="entry" draggable="true"></div>'),
-				container;
+				container : any;
 
 			domAttr(control, 'data-action', id);
 

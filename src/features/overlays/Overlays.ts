@@ -423,7 +423,7 @@ export default class Overlays {
 		var container = {
 			html: html,
 			element: element,
-			overlays  : [] 
+			overlays  : <any>[] 
 		};
 
 		this._updateOverlayContainer(container);
@@ -452,7 +452,7 @@ export default class Overlays {
 	};
 
 
-	public _getOverlayContainer(element : any, raw? : any) {
+	public _getOverlayContainer(element : any, raw? : any) : any{
 		var container = find(this._overlayContainers, function (c : any) {
 			return c.element === element;
 		});
@@ -643,7 +643,7 @@ export default class Overlays {
 		eventBus.on('element.marker.update', function (e : any) {
 			var container = self._getOverlayContainer(e.element, true);
 			if (container) {
-				domClasses(container.html)[e.add ? 'add' : 'remove'](e.marker);
+				domClasses(<Element>container.html)[e.add ? 'add' : 'remove'](<string>e.marker);
 			}
 		});
 
