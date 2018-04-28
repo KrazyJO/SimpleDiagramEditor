@@ -139,7 +139,8 @@ class Canvas {
 	private _layers : any;
 	private _cachedViewbox : cachedViewbox | null;
 	private _svg : any;
-	private _container : any;
+	//since Dragging is reading _container, it is public...
+	public _container : any;
 	private _rootElement : any;
 	private _viewport : any;
 

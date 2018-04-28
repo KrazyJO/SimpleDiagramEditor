@@ -12,7 +12,7 @@ export function getOriginal(event: any): any {
 }
 
 
-export function stopPropagation(event: any, immediate: boolean) {
+export function stopPropagation(event: any, immediate?: boolean) {
 	__stopPropagation(event, immediate);
 	__stopPropagation(getOriginal(event), immediate);
 }
