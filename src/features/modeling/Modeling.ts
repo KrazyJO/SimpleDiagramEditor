@@ -109,7 +109,7 @@ export default class Modeling {
   
   // modeling helpers //////////////////////
   
-  public moveShape(shape : any, delta : any, newParent : any, newParentIndex : any, hints : any) {
+  public moveShape(shape : any, delta : any, newParent : any, newParentIndex : any, hints? : any) {
   
 	if (typeof newParentIndex === 'object') {
 	  hints = newParentIndex;
@@ -184,7 +184,7 @@ export default class Modeling {
   };
   
   
-  public moveConnection(connection : any, delta : Point, newParent : any, newParentIndex : any, hints : hints) : void{
+  public moveConnection(connection : any, delta : Point, newParent : any, newParentIndex? : any, hints? : hints) : void{
   
 	if (typeof newParentIndex === 'object') {
 	  hints = newParentIndex;
@@ -203,7 +203,7 @@ export default class Modeling {
   };
   
   
-  public layoutConnection(connection : any, hints : hints) : void{
+  public layoutConnection(connection : any, hints : any) : void{
 	var context = {
 	  connection: connection,
 	  hints: hints || {}
