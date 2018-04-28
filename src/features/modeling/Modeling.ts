@@ -154,7 +154,7 @@ export default class Modeling {
    * @param {Object} [hints]
    * @param {Boolean} [hints.attach=false]
    */
-  public moveElements(shapes : any, delta : Point, target : any, hints : any) {
+  public moveElements(shapes : any, delta : Point, target : any, hints? : any) {
   
 	hints = hints || {};
   
