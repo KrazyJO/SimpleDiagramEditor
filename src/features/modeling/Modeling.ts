@@ -42,7 +42,7 @@ export default class Modeling {
 
   public $inject = [ 'eventBus', 'elementFactory', 'commandStack' ];
 
-  private _eventBus : EventBus;
+  public _eventBus : EventBus;
   private _elementFactory : ElementFactory;
   private _commandStack : CommandStack;
 
@@ -424,7 +424,7 @@ export default class Modeling {
 	this._commandStack.execute('elements.align', context);
   };
   
-  public resizeShape(shape : any, newBounds : Bounds, minBounds : Bounds) {
+  public resizeShape(shape : any, newBounds : Bounds, minBounds? : Bounds) {
 	var context = {
 	  shape: shape,
 	  newBounds: newBounds,
