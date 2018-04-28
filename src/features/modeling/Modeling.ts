@@ -109,7 +109,7 @@ export default class Modeling {
   
   // modeling helpers //////////////////////
   
-  public moveShape(shape : any, delta : any, newParent : any, newParentIndex : any, hints? : any) {
+  public moveShape(shape : any, delta : any, newParent : any, newParentIndex? : any, hints? : any) {
   
 	if (typeof newParentIndex === 'object') {
 	  hints = newParentIndex;
@@ -225,7 +225,7 @@ export default class Modeling {
    *
    * @return {djs.model.Connection} the created connection.
    */
-  public createConnection(source : any, target : any, parentIndex : number, connection : any, parent : any, hints? : hints) : any {
+  public createConnection(source : any, target : any, parentIndex : number, connection : any, parent? : any, hints? : hints) : any {
   
 	if (typeof parentIndex === 'object') {
 	  hints = parent;
