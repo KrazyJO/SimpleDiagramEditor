@@ -184,7 +184,7 @@ export default class ZoomScroll {
 	 * @param {number} delta - Zoom delta (1 for zooming in, -1 for out).
 	 * @param {Object} position - Zoom position.
 	 */
-	public stepZoom(delta: number, position: any) : void {
+	public stepZoom(delta: number, position?: any) : void {
 
 		var stepSize = getStepSize(RANGE, NUM_STEPS);
 
