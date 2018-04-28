@@ -7,7 +7,7 @@ import Canvas from '../../../core/Canvas';
  */
 export default class AlignElements {
 	private _modeling: any;
-	private _canvas: Canvas;
+	public _canvas: Canvas;
 
 	public static $inject = ['modeling', 'canvas'];
 
