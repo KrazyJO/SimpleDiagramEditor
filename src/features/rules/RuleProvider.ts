@@ -1,14 +1,6 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 import CommandInterceptor from '../../command/CommandInterceptor';
+import EventBus from '../../core/EventBus';
+
 /**
  * A basic provider that may be extended to implement modeling rules.
  *
@@ -17,15 +9,19 @@ import CommandInterceptor from '../../command/CommandInterceptor';
  *
  * @param {EventBus} eventBus
  */
-var RuleProvider = /** @class */ (function (_super) {
-    __extends(RuleProvider, _super);
-    function RuleProvider(eventBus) {
-        var _this = _super.call(this, eventBus) || this;
-        CommandInterceptor.call(_this, eventBus);
-        _this.init();
-        return _this;
-    }
-    /**
+export default class RuleProvider extends CommandInterceptor {
+	
+	public static $inject = ['eventBus'];
+	public canExecute : any;
+	
+	constructor(eventBus: EventBus) {
+		super(eventBus);
+		CommandInterceptor.call(this, eventBus);
+
+		this.init();
+	}
+
+	/**
    * Adds a modeling rule for the given action, implemented through
    * a callback function.
    *
@@ -69,26 +65,27 @@ var RuleProvider = /** @class */ (function (_super) {
    * @param {Number} [priority] the priority at which this rule is being applied
    * @param {Function} fn the callback function that performs the actual check
    */
-    RuleProvider.prototype.addRule = function (actions, priority, fn) {
-        var self = this;
-        if (typeof actions === 'string') {
-            actions = [actions];
-        }
-        actions.forEach(function (action) {
-            self.canExecute(action, priority, function (context, action, event) {
-                return fn(context);
-            }, true);
-        });
-    };
-    /**
-     * Implement this method to add new rules during provider initialization.
-     */
-    RuleProvider.prototype.init = function () {
-    };
-    ;
-    RuleProvider.$inject = ['eventBus'];
-    return RuleProvider;
-}(CommandInterceptor));
-export default RuleProvider;
-;
-//# sourceMappingURL=RuleProvider.js.map
+	public addRule(actions: string | string[], priority: number, fn: Function) : void {
+
+		var self = this;
+
+		if (typeof actions === 'string') {
+			actions = [actions];
+		}
+
+		actions.forEach(function (action) {
+
+			self.canExecute(action, priority, function (context: any, action: any, event: any) {
+				return fn(context);
+			}, true);
+		});
+	}
+
+	/**
+	 * Implement this method to add new rules during provider initialization.
+	 */
+	public init() {
+
+	};
+
+};
