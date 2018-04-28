@@ -21,6 +21,7 @@ import EventBus from '../../core/EventBus';
 import Modeling from '../modeling/Modeling';
 import Canvas from '../../core/Canvas';
 import GraphicsFactory from '../../core/GraphicsFactory';
+import Dragging from '../dragging/Dragging';
 
 
 /**
@@ -84,7 +85,7 @@ export default class Create {
 	];
 
 	constructor(
-		eventBus: EventBus, dragging: any, rules: Rules, modeling: Modeling,
+		eventBus: EventBus, dragging: Dragging, rules: Rules, modeling: Modeling,
 		canvas: Canvas, styles: any, graphicsFactory: GraphicsFactory) {
 
 

@@ -21,6 +21,7 @@ import Rules from '../rules/Rules';
 import Canvas from '../../core/Canvas';
 import GraphicsFactory from '../../core/GraphicsFactory';
 import { Point } from '../../interfaces';
+import Dragging from '../dragging/Dragging';
 
 
 export default class Connect {
@@ -36,7 +37,7 @@ export default class Connect {
 		'graphicsFactory'
 	];
 
-	constructor(eventBus: EventBus, dragging: any, modeling: Modeling,
+	constructor(eventBus: EventBus, dragging: Dragging, modeling: Modeling,
 		rules: Rules, canvas: Canvas, graphicsFactory: GraphicsFactory) {
 		// TODO(nre): separate UI and events
 

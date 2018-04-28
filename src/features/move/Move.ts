@@ -14,6 +14,7 @@ import EventBus from '../../core/EventBus';
 import Modeling from '../modeling/Modeling';
 import Rules from '../rules/Rules';
 import Selection from '../selection/Selection';
+import Dragging from '../dragging/Dragging';
 
 var round = Math.round;
 
@@ -45,7 +46,7 @@ export default class MoveEvents {
 	];
 
 	constructor(
-		eventBus: EventBus, dragging: any, modeling: Modeling,
+		eventBus: EventBus, dragging: Dragging, modeling: Modeling,
 		selection: Selection, rules: Rules) {
 		// rules
 

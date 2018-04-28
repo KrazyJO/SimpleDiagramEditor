@@ -23,7 +23,7 @@ export default class ToolManager {
 
 	public static $inject = ['eventBus', 'dragging'];
 
-	constructor(eventBus: EventBus, dragging: any) {
+	constructor(eventBus: EventBus, dragging: Dragging) {
 		this._eventBus = eventBus;
 		this._dragging = dragging;
 

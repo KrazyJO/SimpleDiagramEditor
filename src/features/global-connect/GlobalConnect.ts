@@ -1,6 +1,8 @@
 import EventBus from "../../core/EventBus";
 import Connect from "../connect/Connect";
 import Canvas from "../../core/Canvas";
+import Dragging from "../dragging/Dragging";
+import ToolManager from "../tool-manager/ToolManager";
 
 var MARKER_OK = 'connect-ok',
 	MARKER_NOT_OK = 'connect-not-ok';
@@ -8,7 +10,7 @@ var MARKER_OK = 'connect-ok',
 
 export default class GlobalConnect {
 
-	private _dragging: any;
+	private _dragging: Dragging;
 	private _provider: any;
 
 	public static $inject = [
@@ -19,8 +21,8 @@ export default class GlobalConnect {
 		'toolManager'
 	];
 
-	constructor(eventBus: EventBus, dragging: any, connect: Connect,
-		canvas: Canvas, toolManager: any) {
+	constructor(eventBus: EventBus, dragging: Dragging, connect: Connect,
+		canvas: Canvas, toolManager: ToolManager) {
 		var self = this;
 
 		this._dragging = dragging;
