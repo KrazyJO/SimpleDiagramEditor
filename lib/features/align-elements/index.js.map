@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/features/align-elements/index.js"],"names":[],"mappings":"AAAA,OAAO,aAAa,MAAM,iBAAiB,CAAC;AAE5C,eAAe;IACb,QAAQ,EAAE,CAAE,eAAe,CAAE;IAC7B,aAAa,EAAE,CAAE,MAAM,EAAE,aAAa,CAAE;CACzC,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/features/align-elements/index.ts"],"names":[],"mappings":"AAAA,OAAO,aAAa,MAAM,iBAAiB,CAAC;AAE5C,eAAe;IACb,QAAQ,EAAE,CAAE,eAAe,CAAE;IAC7B,aAAa,EAAE,CAAE,MAAM,EAAE,aAAa,CAAE;CACzC,CAAC"}
