@@ -12,11 +12,16 @@
  *
  * @param {Injector} injector
  */
-var Rules = /** @class */ (function () {
-    function Rules(injector) {
-        this._commandStack = injector.get('commandStack', false);
-    }
-    /**
+export default class Rules {
+
+	private _commandStack: any;
+	public static $inject = ['injector'];
+
+	constructor(injector: any) {
+		this._commandStack = injector.get('commandStack', false);
+	}
+
+	/**
    * Returns whether or not a given modeling action can be executed
    * in the specified context.
    *
@@ -29,18 +34,17 @@ var Rules = /** @class */ (function () {
    * @return {Boolean} returns true, false or null depending on whether the
    *                   operation is allowed, not allowed or should be ignored.
    */
-    Rules.prototype.allowed = function (action, context) {
-        var allowed = true;
-        var commandStack = this._commandStack;
-        if (commandStack) {
-            allowed = commandStack.canExecute(action, context);
-        }
-        // map undefined to true, i.e. no rules
-        return allowed === undefined ? true : allowed;
-    };
-    ;
-    Rules.$inject = ['injector'];
-    return Rules;
-}());
-export default Rules;
-//# sourceMappingURL=Rules.js.map
+	public allowed(action: any, context: any): boolean {
+		var allowed = true;
+
+		var commandStack = this._commandStack;
+
+		if (commandStack) {
+			allowed = commandStack.canExecute(action, context);
+		}
+
+		// map undefined to true, i.e. no rules
+		return allowed === undefined ? true : allowed;
+	};
+
+}
