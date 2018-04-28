@@ -374,7 +374,7 @@ export default class Modeling {
   };
   
   
-  public removeShape(shape : any, hints : any) : void {
+  public removeShape(shape : any, hints? : any) : void {
 	var context = {
 	  shape: shape,
 	  hints: hints || {}
@@ -499,6 +499,3 @@ export default class Modeling {
 
   
 }
-
-
-
