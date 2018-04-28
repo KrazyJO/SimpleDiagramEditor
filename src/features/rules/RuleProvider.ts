@@ -65,7 +65,7 @@ export default class RuleProvider extends CommandInterceptor {
    * @param {Number} [priority] the priority at which this rule is being applied
    * @param {Function} fn the callback function that performs the actual check
    */
-	public addRule(actions: string | string[], priority: number, fn: Function) : void {
+	public addRule(actions: string | string[], priority: any, fn?: Function) : void {
 
 		var self = this;
 

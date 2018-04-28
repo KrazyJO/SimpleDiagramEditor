@@ -1,17 +1,15 @@
 import RuleProvider from '../rules/RuleProvider';
-
-import inherits from 'inherits';
 import EventBus from '../../core/EventBus';
 
 /**
  * This is a base rule provider for the element.autoResize rule.
  */
-export default class AutoResizeProvider {
+export default class AutoResizeProvider extends RuleProvider {
 
   public static $inject = ['eventBus'];
 
   constructor(eventBus: EventBus) {
-    RuleProvider.call(this, eventBus);
+    super(eventBus);
 
     var self = this;
 
@@ -33,7 +31,3 @@ export default class AutoResizeProvider {
   };
 
 }
-
-
-inherits(AutoResizeProvider, RuleProvider);
-
