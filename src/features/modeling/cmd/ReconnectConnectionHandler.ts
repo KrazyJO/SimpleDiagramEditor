@@ -4,67 +4,68 @@ import { isArray } from 'min-dash';
 /**
  * Reconnect connection handler
  */
-export default function ReconnectConnectionHandler() { }
+export default class ReconnectConnectionHandler {
 
-ReconnectConnectionHandler.$inject = [ ];
+	public static $inject: any = [];
 
-ReconnectConnectionHandler.prototype.execute = function(context) {
+	public execute(context: any): any {
 
-  var newSource = context.newSource,
-      newTarget = context.newTarget,
-      connection = context.connection,
-      dockingOrPoints = context.dockingOrPoints,
-      oldWaypoints = connection.waypoints,
-      newWaypoints;
+		var newSource = context.newSource, 
+			newTarget = context.newTarget,
+			connection = context.connection,
+			dockingOrPoints = context.dockingOrPoints,
+			oldWaypoints = connection.waypoints,
+			newWaypoints;
 
-  if (!newSource && !newTarget) {
-    throw new Error('newSource or newTarget are required');
-  }
+		if (!newSource && !newTarget) {
+			throw new Error('newSource or newTarget are required');
+		}
 
-  if (newSource && newTarget) {
-    throw new Error('must specify either newSource or newTarget');
-  }
+		if (newSource && newTarget) {
+			throw new Error('must specify either newSource or newTarget');
+		}
 
-  context.oldWaypoints = oldWaypoints;
+		context.oldWaypoints = oldWaypoints;
 
-  if (isArray(dockingOrPoints)) {
-    newWaypoints = dockingOrPoints;
-  } else {
-    newWaypoints = oldWaypoints.slice();
+		if (isArray(dockingOrPoints)) {
+			newWaypoints = dockingOrPoints;
+		} else {
+			newWaypoints = oldWaypoints.slice();
 
-    newWaypoints.splice(newSource ? 0 : -1, 1, dockingOrPoints);
-  }
+			newWaypoints.splice(newSource ? 0 : -1, 1, dockingOrPoints);
+		}
 
-  if (newSource) {
-    context.oldSource = connection.source;
-    connection.source = newSource;
-  }
+		if (newSource) {
+			context.oldSource = connection.source;
+			connection.source = newSource;
+		}
 
-  if (newTarget) {
-    context.oldTarget = connection.target;
-    connection.target = newTarget;
-  }
+		if (newTarget) {
+			context.oldTarget = connection.target;
+			connection.target = newTarget;
+		}
 
-  connection.waypoints = newWaypoints;
+		connection.waypoints = newWaypoints;
 
-  return connection;
-};
+		return connection;
+	};
 
-ReconnectConnectionHandler.prototype.revert = function(context) {
+	public revert(context: any): any {
 
-  var newSource = context.newSource,
-      newTarget = context.newTarget,
-      connection = context.connection;
+		var newSource = context.newSource,
+			newTarget = context.newTarget,
+			connection = context.connection;
 
-  if (newSource) {
-    connection.source = context.oldSource;
-  }
+		if (newSource) {
+			connection.source = context.oldSource;
+		}
 
-  if (newTarget) {
-    connection.target = context.oldTarget;
-  }
+		if (newTarget) {
+			connection.target = context.oldTarget;
+		}
 
-  connection.waypoints = context.oldWaypoints;
+		connection.waypoints = context.oldWaypoints;
 
-  return connection;
-};
+		return connection;
+	};
+}
