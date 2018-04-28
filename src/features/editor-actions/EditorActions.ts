@@ -8,6 +8,7 @@ import Modeling from '../modeling/Modeling';
 import ZoomScroll from '../../navigation/zoomscroll/ZoomScroll';
 import Canvas from '../../core/Canvas';
 import Rules from '../rules/Rules';
+import MouseTracking from '../mouse-tracking/MouseTracking';
 
 var NOT_REGISTERED_ERROR = 'is not a registered action',
 	IS_REGISTERED_ERROR = 'is already registered';
@@ -38,7 +39,7 @@ export default class EditorActions {
 	];
 
 	constructor(eventBus: EventBus, commandStack: CommandStack, modeling: Modeling, selection: any,
-		zoomScroll: ZoomScroll, copyPaste: any, canvas: Canvas, rules: Rules, mouseTracking: any) {
+		zoomScroll: ZoomScroll, copyPaste: any, canvas: Canvas, rules: Rules, mouseTracking: MouseTracking) {
 		this._actions = {
 			undo: function () {
 				commandStack.undo();
