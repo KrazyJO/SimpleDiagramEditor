@@ -1,8 +1,9 @@
 import { forEach } from 'min-dash';
 
 import {
-  resizeBounds
+	resizeBounds
 } from '../../space-tool/SpaceUtil';
+import Modeling from '../Modeling';
 
 
 /**
@@ -13,36 +14,44 @@ import {
  *  (1) resize all affected resizeShapes
  *  (2) move all affected moveElements
  */
-export default function SpaceToolHandler(modeling) {
-  this._modeling = modeling;
+export default class SpaceToolHandler {
+
+	private _modeling: Modeling;
+	public static $inject = ['modeling'];
+
+	constructor(modeling: Modeling) {
+		this._modeling = modeling;
+
+	}
+
+	public preExecute(context : any) : void {
+
+		// resize
+		var modeling = this._modeling,
+			resizingShapes = context.resizingShapes,
+			delta = context.delta,
+			direction = context.direction;
+	
+		forEach(resizingShapes, function (shape : any) {
+			var newBounds = resizeBounds(shape, direction, delta);
+	
+			modeling.resizeShape(shape, newBounds);
+		});
+	};
+	
+	public postExecute(context : any) : void {
+		// move
+		var modeling = this._modeling,
+			movingShapes = context.movingShapes,
+			delta = context.delta;
+	
+		modeling.moveElements(movingShapes, delta, undefined, { autoResize: false, attach: false });
+	};
+	
+	public execute(context : any) { };
+	public revert(context : any) { };
+	
 }
 
-SpaceToolHandler.$inject = [ 'modeling' ];
 
 
-SpaceToolHandler.prototype.preExecute = function(context) {
-
-  // resize
-  var modeling = this._modeling,
-      resizingShapes = context.resizingShapes,
-      delta = context.delta,
-      direction = context.direction;
-
-  forEach(resizingShapes, function(shape) {
-    var newBounds = resizeBounds(shape, direction, delta);
-
-    modeling.resizeShape(shape, newBounds);
-  });
-};
-
-SpaceToolHandler.prototype.postExecute = function(context) {
-  // move
-  var modeling = this._modeling,
-      movingShapes = context.movingShapes,
-      delta = context.delta;
-
-  modeling.moveElements(movingShapes, delta, undefined, { autoResize: false, attach: false });
-};
-
-SpaceToolHandler.prototype.execute = function(context) {};
-SpaceToolHandler.prototype.revert = function(context) {};
