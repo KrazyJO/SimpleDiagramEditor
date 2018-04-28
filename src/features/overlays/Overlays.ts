@@ -643,7 +643,8 @@ export default class Overlays {
 		eventBus.on('element.marker.update', function (e : any) {
 			var container = self._getOverlayContainer(e.element, true);
 			if (container) {
-				domClasses(<Element>container.html)[e.add ? 'add' : 'remove'](<string>e.marker);
+				//@ts-ignore
+				domClasses(container.html)[e.add ? 'add' : 'remove'](e.marker);
 			}
 		});
 

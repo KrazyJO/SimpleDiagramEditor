@@ -1,4 +1,4 @@
-import { Shape, Connection } from "../model";
+import { Shape } from "../model";
 
 /**
  * @memberOf djs.layout
