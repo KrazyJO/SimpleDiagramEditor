@@ -10,6 +10,7 @@ import ElementFactory from '../../../core/ElementFactory';
 import Modeling from '../Modeling';
 import Rules from '../../rules/Rules';
 import { Point } from '../../../interfaces';
+import Selection from '../../selection/Selection';
 
 function removeProperties(element: any, properties: any) {
 	forEach(properties, function (prop: any) {
@@ -33,7 +34,7 @@ export default class PasteHandler {
 
 	private _eventBus: EventBus;
 	public _canvas: Canvas;
-	private _selection: any;
+	private _selection: Selection;
 	private _modeling: Modeling;
 	private _elementFactory: ElementFactory;
 	private _rules: Rules;
@@ -47,7 +48,7 @@ export default class PasteHandler {
 		'rules'
 	];
 
-	constructor(eventBus: EventBus, canvas: Canvas, selection: any,
+	constructor(eventBus: EventBus, canvas: Canvas, selection: Selection,
 		elementFactory: ElementFactory, modeling: Modeling, rules: Rules) {
 
 		this._eventBus = eventBus;

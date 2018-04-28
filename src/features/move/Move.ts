@@ -13,6 +13,7 @@ import { Point } from '../../interfaces';
 import EventBus from '../../core/EventBus';
 import Modeling from '../modeling/Modeling';
 import Rules from '../rules/Rules';
+import Selection from '../selection/Selection';
 
 var round = Math.round;
 
@@ -45,7 +46,7 @@ export default class MoveEvents {
 
 	constructor(
 		eventBus: EventBus, dragging: any, modeling: Modeling,
-		selection: any, rules: Rules) {
+		selection: Selection, rules: Rules) {
 		// rules
 
 		function canMove(shapes: any, delta?: any, position?: any, target?: any) {

@@ -10,6 +10,7 @@ import Canvas from '../../core/Canvas';
 import Rules from '../rules/Rules';
 import MouseTracking from '../mouse-tracking/MouseTracking';
 import CopyPaste from '../copy-paste/CopyPaste';
+import Selection from '../selection/Selection';
 
 var NOT_REGISTERED_ERROR = 'is not a registered action',
 	IS_REGISTERED_ERROR = 'is already registered';
@@ -39,7 +40,7 @@ export default class EditorActions {
 		'mouseTracking'
 	];
 
-	constructor(eventBus: EventBus, commandStack: CommandStack, modeling: Modeling, selection: any,
+	constructor(eventBus: EventBus, commandStack: CommandStack, modeling: Modeling, selection: Selection,
 		zoomScroll: ZoomScroll, copyPaste: CopyPaste, canvas: Canvas, rules: Rules, mouseTracking: MouseTracking) {
 		this._actions = {
 			undo: function () {

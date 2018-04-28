@@ -25,6 +25,7 @@ import {
 import { Point } from '../../interfaces';
 import EventBus from '../../core/EventBus';
 import Canvas from '../../core/Canvas';
+import Selection from '../selection/Selection';
 
 var DRAG_ACTIVE_CLS = 'djs-drag-active';
 
@@ -146,7 +147,7 @@ export default class Dragging {
 		'selection'
 	];
 
-	constructor(eventBus: EventBus, canvas: Canvas, selection: any) {
+	constructor(eventBus: EventBus, canvas: Canvas, selection: Selection) {
 
 
 		var defaultOptions = {
