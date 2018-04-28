@@ -1,4 +1,4 @@
-import inherits from 'inherits';
+// import inherits from 'inherits';
 
 import { getBBox as getBoundingBox } from '../../util/Elements';
 
@@ -16,6 +16,11 @@ import {
 } from 'min-dash';
 
 import CommandInterceptor from '../../command/CommandInterceptor';
+import EventBus from '../../core/EventBus';
+import ElementRegistry from '../../core/ElementRegistry';
+import Modeling from '../modeling/Modeling';
+import Rules from '../rules/Rules';
+import { Bounds } from '../../interfaces';
 
 
 /**
@@ -27,61 +32,66 @@ import CommandInterceptor from '../../command/CommandInterceptor';
  * @param {Modeling} modeling
  * @param {Rules} rules
  */
-export default function AutoResize(eventBus, elementRegistry, modeling, rules) {
+export default class AutoResize extends CommandInterceptor {
 
-  CommandInterceptor.call(this, eventBus);
+  static $inject = [
+    'eventBus',
+    'elementRegistry',
+    'modeling',
+    'rules'
+  ];
 
-  this._elementRegistry = elementRegistry;
-  this._modeling = modeling;
-  this._rules = rules;
+  private _elementRegistry : ElementRegistry;
+  private _modeling : any;
+  private _rules : any;
+  public postExecuted : any;
 
-  var self = this;
+  constructor(eventBus : EventBus, elementRegistry : ElementRegistry, modeling : any, rules : any) {
+    super(eventBus);
+    // CommandInterceptor.call(this, eventBus);
 
-  this.postExecuted([ 'shape.create' ], function(event) {
+    this._elementRegistry = elementRegistry;
+    this._modeling = modeling;
+    this._rules = rules;
 
-    var context = event.context,
-        hints = context.hints,
-        shape = context.shape,
-        parent = context.parent || context.newParent;
+    var self = this;
 
-    if (hints && hints.root === false) {
-      return;
-    }
+    //postExecusted will be injected by CommandInterceptor
+    this.postExecuted([ 'shape.create' ], function(event : any) {
 
-    self._expand([ shape ], parent);
-  });
+      var context = event.context,
+          hints = context.hints,
+          shape = context.shape,
+          parent = context.parent || context.newParent;
 
-  this.postExecuted([ 'elements.move' ], function(event) {
+      if (hints && hints.root === false) {
+        return;
+      }
 
-    var context = event.context,
-        elements = flatten(values(context.closure.topLevel)),
-        hints = context.hints;
-
-    if (hints && hints.autoResize === false) {
-      return;
-    }
-
-    var expandings = groupBy(elements, function(element) {
-      return element.parent.id;
+      self._expand([ shape ], parent);
     });
 
-    forEach(expandings, function(elements, parentId) {
-      self._expand(elements, parentId);
+    this.postExecuted([ 'elements.move' ], function(event : any) {
+
+      var context = event.context,
+          elements = flatten(values(context.closure.topLevel)),
+          hints = context.hints;
+
+      if (hints && hints.autoResize === false) {
+        return;
+      }
+
+      var expandings = groupBy(elements, function(element : any) {
+        return element.parent.id;
+      });
+
+      forEach(expandings, function(elements : any, parentId : any) {
+        self._expand(elements, parentId);
+      });
     });
-  });
-}
+  }
 
-AutoResize.$inject = [
-  'eventBus',
-  'elementRegistry',
-  'modeling',
-  'rules'
-];
-
-inherits(AutoResize, CommandInterceptor);
-
-
-/**
+  /**
  * Calculate the new bounds of the target shape, given
  * a number of elements have been moved or added into the parent.
  *
@@ -91,7 +101,7 @@ inherits(AutoResize, CommandInterceptor);
  * @param {Array<djs.model.Shape>} elements
  * @param {djs.model.Shape} target
  */
-AutoResize.prototype._getOptimalBounds = function(elements, target) {
+private _getOptimalBounds(elements : any, target : any) : Bounds {
 
   var offset = this.getOffset(target),
       padding = this.getPadding(target);
@@ -99,7 +109,7 @@ AutoResize.prototype._getOptimalBounds = function(elements, target) {
   var elementsTrbl = asTRBL(getBoundingBox(elements)),
       targetTrbl = asTRBL(target);
 
-  var newTrbl = {};
+  var newTrbl : any = {};
 
   if (elementsTrbl.top - targetTrbl.top < padding.top) {
     newTrbl.top = elementsTrbl.top - offset.top;
@@ -127,7 +137,7 @@ AutoResize.prototype._getOptimalBounds = function(elements, target) {
  * @param {Array<djs.model.Shape>} elements
  * @param {djs.model.Shape|String} target|targetId
  */
-AutoResize.prototype._expand = function(elements, target) {
+private _expand(elements : any[], target : any) : void {
 
   if (typeof target === 'string') {
     target = this._elementRegistry.get(target);
@@ -168,7 +178,7 @@ AutoResize.prototype._expand = function(elements, target) {
  *
  * @return {Object} {top, bottom, left, right}
  */
-AutoResize.prototype.getOffset = function(shape) {
+public getOffset(shape : any) : any {
   return { top: 60, bottom: 60, left: 100, right: 100 };
 };
 
@@ -181,7 +191,7 @@ AutoResize.prototype.getOffset = function(shape) {
  *
  * @return {Object} {top, bottom, left, right}
  */
-AutoResize.prototype.getPadding = function(shape) {
+public getPadding(shape : any) : any {
   return { top: 2, bottom: 2, left: 15, right: 15 };
 };
 
@@ -192,12 +202,20 @@ AutoResize.prototype.getPadding = function(shape) {
  * @param {djs.model.Shape} target
  * @param {Object} newBounds
  */
-AutoResize.prototype.resize = function(target, newBounds) {
+public resize = function(target : any, newBounds : Bounds) : void {
   this._modeling.resizeShape(target, newBounds);
 };
+  
+}
 
 
-function boundsChanged(newBounds, oldBounds) {
+// inherits(AutoResize, CommandInterceptor); 
+
+
+
+
+
+function boundsChanged(newBounds : Bounds, oldBounds : Bounds) : boolean {
   return (
     newBounds.x !== oldBounds.x ||
     newBounds.y !== oldBounds.y ||
