@@ -18,7 +18,6 @@ import {
 import CommandInterceptor from '../../command/CommandInterceptor';
 import EventBus from '../../core/EventBus';
 import ElementRegistry from '../../core/ElementRegistry';
-import Modeling from '../modeling/Modeling';
 import Rules from '../rules/Rules';
 import { Bounds } from '../../interfaces';
 
@@ -42,7 +41,7 @@ export default class AutoResize extends CommandInterceptor {
 	];
 
 	private _elementRegistry: ElementRegistry;
-	private _modeling: any;
+	public _modeling: any;
 	private _rules: Rules;
 	public postExecuted: any;
 
