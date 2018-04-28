@@ -627,7 +627,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Connection} the added connection
 	 */
-	public addConnection(connection : any, parent : any, parentIndex : number) : any {
+	public addConnection(connection : any, parent : any, parentIndex? : number) : any {
 		return this._addElement('connection', connection, parent, parentIndex);
 	}
 

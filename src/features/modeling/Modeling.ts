@@ -384,7 +384,7 @@ export default class Modeling {
   };
   
   
-  public removeConnection(connection : any, hints : any) : void {
+  public removeConnection(connection : any, hints? : any) : void {
 	var context = {
 	  connection: connection,
 	  hints: hints || {}
