@@ -614,7 +614,7 @@ class Canvas {
 	 *
 	 * @return {djs.model.Shape} the added shape
 	 */
-	public addShape(shape : any, parent : any, parentIndex : number) : any {
+	public addShape(shape : any, parent : any, parentIndex? : number) : any {
 		return this._addElement('shape', shape, parent, parentIndex);
 	}
 
