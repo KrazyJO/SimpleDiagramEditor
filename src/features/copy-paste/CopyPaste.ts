@@ -37,9 +37,9 @@ export default class CopyPaste {
 
 	private _eventBus: EventBus;
 	private _modeling: Modeling;
-	private _elementFactory: ElementFactory;
+	public  _elementFactory: ElementFactory;
 	private _rules: Rules;
-	private _canvas: Canvas;
+	public  _canvas: Canvas;
 	private _clipboard: Clipboard;
 	private _descriptors: any;
 	private _bbox: any;
