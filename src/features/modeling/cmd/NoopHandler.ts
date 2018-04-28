@@ -1,4 +1,5 @@
-export default function NoopHandler() {}
-
-NoopHandler.prototype.execute = function() {};
-NoopHandler.prototype.revert = function() {};
+export default class NoopHandler{
+    public execute() {}
+    public revert() {}
+}
+ 

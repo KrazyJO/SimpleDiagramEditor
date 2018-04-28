@@ -1,1 +1,1 @@
-{"version":3,"file":"NoopHandler.js","sourceRoot":"","sources":["../../../../src/features/modeling/cmd/NoopHandler.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,0BAAyB,CAAC;AAExC,WAAW,CAAC,SAAS,CAAC,OAAO,GAAG,cAAY,CAAC,CAAC;AAC9C,WAAW,CAAC,SAAS,CAAC,MAAM,GAAG,cAAY,CAAC,CAAC"}
+{"version":3,"file":"NoopHandler.js","sourceRoot":"","sources":["../../../../src/features/modeling/cmd/NoopHandler.ts"],"names":[],"mappings":"AAAA;IAAA;IAGA,CAAC;IAFU,6BAAO,GAAd,cAAkB,CAAC;IACZ,4BAAM,GAAb,cAAiB,CAAC;IACtB,kBAAC;AAAD,CAAC,AAHD,IAGC"}
