@@ -2,7 +2,8 @@ export interface hints {
 	preserveDocking : string, 
 	preferredLayouts : string[],
 	connectionStart : boolean | Point,
-	connectionEnd : boolean	| Point	
+	connectionEnd : boolean	| Point	,
+	attach : boolean
 }
 
 export interface Bounds {
