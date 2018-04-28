@@ -16,7 +16,7 @@ declare module "min-dash" {
     
     export function findIndex(collection: any, matcher: any): any;
     
-    export function flatten(arr: any): any;
+    export function flatten(arr: any, bool? : boolean): any;
     
     export function forEach(collection: any, iterator: any): void;
     

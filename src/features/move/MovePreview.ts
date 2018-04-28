@@ -1,34 +1,37 @@
 import {
-  flatten,
-  forEach,
-  filter,
-  find,
-  groupBy,
-  map,
-  matchPattern,
-  size
+	flatten,
+	forEach,
+	filter,
+	find,
+	groupBy,
+	map,
+	matchPattern,
+	size
 } from 'min-dash';
 
 import {
-  selfAndAllChildren
+	selfAndAllChildren
 } from '../../util/Elements';
 
 import {
-  append as svgAppend,
-  attr as svgAttr,
-  clear as svgClear,
-  create as svgCreate
+	append as svgAppend,
+	attr as svgAttr,
+	clear as svgClear,
+	create as svgCreate
 } from 'tiny-svg';
 
 import { translate } from '../../util/SvgTransformUtil';
+import EventBus from '../../core/EventBus';
+import ElementRegistry from '../../core/ElementRegistry';
+import Canvas from '../../core/Canvas';
 
 var LOW_PRIORITY = 499;
 
 var MARKER_DRAGGING = 'djs-dragging',
-    MARKER_OK = 'drop-ok',
-    MARKER_NOT_OK = 'drop-not-ok',
-    MARKER_NEW_PARENT = 'new-parent',
-    MARKER_ATTACH = 'attach-ok';
+	MARKER_OK = 'drop-ok',
+	MARKER_NOT_OK = 'drop-not-ok',
+	MARKER_NEW_PARENT = 'new-parent',
+	MARKER_ATTACH = 'attach-ok';
 
 
 /**
@@ -39,180 +42,185 @@ var MARKER_DRAGGING = 'djs-dragging',
  * @param {Canvas} canvas
  * @param {Styles} styles
  */
-export default function MovePreview(
-    eventBus, elementRegistry, canvas,
-    styles, previewSupport) {
+export default class MovePreview {
 
-  function getVisualDragShapes(shapes) {
-    var elements = getAllDraggedElements(shapes);
+	public makeDraggable: any;
+	public static $inject = [
+		'eventBus',
+		'elementRegistry',
+		'canvas',
+		'styles',
+		'previewSupport'
+	];
 
-    var filteredElements = removeEdges(elements);
+	constructor(
+		eventBus: EventBus, elementRegistry: ElementRegistry, canvas: Canvas,
+		styles: any, previewSupport: any) {
+		function getVisualDragShapes(shapes: any) {
+			var elements = getAllDraggedElements(shapes);
 
-    return filteredElements;
-  }
+			var filteredElements = removeEdges(elements);
 
-  function getAllDraggedElements(shapes) {
-    var allShapes = selfAndAllChildren(shapes, true);
+			return filteredElements;
+		}
 
-    var allConnections = map(allShapes, function(shape) {
-      return (shape.incoming || []).concat(shape.outgoing || []);
-    });
+		function getAllDraggedElements(shapes: any) {
+			var allShapes = selfAndAllChildren(shapes, true);
 
-    return flatten(allShapes.concat(allConnections), true);
-  }
+			var allConnections = map(allShapes, function (shape: any) {
+				return (shape.incoming || []).concat(shape.outgoing || []);
+			});
 
-  /**
-   * Sets drop marker on an element.
-   */
-  function setMarker(element, marker) {
+			return flatten(allShapes.concat(allConnections), true);
+		}
 
-    [ MARKER_ATTACH, MARKER_OK, MARKER_NOT_OK, MARKER_NEW_PARENT ].forEach(function(m) {
+		/**
+		 * Sets drop marker on an element.
+		 */
+		function setMarker(element: any, marker: any) {
 
-      if (m === marker) {
-        canvas.addMarker(element, m);
-      } else {
-        canvas.removeMarker(element, m);
-      }
-    });
-  }
+			[MARKER_ATTACH, MARKER_OK, MARKER_NOT_OK, MARKER_NEW_PARENT].forEach(function (m) {
 
-  /**
-   * Make an element draggable.
-   *
-   * @param {Object} context
-   * @param {djs.model.Base} element
-   * @param {Boolean} addMarker
-   */
-  function makeDraggable(context, element, addMarker) {
+				if (m === marker) {
+					canvas.addMarker(element, m);
+				} else {
+					canvas.removeMarker(element, m);
+				}
+			});
+		}
 
-    previewSupport.addDragger(element, context.dragGroup);
+		/**
+		 * Make an element draggable.
+		 *
+		 * @param {Object} context
+		 * @param {djs.model.Base} element
+		 * @param {Boolean} addMarker
+		 */
+		function makeDraggable(context: any, element: any, addMarker: boolean) {
 
-    if (addMarker) {
-      canvas.addMarker(element, MARKER_DRAGGING);
-    }
+			previewSupport.addDragger(element, context.dragGroup);
 
-    if (context.allDraggedElements) {
-      context.allDraggedElements.push(element);
-    } else {
-      context.allDraggedElements = [ element ];
-    }
-  }
+			if (addMarker) {
+				canvas.addMarker(element, MARKER_DRAGGING);
+			}
 
-  // assign a low priority to this handler
-  // to let others modify the move context before
-  // we draw things
-  eventBus.on('shape.move.start', LOW_PRIORITY, function(event) {
+			if (context.allDraggedElements) {
+				context.allDraggedElements.push(element);
+			} else {
+				context.allDraggedElements = [element];
+			}
+		}
 
-    var context = event.context,
-        dragShapes = context.shapes,
-        allDraggedElements = context.allDraggedElements;
+		// assign a low priority to this handler
+		// to let others modify the move context before
+		// we draw things
+		eventBus.on('shape.move.start', LOW_PRIORITY, function (event: any) {
 
-    var visuallyDraggedShapes = getVisualDragShapes(dragShapes);
+			var context = event.context,
+				dragShapes = context.shapes,
+				allDraggedElements = context.allDraggedElements;
 
-    if (!context.dragGroup) {
-      var dragGroup = svgCreate('g');
-      svgAttr(dragGroup, styles.cls('djs-drag-group', [ 'no-events' ]));
+			var visuallyDraggedShapes = getVisualDragShapes(dragShapes);
 
-      var defaultLayer = canvas.getDefaultLayer();
+			if (!context.dragGroup) {
+				var dragGroup = svgCreate('g');
+				svgAttr(dragGroup, styles.cls('djs-drag-group', ['no-events']));
 
-      svgAppend(defaultLayer, dragGroup);
+				var defaultLayer = canvas.getDefaultLayer();
 
-      context.dragGroup = dragGroup;
-    }
+				svgAppend(defaultLayer, dragGroup);
 
-    // add previews
-    visuallyDraggedShapes.forEach(function(shape) {
-      previewSupport.addDragger(shape, context.dragGroup);
-    });
+				context.dragGroup = dragGroup;
+			}
 
-    // cache all dragged elements / gfx
-    // so that we can quickly undo their state changes later
-    if (!allDraggedElements) {
-      allDraggedElements = getAllDraggedElements(dragShapes);
-    } else {
-      allDraggedElements = flatten(allDraggedElements, getAllDraggedElements(dragShapes));
-    }
+			// add previews
+			visuallyDraggedShapes.forEach(function (shape: any) {
+				previewSupport.addDragger(shape, context.dragGroup);
+			});
 
-    // add dragging marker
-    forEach(allDraggedElements, function(e) {
-      canvas.addMarker(e, MARKER_DRAGGING);
-    });
+			// cache all dragged elements / gfx
+			// so that we can quickly undo their state changes later
+			if (!allDraggedElements) {
+				allDraggedElements = getAllDraggedElements(dragShapes);
+			} else {
+				allDraggedElements = flatten(allDraggedElements, getAllDraggedElements(dragShapes));
+			}
 
-    context.allDraggedElements = allDraggedElements;
+			// add dragging marker
+			forEach(allDraggedElements, function (e: any) {
+				canvas.addMarker(e, MARKER_DRAGGING);
+			});
 
-    // determine, if any of the dragged elements have different parents
-    context.differentParents = haveDifferentParents(dragShapes);
-  });
+			context.allDraggedElements = allDraggedElements;
 
-  // update previews
-  eventBus.on('shape.move.move', LOW_PRIORITY, function(event) {
+			// determine, if any of the dragged elements have different parents
+			context.differentParents = haveDifferentParents(dragShapes);
+		});
 
-    var context = event.context,
-        dragGroup = context.dragGroup,
-        target = context.target,
-        parent = context.shape.parent,
-        canExecute = context.canExecute;
+		// update previews
+		eventBus.on('shape.move.move', LOW_PRIORITY, function (event: any) {
 
-    if (target) {
-      if (canExecute === 'attach') {
-        setMarker(target, MARKER_ATTACH);
-      } else if (context.canExecute && target && target.id !== parent.id) {
-        setMarker(target, MARKER_NEW_PARENT);
-      } else {
-        setMarker(target, context.canExecute ? MARKER_OK : MARKER_NOT_OK);
-      }
-    }
+			var context = event.context,
+				dragGroup = context.dragGroup,
+				target = context.target,
+				parent = context.shape.parent,
+				canExecute = context.canExecute;
 
-    translate(dragGroup, event.dx, event.dy);
-  });
+			if (target) {
+				if (canExecute === 'attach') {
+					setMarker(target, MARKER_ATTACH);
+				} else if (context.canExecute && target && target.id !== parent.id) {
+					setMarker(target, MARKER_NEW_PARENT);
+				} else {
+					setMarker(target, context.canExecute ? MARKER_OK : MARKER_NOT_OK);
+				}
+			}
 
-  eventBus.on([ 'shape.move.out', 'shape.move.cleanup' ], function(event) {
-    var context = event.context,
-        target = context.target;
+			translate(dragGroup, event.dx, event.dy);
+		});
 
-    if (target) {
-      setMarker(target, null);
-    }
-  });
+		eventBus.on(['shape.move.out', 'shape.move.cleanup'], function (event: any) {
+			var context = event.context,
+				target = context.target;
 
-  // remove previews
-  eventBus.on('shape.move.cleanup', function(event) {
+			if (target) {
+				setMarker(target, null);
+			}
+		});
 
-    var context = event.context,
-        allDraggedElements = context.allDraggedElements,
-        dragGroup = context.dragGroup;
+		// remove previews
+		eventBus.on('shape.move.cleanup', function (event: any) {
 
-
-    // remove dragging marker
-    forEach(allDraggedElements, function(e) {
-      canvas.removeMarker(e, MARKER_DRAGGING);
-    });
-
-    if (dragGroup) {
-      svgClear(dragGroup);
-    }
-  });
+			var context = event.context,
+				allDraggedElements = context.allDraggedElements,
+				dragGroup = context.dragGroup;
 
 
-  // API //////////////////////
+			// remove dragging marker
+			forEach(allDraggedElements, function (e: any) {
+				canvas.removeMarker(e, MARKER_DRAGGING);
+			});
 
-  /**
-   * Make an element draggable.
-   *
-   * @param {Object} context
-   * @param {djs.model.Base} element
-   * @param {Boolean} addMarker
-   */
-  this.makeDraggable = makeDraggable;
+			if (dragGroup) {
+				svgClear(dragGroup);
+			}
+		});
+
+
+		// API //////////////////////
+
+		/**
+		 * Make an element draggable.
+		 *
+		 * @param {Object} context
+		 * @param {djs.model.Base} element
+		 * @param {Boolean} addMarker
+		 */
+		this.makeDraggable = makeDraggable;
+	}
+
 }
 
-MovePreview.$inject = [
-  'eventBus',
-  'elementRegistry',
-  'canvas',
-  'styles',
-  'previewSupport'
-];
 
 
 // helpers //////////////////////
@@ -221,31 +229,31 @@ MovePreview.$inject = [
  * returns elements minus all connections
  * where source or target is not elements
  */
-function removeEdges(elements) {
+function removeEdges(elements: any) {
 
-  var filteredElements = filter(elements, function(element) {
+	var filteredElements = filter(elements, function (element: any) {
 
-    if (!isConnection(element)) {
-      return true;
-    } else {
+		if (!isConnection(element)) {
+			return true;
+		} else {
 
-      return (
-        find(elements, matchPattern({ id: element.source.id })) &&
-        find(elements, matchPattern({ id: element.target.id }))
-      );
-    }
-  });
+			return (
+				find(elements, matchPattern({ id: element.source.id })) &&
+				find(elements, matchPattern({ id: element.target.id }))
+			);
+		}
+	});
 
-  return filteredElements;
+	return filteredElements;
 }
 
-function haveDifferentParents(elements) {
-  return size(groupBy(elements, function(e) { return e.parent && e.parent.id; })) !== 1;
+function haveDifferentParents(elements: any) {
+	return size(groupBy(elements, function (e: any) { return e.parent && e.parent.id; })) !== 1;
 }
 
 /**
  * Checks if an element is a connection.
  */
-function isConnection(element) {
-  return element.waypoints;
+function isConnection(element: any) {
+	return element.waypoints;
 }
