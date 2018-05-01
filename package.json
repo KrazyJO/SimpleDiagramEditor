@@ -5,7 +5,7 @@
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
-    "tslint" : "tslint -c tslint.json 'src/**/*.ts' --exclude src/typings/**",
+    "tslint" : "tslint -c tslint.json 'src/**/*.ts' --exclude 'src/typings/**'",
     "dev": "npm test -- --auto-watch --no-single-run",
     "test": "karma start",
     "devts": "tsc --watch",
