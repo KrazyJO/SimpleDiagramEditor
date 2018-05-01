@@ -4,7 +4,11 @@ cache:
   paths:
     - node_modules/
 
-test_letslearn:
+test_tslint:
   script:
     - yarn install
     - yarn run tslint
+
+build:
+  script:
+    - yarn webpack

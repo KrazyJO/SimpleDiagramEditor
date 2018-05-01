@@ -9,7 +9,7 @@
     "dev": "npm test -- --auto-watch --no-single-run",
     "test": "karma start",
     "devts": "tsc --watch",
-    "webpack": "webpack",
+    "webpack": "webpack --mode development",
     "start": "webpack-dev-server"
   },
   "keywords": [
