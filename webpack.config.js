@@ -1,4 +1,5 @@
 const path = require('path');
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
   entry: './src/Diagram.ts',
@@ -24,5 +25,8 @@ module.exports = {
   },
   devServer: {
     contentBase: "./example/app"
-   }
+   },
+   plugins: [
+    new UglifyJSPlugin()
+  ],
 };
