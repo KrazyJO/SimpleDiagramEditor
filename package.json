@@ -5,6 +5,7 @@
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
+    "tslint" : "tslint -c tslint.json 'src/**/*.ts' --exclude src/typings/**",
     "dev": "npm test -- --auto-watch --no-single-run",
     "test": "karma start",
     "devts": "tsc --watch",
@@ -53,6 +54,7 @@
     "sinon-chai": "^2.14.0",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.2.0",
+    "tslint": "^5.9.1",
     "typescript": "^2.8.3",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "watchify": "^3.7.0",

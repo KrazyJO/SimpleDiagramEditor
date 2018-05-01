@@ -1,0 +1,31 @@
+{
+    "rules": {
+      "class-name": false,
+      "comment-format": true,
+      "curly": true,
+      "eofline": false,
+      "indent": [true, "tab"],
+      "member-ordering": false,
+      "no-arg": true,
+      "no-bitwise": true,
+      "no-conditional-assignment": false,
+      "no-construct": true,
+      "no-duplicate-variable": true,
+      "no-eval": true,
+      "no-internal-module": true,
+      "no-invalid-this": false,
+      "no-namespace": true,
+      "no-reference": true,
+      "no-trailing-whitespace": false,
+      "no-unused-expression": true,
+      "no-use-before-declare": false,
+      "one-line": false,
+      "quotemark": false,
+      "radix": true,
+      "semicolon": false,
+
+      "triple-equals": true,
+      "check-whitespace" : false
+    }
+  }
+  
