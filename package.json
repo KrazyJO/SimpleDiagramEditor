@@ -9,20 +9,15 @@
     "test": "karma start",
     "devts": "tsc --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bpmn-io/diagram-js"
-  },
   "keywords": [
     "modeler",
     "modeling",
     "canvas",
     "diagram-js"
   ],
-  "author": "bpmn.io",
   "license": "MIT",
-  "sideEffects": false,
   "devDependencies": {
+    "@types/inherits": "0.0.30",
     "@types/object-refs": "^0.1.1",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -54,7 +49,6 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "@types/inherits": "0.0.30",
     "css.escape": "^1.5.1",
     "didi": "^4.0.0",
     "hammerjs": "^2.0.1",
