@@ -13,7 +13,18 @@ module.exports = {
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"]
-       }
+       },
+       {
+        test: /\.(jpg|png|gif|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+          }, 'image-webpack-loader'
+        ]
+      }
     ]
   },
   resolve: {
