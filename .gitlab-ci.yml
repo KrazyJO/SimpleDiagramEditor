@@ -11,4 +11,4 @@ test_tslint:
 
 build:
   script:
-    - yarn webpack
+    - yarn run webpack
