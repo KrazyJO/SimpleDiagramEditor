@@ -8,7 +8,7 @@ import {
 } from '../util/Geometry';
 
 import intersectPaths from 'path-intersection'; 
-import { Point, Bounds } from '../interfaces';
+import { Point, Bounds } from '../../interfaces';
 
 
 export function roundBounds(bounds : Bounds) : Bounds {

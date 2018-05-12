@@ -1,7 +1,0 @@
-example/dist
-example/node_modules
-lib
-test
-src/features
-karma.conf.js
-*/Gruntfile.js

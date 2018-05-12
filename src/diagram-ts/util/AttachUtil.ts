@@ -6,7 +6,7 @@ import {
 	center,
 	delta
 } from './PositionUtil';
-import { Point, Bounds } from '../interfaces';
+import { Point, Bounds } from '../../interfaces';
 
 
 /**

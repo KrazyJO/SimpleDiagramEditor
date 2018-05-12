@@ -1,7 +1,7 @@
 import {
 	log10
 } from '../../util/Math';
-import { Range } from '../../interfaces';
+import { Range } from '../../../interfaces';
 
 /**
  * Get step size for given range and number of steps.

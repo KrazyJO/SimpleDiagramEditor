@@ -3,7 +3,7 @@ import {
 } from './Geometry';
 
 import intersectPaths from 'path-intersection';
-import { Point } from '../interfaces';
+import { Point } from '../../interfaces';
 
 interface pathIntersection {
 	point: Point,

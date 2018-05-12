@@ -20,7 +20,7 @@ import Modeling from '../modeling/Modeling';
 import Rules from '../rules/Rules';
 import Canvas from '../../core/Canvas';
 import GraphicsFactory from '../../core/GraphicsFactory';
-import { Point } from '../../interfaces';
+import { Point } from '../../../interfaces';
 import Dragging from '../dragging/Dragging';
 
 

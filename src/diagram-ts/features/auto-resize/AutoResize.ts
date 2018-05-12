@@ -19,7 +19,7 @@ import CommandInterceptor from '../../command/CommandInterceptor';
 import EventBus from '../../core/EventBus';
 import ElementRegistry from '../../core/ElementRegistry';
 import Rules from '../rules/Rules';
-import { Bounds } from '../../interfaces';
+import { Bounds } from '../../../interfaces';
 import Modeling from '../modeling/Modeling';
 
 

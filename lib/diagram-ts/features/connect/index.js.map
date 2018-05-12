@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/diagram-ts/features/connect/index.ts"],"names":[],"mappings":"AAAA,OAAO,eAAe,MAAM,cAAc,CAAC;AAC3C,OAAO,WAAW,MAAM,UAAU,CAAC;AACnC,OAAO,cAAc,MAAM,aAAa,CAAC;AAEzC,OAAO,OAAO,MAAM,WAAW,CAAC;AAEhC,eAAe;IACb,WAAW,EAAE;QACX,eAAe;QACf,WAAW;QACX,cAAc;KACf;IACD,OAAO,EAAE,CAAE,MAAM,EAAE,OAAO,CAAE;CAC7B,CAAC"}

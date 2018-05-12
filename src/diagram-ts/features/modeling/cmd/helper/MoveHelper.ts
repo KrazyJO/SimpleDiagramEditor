@@ -11,7 +11,7 @@ import {
 	getMovedTargetAnchor
 } from './AnchorsHelper';
 import Modeling from '../../Modeling';
-import { Point } from '../../../../interfaces';
+import { Point } from '../../../../../interfaces';
 
 /**
  * A helper that is able to carry out serialized move

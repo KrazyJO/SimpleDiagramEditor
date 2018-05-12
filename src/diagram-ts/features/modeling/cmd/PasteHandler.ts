@@ -9,7 +9,7 @@ import Canvas from '../../../core/Canvas';
 import ElementFactory from '../../../core/ElementFactory';
 import Modeling from '../Modeling';
 import Rules from '../../rules/Rules';
-import { Point } from '../../../interfaces';
+import { Point } from '../../../../interfaces';
 import Selection from '../../selection/Selection';
 
 function removeProperties(element: any, properties: any) {

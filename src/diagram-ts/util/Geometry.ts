@@ -1,4 +1,4 @@
-import { Point } from "../interfaces";
+import { Point } from "../../interfaces";
 
 /**
  * Computes the distance between two points

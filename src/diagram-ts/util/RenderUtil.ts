@@ -6,7 +6,7 @@ const {
 	attr,
 	create
 } = require('tiny-svg');
-import { Point } from '../interfaces';
+import { Point } from '../../interfaces';
 
 
 export function componentsToPath(elements: any): any {

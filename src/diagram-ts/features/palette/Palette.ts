@@ -154,7 +154,7 @@ export default class Palette {
 		});
 
 		// prevent drag propagation
-		domDelegate.bind(container, ENTRY_SELECTOR, 'dragstart', function (event) {
+		domDelegate.bind(container, ENTRY_SELECTOR, 'dragstart', function (event : any) {
 			self.trigger('dragstart', event);
 		});
 

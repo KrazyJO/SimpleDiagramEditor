@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/features/lasso-tool/index.js"],"names":[],"mappings":"AAAA,OAAO,iBAAiB,MAAM,iBAAiB,CAAC;AAEhD,OAAO,SAAS,MAAM,aAAa,CAAC;AAEpC,eAAe;IACb,WAAW,EAAE;QACX,iBAAiB;KAClB;IACD,QAAQ,EAAE,CAAE,WAAW,CAAE;IACzB,SAAS,EAAE,CAAE,MAAM,EAAE,SAAS,CAAE;CACjC,CAAC"}

@@ -22,7 +22,7 @@ import {
 import {
 	install as installClickTrap
 } from '../../util/ClickTrap';
-import { Point } from '../../interfaces';
+import { Point } from '../../../interfaces';
 import EventBus from '../../core/EventBus';
 import Canvas from '../../core/Canvas';
 import Selection from '../selection/Selection';

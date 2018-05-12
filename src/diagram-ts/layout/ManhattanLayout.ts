@@ -15,7 +15,7 @@ import {
 	pointDistance,
 	pointsAligned
 } from '../util/Geometry';
-import { Bounds, Point, hints } from '../interfaces';
+import { Bounds, Point, hints } from '../../interfaces';
 
 var INTERSECTION_THRESHOLD = 20,
 	ORIENTATION_THRESHOLD = {

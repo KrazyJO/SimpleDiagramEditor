@@ -26,7 +26,7 @@ import {
 } from '../../util/Event';
 import EventBus from '../../core/EventBus';
 import Canvas from '../../core/Canvas';
-import { Point } from '../../interfaces';
+import { Point } from '../../../interfaces';
 
 
 function length(point: Point): number {

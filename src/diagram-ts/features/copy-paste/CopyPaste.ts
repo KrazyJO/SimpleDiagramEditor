@@ -29,7 +29,7 @@ import ElementFactory from '../../core/ElementFactory';
 import Rules from '../rules/Rules';
 import Clipboard from '../clipboard/Clipboard';
 import Canvas from '../../core/Canvas';
-import { Point } from '../../interfaces';
+import { Point } from '../../../interfaces';
 
 
 export default class CopyPaste {

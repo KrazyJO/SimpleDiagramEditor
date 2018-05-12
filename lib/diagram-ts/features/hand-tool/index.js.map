@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/diagram-ts/features/hand-tool/index.js"],"names":[],"mappings":"AAAA,OAAO,iBAAiB,MAAM,iBAAiB,CAAC;AAEhD,OAAO,QAAQ,MAAM,YAAY,CAAC;AAElC,eAAe;IACb,WAAW,EAAE;QACX,iBAAiB;KAClB;IACD,QAAQ,EAAE,CAAE,UAAU,CAAE;IACxB,QAAQ,EAAE,CAAE,MAAM,EAAE,QAAQ,CAAE;CAC/B,CAAC"}

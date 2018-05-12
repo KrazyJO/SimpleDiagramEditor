@@ -9,7 +9,7 @@ var LOW_PRIORITY = 500,
 	HIGH_PRIORITY = 1500;
 
 import { getOriginal as getOriginalEvent } from '../../util/Event';
-import { Point } from '../../interfaces';
+import { Point } from '../../../interfaces';
 import EventBus from '../../core/EventBus';
 import Modeling from '../modeling/Modeling';
 import Rules from '../rules/Rules';

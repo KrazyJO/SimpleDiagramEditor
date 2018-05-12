@@ -5,7 +5,7 @@ import {
 	add as collectionAdd,
 	remove as collectionRemove
 } from '../../../util/Collections';
-import { Point } from '../../../interfaces';
+import { Point } from '../../../../interfaces';
 
 
 /**

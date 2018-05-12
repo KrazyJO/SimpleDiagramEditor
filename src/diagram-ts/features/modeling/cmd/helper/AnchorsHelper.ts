@@ -1,7 +1,7 @@
 import {
 	getNewAttachPoint
 } from '../../../../util/AttachUtil';
-import { Bounds, Point } from '../../../../interfaces';
+import { Bounds, Point } from '../../../../../interfaces';
 
 
 export function getResizedSourceAnchor(connection: any, shape: any, oldBounds: any): any {

@@ -28,7 +28,7 @@ import PasteHandler from './cmd/PasteHandler';
 import EventBus from '../../core/EventBus';
 import ElementFactory from '../../core/ElementFactory';
 import CommandStack from '../../command/CommandStack';
-import { Point, hints, Bounds } from '../../interfaces';
+import { Point, hints, Bounds } from '../../../interfaces';
 
 
 /**
