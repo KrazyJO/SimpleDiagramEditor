@@ -7,20 +7,28 @@ Will be plnkr with diagram editor, hopefully ;)
 ## install
 Recomended is using yarn instead of npm.
 
-```npm install -g typescript```
+```
+npm install -g typescript
+```
 
-```yarn```
+```
+yarn
+```
 
 ## develop
 Webpack is configured to work with devserver.
 Two bundles will be created and injected in demo html. Just run 
 
-```yarn run webpack:dev```
+```
+yarn run webpack:dev
+```
 
 ## Build
 (not final yet)
 
-```yarn run webpack```
+```
+yarn run webpack
+```
 
 ## deployment
 Project will be tested, built and deployed by gitlab ci.
