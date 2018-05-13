@@ -3,6 +3,7 @@ image: node:latest
 stages:
   - lint
   - build
+  - deploy
 
 cache:
   paths:
@@ -19,3 +20,15 @@ build:
   script:
     - yarn install
     - yarn run webpack
+
+pages:
+  stage: deploy
+  script:
+  - mkdir .public
+  - cp -r dist/* .public
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
