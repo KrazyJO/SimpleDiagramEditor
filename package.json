@@ -1,20 +1,15 @@
 {
-  "name": "diagram-ts",
+  "name": "simplediagrameditorts",
   "version": "0.1.0",
-  "description": "A modeling framework for the web",
+  "description": "SimpleDiagramEditor.TS: plnkr like diagram editor.",
   "scripts": {
-    "all": "run-s lint test",
-    "lint": "eslint .",
     "tslint": "tslint -c tslint.json 'src/**/*.ts' --exclude 'src/typings/**'",
     "dev": "yarn run webpack:dev",
-    "test": "karma start",
-    "devts": "tsc --watch",
-    "webpack": "webpack --mode development",
-    "start": "webpack-dev-server",
-    "old-webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --progress --profile --port=9060",
+    "obsolet-test": "karma start",
+    "webpack": "webpack --mode production",
+    "obsolet-webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --progress --profile --port=9060",
     "webpack:dev": "cross-env NODE_ENV=development --mode=development webpack-dev-server --progress --profile --port=9060"
   },
-  "license": "MIT",
   "devDependencies": {
     "@types/ids": "^0.2.1",
     "@types/inherits": "0.0.30",
