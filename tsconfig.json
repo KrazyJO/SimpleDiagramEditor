@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
-    "module": "esnext",
+    "outDir": "dist",
+    "module": "commonjs",
     "target": "es5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
@@ -17,11 +17,14 @@
     "baseUrl": "src"
   },
   "exclude": [
+    "assets",
     "example",
     "node_modules",
     "build",
     "scripts",
     "karma.config.js",
-    "index.js"
+    "index.js",
+    "dist",
+    "test"
   ]
 }

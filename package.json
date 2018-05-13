@@ -6,12 +6,13 @@
     "all": "run-s lint test",
     "lint": "eslint .",
     "tslint": "tslint -c tslint.json 'src/**/*.ts' --exclude 'src/typings/**'",
-    "dev": "npm test -- --auto-watch --no-single-run",
+    "dev": "yarn run webpack:dev", 
     "test": "karma start",
     "devts": "tsc --watch",
     "webpack": "webpack --mode development",
     "start": "webpack-dev-server",
-    "webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --progress --profile --port=9060"
+    "old-webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --progress --profile --port=9060",
+    "webpack:dev": "cross-env NODE_ENV=development --mode=development webpack-dev-server --progress --profile --port=9060"
   },
   "license": "MIT",
   "devDependencies": {

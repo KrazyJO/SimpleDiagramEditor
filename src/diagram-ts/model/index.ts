@@ -1,8 +1,9 @@
 import { assign } from 'min-dash';
 
-import Refs from 'object-refs';
+// import Refs from 'object-refs';
+const Refs = require('object-refs');
 
-var parentRefs: any = new Refs({ name: 'children', enumerable: true, collection: true }, { name: 'parent' }),
+var parentRefs = new Refs({ name: 'children', enumerable: true, collection: true }, { name: 'parent' }),
 	labelRefs = new Refs({ name: 'label', enumerable: true }, { name: 'labelTarget' }),
 	attacherRefs = new Refs({ name: 'attachers', collection: true }, { name: 'host' }),
 	outgoingRefs = new Refs({ name: 'outgoing', collection: true }, { name: 'source' }),
@@ -24,12 +25,6 @@ var parentRefs: any = new Refs({ name: 'children', enumerable: true, collection:
  * @abstract
  */
 export class Base {
-
-	public incoming : any;
-	public outgoing : any;
-	public label : any;
-	public parent : any;
-	public businessObject : any;
 
 	constructor() {
 		/**
@@ -72,6 +67,12 @@ export class Base {
 		 */
 		incomingRefs.bind(this, 'incoming');
 	}
+
+	public incoming : any;
+	public outgoing : any;
+	public label : any;
+	public parent : any;
+	public businessObject : any;
 }
 
 
@@ -222,6 +223,17 @@ var types = {
  *
  * @return {Base} the new model instance
  */
+
+// export class create {
+// 	constructor(type: string, attrs: any) {
+// 		var Type = types[type];
+// 		if (!Type) {
+// 			throw new Error('unknown type: <' + type + '>');
+// 		}
+// 		return assign(new Type(), attrs);
+// 	}
+// }
+ 
 export function create(type: string, attrs: any): any {
 	var Type = types[type];
 	if (!Type) {
