@@ -1,0 +1,38 @@
+{
+  "name": "Easy",
+  "uri": "https://seblog.cs.uni-kassel.de/easy",
+  "prefix": "ea",
+  "enumeration": [],
+  "types": [
+    {
+      "name": "Element",
+      "properties": [
+        { "name": "id", "type": "String", "isAttr": true, "isId": true }
+      ]
+    },
+    {
+      "name": "EasyGraph",
+      "superClass": [ "ea:Element" ],
+      "properties": [
+        { "name": "myNodes", "type": "ea:Node", "isMany": true },
+        { "name": "myEdges", "type": "ea:Edge", "isMany": true },
+        { "name": "diagram", "type": "eadi:EasyDiagram" }
+      ]
+    },
+    {
+      "name": "Node",
+      "superClass": [ "ea:Element" ],
+      "properties": [
+        { "name": "name", "type": "String", "isAttr": true }
+      ]
+    },
+    {
+      "name": "Edge",
+      "superClass": [ "ea:Element" ],
+      "properties": [
+        { "name": "sourceNode", "type": "ea:Edge", "isAttr": true, "isReference": true },
+        { "name": "targetNode", "type": "ea:Edge", "isAttr": true, "isReference": true }
+      ]
+    }
+  ]
+}

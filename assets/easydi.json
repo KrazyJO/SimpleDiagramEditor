@@ -1,0 +1,58 @@
+{
+  "name": "EasyDI",
+  "uri": "https://seblog.cs.uni-kassel.de/easydi",
+  "prefix": "eadi",
+  "types": [
+    {
+      "name": "EasyDiagram",
+      "superClass": [ "di:Diagram" ],
+      "properties": [
+        { "name":"labelStyle", "type":"eadi:EasyLabelStyle", "isMany":true },
+        { "name":"diagramElements", "type":"eadi:EasyDiagramElement", "isMany":true }
+      ]
+    },
+    {
+      "name":"EasyDiagramElement",
+      "superClass": [ "di:DiagramElement" ]
+    },
+    {
+      "name":"EasyShape",
+      "superClass": [ "di:Shape", "eadi:EasyDiagramElement" ],
+      "properties": [
+        { "name":"easyElement", "type":"ea:Element", "isAttr":true, "isReference":true, "redefines":"di:DiagramElement#modelElement" },
+        { "name": "label", "type": "eadi:EasyLabel" }
+      ]
+    },
+    {
+      "name":"EasyPlaneShape",
+      "superClass": [ "eadi:EasyShape" ],
+      "properties": [
+        { "name":"planeElements", "type":"di:DiagramElement", "subsettedProperty":"DiagramElement-ownedElement", "isMany":true }
+      ]
+    },
+    {
+      "name":"EasyEdge",
+      "superClass": [ "di:LabeledEdge", "eadi:EasyDiagramElement" ],
+      "properties": [
+        { "name":"labels", "type":"eadi:EasyLabel", "isMany":true },
+        { "name":"easyElement", "type":"ea:Element", "isAttr":true, "isReference":true, "redefines":"di:DiagramElement#modelElement" },
+        { "name":"sourceElement", "type":"di:DiagramElement", "isAttr":true, "isReference":true, "redefines":"di:Edge#source" },
+        { "name":"targetElement", "type":"di:DiagramElement", "isAttr":true, "isReference":true, "redefines":"di:Edge#target" }
+      ]
+    },
+    {
+      "name":"EasyLabel",
+      "superClass": [ "di:Label" ],
+      "properties": [
+        { "name":"labelStyle", "type":"eadi:EasyLabelStyle", "isAttr":true, "isReference":true, "redefines":"di:DiagramElement#style" }
+      ]
+    },
+    {
+      "name":"EasyLabelStyle",
+      "superClass": [ "di:Style" ],
+      "properties": [
+        { "name":"font", "type":"dc:Font" }
+      ]
+    }
+  ]
+}

@@ -7,10 +7,10 @@ import * as Moddle from 'moddle';
 
 //---------------------CONSTANTS---------------------
 const DEFAULT_PACKAGES: Moddle.Package[] = [
-	require('../resources/easy.json'),
-	require('../resources/easydi.json'),
-	require('../resources/dc.json'),
-	require('../resources/di.json')
+	require('../assets/easy.json'),
+	require('../assets/easydi.json'),
+	require('../assets/dc.json'),
+	require('../assets/di.json')
 ];
 
 //---------------------CLASS--------------------

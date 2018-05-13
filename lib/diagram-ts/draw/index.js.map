@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/diagram-ts/draw/index.ts"],"names":[],"mappings":"AAAA,OAAO,eAAe,MAAM,mBAAmB,CAAC;AAChD,OAAO,MAAM,MAAM,UAAU,CAAC;AAE9B,eAAe;IACb,QAAQ,EAAE,CAAE,iBAAiB,CAAE;IAC/B,eAAe,EAAE,CAAE,MAAM,EAAE,eAAe,CAAE;IAC5C,MAAM,EAAE,CAAE,MAAM,EAAE,MAAM,CAAE;CAC3B,CAAC"}
