@@ -3,7 +3,18 @@ import { assign } from 'min-dash';
 import {
   toPoint
 } from '../../util/Event';
+import EventBus from '../../core/EventBus';
+import Canvas from '../../core/Canvas';
+import MouseTracking from '../mouse-tracking/MouseTracking';
 
+
+function between(val, start, end) {
+  if (start < val && val < end) {
+    return true;
+  }
+
+  return false;
+}
 
 /**
  * Initiates canvas scrolling if current cursor point is close to a border.
@@ -19,9 +30,23 @@ import {
  * Threshold order:
  *   [ left, top, right, bottom ]
  */
-export default function AutoScroll(config, eventBus, canvas, mouseTracking) {
+export default class AutoScroll {
 
-  this._canvas = canvas;
+
+  private _canvas : Canvas;
+  public _mouseTracking : MouseTracking;
+  private _opts : any;
+  private _scrolling : any;
+
+  public static $inject = [
+    'config.autoScroll',
+    'eventBus',
+    'canvas',
+    'mouseTracking'
+  ];
+
+  constructor(config : any, eventBus: EventBus, canvas:Canvas, mouseTracking:MouseTracking) {
+    this._canvas = canvas;
   this._mouseTracking = mouseTracking;
 
   this._opts = assign({
@@ -42,23 +67,15 @@ export default function AutoScroll(config, eventBus, canvas, mouseTracking) {
   eventBus.on([ 'drag.cleanup' ], function() {
     self.stopScroll();
   });
-}
+  }
 
-AutoScroll.$inject = [
-  'config.autoScroll',
-  'eventBus',
-  'canvas',
-  'mouseTracking'
-];
-
-
-/**
+  /**
  * Starts scrolling loop.
  * Point is given in global scale in canvas container box plane.
  *
  * @param  {Object} point { x: X, y: Y }
  */
-AutoScroll.prototype.startScroll = function(point) {
+public startScroll(point) {
 
   var canvas = this._canvas;
   var opts = this._opts;
@@ -82,11 +99,11 @@ AutoScroll.prototype.startScroll = function(point) {
     if (between(diff[i], opts.scrollThresholdOut[i], opts.scrollThresholdIn[i])) {
       if (i === 0) {
         dx = opts.scrollStep;
-      } else if (i == 1) {
+      } else if (i === 1) {
         dy = opts.scrollStep;
-      } else if (i == 2) {
+      } else if (i === 2) {
         dx = -opts.scrollStep;
-      } else if (i == 3) {
+      } else if (i === 3) {
         dy = -opts.scrollStep;
       }
     }
@@ -101,19 +118,13 @@ AutoScroll.prototype.startScroll = function(point) {
   }
 };
 
-function between(val, start, end) {
-  if (start < val && val < end) {
-    return true;
-  }
 
-  return false;
-}
 
 
 /**
  * Stops scrolling loop.
  */
-AutoScroll.prototype.stopScroll = function() {
+public stopScroll() {
   clearTimeout(this._scrolling);
 };
 
@@ -123,7 +134,7 @@ AutoScroll.prototype.stopScroll = function() {
  *
  * @param  {Object} options
  */
-AutoScroll.prototype.setOptions = function(options) {
+public setOptions(options) {
   this._opts = assign({}, this._opts, options);
 };
 
@@ -134,7 +145,7 @@ AutoScroll.prototype.setOptions = function(options) {
  * @param  {Event} event
  * @return {Point}
  */
-AutoScroll.prototype._toBorderPoint = function(event) {
+private _toBorderPoint(event) {
   var clientRect = this._canvas._container.getBoundingClientRect();
 
   var globalPosition = toPoint(event.originalEvent);
@@ -144,3 +155,15 @@ AutoScroll.prototype._toBorderPoint = function(event) {
     y: globalPosition.y - clientRect.top
   };
 };
+
+  
+}
+
+// AutoScroll.$inject = [
+//   'config.autoScroll',
+//   'eventBus',
+//   'canvas',
+//   'mouseTracking'
+// ];
+
+

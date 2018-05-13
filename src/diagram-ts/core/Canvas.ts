@@ -367,7 +367,7 @@ class Canvas {
 	 *
 	 * @return {DOMNode}
 	 */
-	public getContainer(): Node {
+	public getContainer(): any {
 		return this._container;
 	};
 
