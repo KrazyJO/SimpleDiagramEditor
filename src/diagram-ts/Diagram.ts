@@ -133,9 +133,14 @@ function createInjector(options : any) {
  * @param {Array<didi.Module>} [options.modules] external modules to instantiate with the diagram
  * @param {didi.Injector} [injector] an (optional) injector to bootstrap the diagram with
  */
-export default function Diagram(options : any, injector : any) : void {
+export default class Diagram {
 
-  // create injector unless explicitly specified
+  public get : any;
+  public invoke : any;
+  public injector : any;
+
+  constructor(options : any, injector? : any) {
+    // create injector unless explicitly specified
   this.injector = injector = injector || createInjector(options);
 
   // API
@@ -183,21 +188,22 @@ export default function Diagram(options : any, injector : any) : void {
    * @type {Object}
    */
   this.get('eventBus').fire('diagram.init');
-}
+  }
 
-
-/**
+  /**
  * Destroys the diagram
  *
  * @method  Diagram#destroy
  */
-Diagram.prototype.destroy = function() {
+destroy() {
   this.get('eventBus').fire('diagram.destroy');
 };
 
 /**
  * Clear the diagram, removing all contents.
  */
-Diagram.prototype.clear = function() {
+clear() {
   this.get('eventBus').fire('diagram.clear');
 };
+  
+}

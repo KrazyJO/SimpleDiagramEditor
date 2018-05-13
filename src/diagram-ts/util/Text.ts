@@ -196,7 +196,7 @@ function getHelperSvg() {
  * @param {Object} config.style
  * @param {String} config.align
  */
-export default function Text(config: any) {
+export default function Text(config: any) : void {
 
 	this._config = assign({}, {
 		size: DEFAULT_LABEL_SIZE,
