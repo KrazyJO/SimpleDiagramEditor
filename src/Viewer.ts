@@ -39,6 +39,7 @@ export class Viewer extends Diagram {
 
 	//---------------------CONSTRUCTOR---------------------
 	constructor(options?: any, modules?: any[]) {
+		console.log("init Viewer");
 		options = assign({}, DEFAULT_OPTIONS, options);
 		super(options);
 
@@ -60,7 +61,6 @@ export class Viewer extends Diagram {
 	importXML(xml: string, done: (err: any, warnings?: any) => void = function () { }) {
 		const self = this;
 		xml = this.emit('import.parse.start', { xml: xml }) || xml;
-		console.log('Start Parsing!');
 		this.moddle.fromXML(xml, 'ea:EasyGraph', {}, function (err: any, definitions: any, context: any) {
 			console.log('Successfully parsed!');
 			definitions = self.emit('import.parse.complete', {
@@ -123,8 +123,6 @@ export class Viewer extends Diagram {
 
 	protected createModdle(options: any) {
 		this.modules = DEFAULT_MODULES;
-		console.log("options");
-		console.log(options);
 		const moddle = new EasyModdle(options.moddleExtensions);
 		moddle.ids = new Ids([32, 36, 1]);
 		return moddle;
