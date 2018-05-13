@@ -1,15 +1,21 @@
 image: node:latest
 
+stages:
+  - lint
+  - build
+
 cache:
   paths:
     - node_modules/
 
 test_tslint:
+  stage: lint
   script:
     - yarn install
     - yarn run tslint
 
 build:
+  stage: build
   script:
     - yarn install
     - yarn run webpack
