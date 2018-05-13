@@ -123,6 +123,8 @@ export class Viewer extends Diagram {
 
 	protected createModdle(options: any) {
 		this.modules = DEFAULT_MODULES;
+		console.log("options");
+		console.log(options);
 		const moddle = new EasyModdle(options.moddleExtensions);
 		moddle.ids = new Ids([32, 36, 1]);
 		return moddle;

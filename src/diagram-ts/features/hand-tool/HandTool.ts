@@ -28,7 +28,7 @@ export default class HandTool {
 	  dragging: 'hand.move'
 	});
   
-	eventBus.on('element.mousedown', HIGH_PRIORITY, function(event) : any{
+	eventBus.on('element.mousedown', HIGH_PRIORITY, function(event: any) : any{
 	  if (hasPrimaryModifier(event)) {
 		this.activateMove(event.originalEvent);
   
@@ -37,7 +37,7 @@ export default class HandTool {
 	}, this);
   
   
-	eventBus.on('hand.end', function(event) : any {
+	eventBus.on('hand.end', function(event : any) : any {
 	  var target = event.originalEvent.target;
   
 	  // only reactive on diagram click
@@ -53,7 +53,7 @@ export default class HandTool {
 	}, this);
   
   
-	eventBus.on('hand.move.move', function(event) {
+	eventBus.on('hand.move.move', function(event: any) {
 	  var scale = canvas.viewbox().scale;
   
 	  canvas.scroll({
@@ -62,14 +62,14 @@ export default class HandTool {
 	  });
 	});
   
-	eventBus.on('hand.move.end', function(event) {
+	eventBus.on('hand.move.end', function(event: any) {
 	  var context = event.context,
 		  reactivate = context.reactivate;
   
 	  // Don't reactivate if the user is using the keyboard keybinding
 	  if (!hasPrimaryModifier(event) && reactivate) {
   
-		eventBus.once('hand.move.ended', function(event) {
+		eventBus.once('hand.move.ended', function(event: any) {
 		  this.activateHand(event.originalEvent, true, true);
 		}, this);
   
@@ -79,7 +79,7 @@ export default class HandTool {
 	}, this);
   }
   
-  public activateMove(event, autoActivate, context) {
+  public activateMove(event: any, autoActivate: any, context: any) {
 	if (typeof autoActivate === 'object') {
 	  context = autoActivate;
 	  autoActivate = false;
@@ -94,7 +94,7 @@ export default class HandTool {
 	});
   };
   
-  public activateHand(event?, autoActivate?, reactivate?) {
+  public activateHand(event?: any, autoActivate?: any, reactivate?: any) {
 	this._dragging.init(event, 'hand', {
 	  trapClick: false,
 	  autoActivate: autoActivate,

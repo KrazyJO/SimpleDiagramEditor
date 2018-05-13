@@ -196,56 +196,113 @@ function getHelperSvg() {
  * @param {Object} config.style
  * @param {String} config.align
  */
-export default function Text(config: any) : void {
+export default class Text {
 
-	this._config = assign({}, {
-		size: DEFAULT_LABEL_SIZE,
-		padding: DEFAULT_BOX_PADDING,
-		style: {},
-		align: 'center-top'
-	}, config || {});
+	public _config : any;
+	constructor(config: any) {
+		this._config = assign({}, {
+			size: DEFAULT_LABEL_SIZE,
+			padding: DEFAULT_BOX_PADDING,
+			style: {},
+			align: 'center-top'
+		}, config || {});
+
+	}
+
+	public layoutText(text: string, options: options) {
+		var box = assign({}, this._config.size, options.box),
+			style = assign({}, this._config.style, options.style),
+			align = parseAlign(options.align || this._config.align),
+			padding = parsePadding(options.padding !== undefined ? options.padding : this._config.padding),
+			fitBox = options.fitBox || false;
+	
+		var lines = text.split(/\r?\n/g),
+			layouted = [];
+	
+		var maxWidth = box.width - padding.left - padding.right;
+	
+		// ensure correct rendering by attaching helper text node to invisible SVG
+		var helperText = create('text');
+		attr(helperText, { x: 0, y: 0 });
+		attr(helperText, style);
+	
+		var helperSvg = getHelperSvg();
+	
+		append(helperSvg, helperText);
+	
+		while (lines.length) {
+			layouted.push(layoutNext(lines, maxWidth, helperText));
+		}
+	
+		var totalHeight = reduce(layouted, function (sum: number, line: any, idx: number): boolean {
+			return sum + line.height;
+		}, 0);
+	
+		var maxLineWidth = reduce(layouted, function (sum: number, line: any, idx: number): boolean {
+			return line.width > sum ? line.width : sum;
+		}, 0);
+	
+		// the y position of the next line
+		var y: number, x: number;
+	
+		switch (align.vertical) {
+			case 'middle':
+				y = (box.height - totalHeight) / 2 - layouted[0].height / 4;
+				break;
+	
+			default:
+				y = padding.top;
+		}
+	
+		var textElement = create('text');
+	
+		attr(textElement, style);
+	
+		// layout each line taking into account that parent
+		// shape might resize to fit text size
+		forEach(layouted, function (line: any) {
+			y += line.height;
+	
+			switch (align.horizontal) {
+				case 'left':
+					x = padding.left;
+					break;
+	
+				case 'right':
+					x = ((fitBox ? maxLineWidth : maxWidth)
+						- padding.right - line.width);
+					break;
+	
+				default:
+					// aka center
+					x = Math.max((((fitBox ? maxLineWidth : maxWidth)
+						- line.width) / 2 + padding.left), 0);
+			}
+	
+			var tspan = create('tspan');
+			attr(tspan, { x: x, y: y });
+	
+			tspan.textContent = line.text;
+	
+			append(textElement, tspan);
+		});
+	
+		remove(helperText);
+	
+		var dimensions = {
+			width: maxLineWidth,
+			height: totalHeight
+		};
+	
+		return {
+			dimensions: dimensions,
+			element: textElement
+		};
+	};
+	
 }
 
-/**
- * Returns the layouted text as an SVG element.
- *
- * @param {String} text
- * @param {Object} options
- *
- * @return {SVGElement}
- */
-Text.prototype.createText = function (text: string, options: object): SVGElement {
-	return this.layoutText(text, options).element;
-};
 
-/**
- * Returns a labels layouted dimensions.
- *
- * @param {String} text to layout
- * @param {Object} options
- *
- * @return {Dimensions}
- */
-Text.prototype.getDimensions = function (text: string, options: object): any {
-	return this.layoutText(text, options).dimensions;
-};
-
-/**
- * Creates and returns a label and its bounding box.
- *
- * @method Text#createText
- *
- * @param {String} text the text to render on the label
- * @param {Object} options
- * @param {String} options.align how to align in the bounding box.
- *                               Any of { 'center-middle', 'center-top' },
- *                               defaults to 'center-top'.
- * @param {String} options.style style to be applied to the text
- * @param {boolean} options.fitBox indicates if box will be recalculated to
- *                                 fit text
- *
- * @return {Object} { element, dimensions }
- */
 
 interface options {
 	align: string,
@@ -255,93 +312,3 @@ interface options {
 	padding: any
 }
 
-Text.prototype.layoutText = function (text: string, options: options) {
-	var box = assign({}, this._config.size, options.box),
-		style = assign({}, this._config.style, options.style),
-		align = parseAlign(options.align || this._config.align),
-		padding = parsePadding(options.padding !== undefined ? options.padding : this._config.padding),
-		fitBox = options.fitBox || false;
-
-	var lines = text.split(/\r?\n/g),
-		layouted = [];
-
-	var maxWidth = box.width - padding.left - padding.right;
-
-	// ensure correct rendering by attaching helper text node to invisible SVG
-	var helperText = create('text');
-	attr(helperText, { x: 0, y: 0 });
-	attr(helperText, style);
-
-	var helperSvg = getHelperSvg();
-
-	append(helperSvg, helperText);
-
-	while (lines.length) {
-		layouted.push(layoutNext(lines, maxWidth, helperText));
-	}
-
-	var totalHeight = reduce(layouted, function (sum: number, line: any, idx: number): boolean {
-		return sum + line.height;
-	}, 0);
-
-	var maxLineWidth = reduce(layouted, function (sum: number, line: any, idx: number): boolean {
-		return line.width > sum ? line.width : sum;
-	}, 0);
-
-	// the y position of the next line
-	var y: number, x: number;
-
-	switch (align.vertical) {
-		case 'middle':
-			y = (box.height - totalHeight) / 2 - layouted[0].height / 4;
-			break;
-
-		default:
-			y = padding.top;
-	}
-
-	var textElement = create('text');
-
-	attr(textElement, style);
-
-	// layout each line taking into account that parent
-	// shape might resize to fit text size
-	forEach(layouted, function (line: any) {
-		y += line.height;
-
-		switch (align.horizontal) {
-			case 'left':
-				x = padding.left;
-				break;
-
-			case 'right':
-				x = ((fitBox ? maxLineWidth : maxWidth)
-					- padding.right - line.width);
-				break;
-
-			default:
-				// aka center
-				x = Math.max((((fitBox ? maxLineWidth : maxWidth)
-					- line.width) / 2 + padding.left), 0);
-		}
-
-		var tspan = create('tspan');
-		attr(tspan, { x: x, y: y });
-
-		tspan.textContent = line.text;
-
-		append(textElement, tspan);
-	});
-
-	remove(helperText);
-
-	var dimensions = {
-		width: maxLineWidth,
-		height: totalHeight
-	};
-
-	return {
-		dimensions: dimensions,
-		element: textElement
-	};
-};

@@ -15,7 +15,7 @@ const modeler = new EA.Modeler({
 
 function createNewDiagram() {
   console.log('Start with creating the diagram!');
-  modeler.importXML(XML, function (err) {
+  modeler.importXML(XML, function (err: any) {
 	if (!err) {
 	  modeler.get('canvas').zoom('fit-viewport');
 	  console.log('Yay look at this beautiful Diagram :D');

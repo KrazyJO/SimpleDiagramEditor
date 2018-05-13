@@ -46,7 +46,7 @@ export default class LassoTool {
 		*/
 		var visuals = {
 
-			create: function (context) {
+			create: function (context: any) {
 				var container = canvas.getDefaultLayer(),
 					frame;
 
@@ -62,7 +62,7 @@ export default class LassoTool {
 				svgAppend(container, frame);
 			},
 
-			update: function (context) {
+			update: function (context: any) {
 				var frame = context.frame,
 					bbox = context.bbox;
 
@@ -74,7 +74,7 @@ export default class LassoTool {
 				});
 			},
 
-			remove: function (context) {
+			remove: function (context: any) {
 
 				if (context.frame) {
 					svgRemove(context.frame);
@@ -87,7 +87,7 @@ export default class LassoTool {
 			dragging: 'lasso'
 		});
 
-		eventBus.on('lasso.selection.end', function (event) {
+		eventBus.on('lasso.selection.end', function (event: any) {
 			var target = event.originalEvent.target;
 
 			// only reactive on diagram click
@@ -103,18 +103,18 @@ export default class LassoTool {
 
 		// lasso interaction implementation
 
-		eventBus.on('lasso.end', function (event) {
+		eventBus.on('lasso.end', function (event: any) {
 
 			var bbox = toBBox(event);
 
-			var elements = elementRegistry.filter(function (element) {
+			var elements = elementRegistry.filter(function (element: any) {
 				return element;
 			});
 
 			self.select(elements, bbox);
 		});
 
-		eventBus.on('lasso.start', function (event) {
+		eventBus.on('lasso.start', function (event: any) {
 
 			var context = event.context;
 
@@ -122,7 +122,7 @@ export default class LassoTool {
 			visuals.create(context);
 		});
 
-		eventBus.on('lasso.move', function (event) {
+		eventBus.on('lasso.move', function (event: any) {
 
 			var context = event.context;
 
@@ -130,7 +130,7 @@ export default class LassoTool {
 			visuals.update(context);
 		});
 
-		eventBus.on('lasso.cleanup', function (event) {
+		eventBus.on('lasso.cleanup', function (event: any) {
 
 			var context = event.context;
 
@@ -140,7 +140,7 @@ export default class LassoTool {
 
 		// event integration
 
-		eventBus.on('element.mousedown', 1500, function (event): any {
+		eventBus.on('element.mousedown', 1500, function (event: any): any {
 
 			if (hasSecondaryModifier(event)) {
 				self.activateLasso(event.originalEvent);
@@ -151,7 +151,7 @@ export default class LassoTool {
 		});
 	}
 
-	public activateLasso(event, autoActivate?) {
+	public activateLasso(event: any, autoActivate?: any) {
 
 		this._dragging.init(event, 'lasso', {
 			autoActivate: autoActivate,
@@ -162,7 +162,7 @@ export default class LassoTool {
 		});
 	};
 
-	public activateSelection(event?) {
+	public activateSelection(event?: any) {
 
 		this._dragging.init(event, 'lasso.selection', {
 			trapClick: false,
@@ -173,7 +173,7 @@ export default class LassoTool {
 		});
 	};
 
-	public select(elements, bbox) {
+	public select(elements: any, bbox: any) {
 		var selectedElements = getEnclosedElements(elements, bbox);
 
 		this._selection.select(values(selectedElements));
@@ -209,7 +209,7 @@ export default class LassoTool {
 
 
 
-function toBBox(event) {
+function toBBox(event: any) {
 
 	var start = {
 

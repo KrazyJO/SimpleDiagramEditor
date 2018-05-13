@@ -6,9 +6,10 @@ import {
 import EventBus from '../../core/EventBus';
 import Canvas from '../../core/Canvas';
 import MouseTracking from '../mouse-tracking/MouseTracking';
+import { Point } from 'interfaces';
 
 
-function between(val, start, end) {
+function between(val: any, start: any, end: any) {
   if (start < val && val < end) {
     return true;
   }
@@ -58,7 +59,7 @@ export default class AutoScroll {
 
   var self = this;
 
-  eventBus.on('drag.move', function(e) {
+  eventBus.on('drag.move', function(e: any) {
     var point = self._toBorderPoint(e);
 
     self.startScroll(point);
@@ -75,7 +76,7 @@ export default class AutoScroll {
  *
  * @param  {Object} point { x: X, y: Y }
  */
-public startScroll(point) {
+public startScroll(point : Point) {
 
   var canvas = this._canvas;
   var opts = this._opts;
@@ -134,7 +135,7 @@ public stopScroll() {
  *
  * @param  {Object} options
  */
-public setOptions(options) {
+public setOptions(options: any) {
   this._opts = assign({}, this._opts, options);
 };
 
@@ -145,7 +146,7 @@ public setOptions(options) {
  * @param  {Event} event
  * @return {Point}
  */
-private _toBorderPoint(event) {
+private _toBorderPoint(event: any) {
   var clientRect = this._canvas._container.getBoundingClientRect();
 
   var globalPosition = toPoint(event.originalEvent);

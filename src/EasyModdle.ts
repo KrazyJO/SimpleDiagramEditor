@@ -31,7 +31,7 @@ export default class EasyModdle extends Moddle {
 			reader.fromXML(xmlStr, rootHandler, done);
 	}
 
-	public toXML(element, options = {}, done: (event: any, result?: any) => void = () => {}): void {
+	public toXML(element: any, options = {}, done: (event: any, result?: any) => void = () => {}): void {
 		const writer = new XMLWriter(options);
 		try {
 			const result = writer.toXML(element);
