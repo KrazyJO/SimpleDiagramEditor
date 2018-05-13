@@ -24,6 +24,8 @@ build:
 pages:
   stage: deploy
   script:
+  - yarn install
+  - yarn run webpack
   - mkdir .public
   - cp -r dist/* .public
   - mv .public public
