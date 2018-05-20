@@ -10,7 +10,9 @@ const DEFAULT_PACKAGES: Moddle.Package[] = [
 	require('../assets/easy.json'),
 	require('../assets/easydi.json'),
 	require('../assets/dc.json'),
-	require('../assets/di.json')
+	require('../assets/di.json'),
+	require('../assets/se.json'),
+	require('../assets/sedi.json')
 ];
 
 //---------------------CLASS--------------------

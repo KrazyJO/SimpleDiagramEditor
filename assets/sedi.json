@@ -1,0 +1,58 @@
+{
+	"name": "SimpleDebugEditorDI",
+	"uri": "https://seblog.cs.uni-kassel.de/sdedi",
+	"prefix": "sdedi",
+	"types": [
+	  {
+		"name": "SimpleDebugEditorDiagram",
+		"superClass": [ "di:Diagram" ],
+		"properties": [
+		  { "name":"labelStyle", "type":"sdedi:SimpleDebugEditorLabelStyle", "isMany":true },
+		  { "name":"diagramElements", "type":"sdedi:SimpleDebugEditorDiagramElement", "isMany":true }
+		]
+	  },
+	  {
+		"name":"SimpleDebugEditorDiagramElement",
+		"superClass": [ "di:DiagramElement" ]
+	  },
+	  {
+		"name":"SimpleDebugEditorShape",
+		"superClass": [ "di:Shape", "sdedi:SimpleDebugEditorDiagramElement" ],
+		"properties": [
+		  { "name":"simpleDebugEditorElement", "type":"sde:Element", "isAttr":true, "isReference":true, "redefines":"di:DiagramElement#modelElement" },
+		  { "name": "label", "type": "sdedi:SimpleDebugEditorLabel" }
+		]
+	  },
+	  {
+		"name":"SimpleDebugEditorPlaneShape",
+		"superClass": [ "sdedi:SimpleDebugEditorShape" ],
+		"properties": [
+		  { "name":"planeElements", "type":"di:DiagramElement", "subsettedProperty":"DiagramElement-ownedElement", "isMany":true }
+		]
+	  },
+	  {
+		"name":"SimpleDebugEditorEdge",
+		"superClass": [ "di:LabeledEdge", "sdedi:SimpleDebugEditorDiagramElement" ],
+		"properties": [
+		  { "name":"labels", "type":"sdedi:SimpleDebugEditorLabel", "isMany":true },
+		  { "name":"simpleDebugEditorElement", "type":"sde:Element", "isAttr":true, "isReference":true, "redefines":"di:DiagramElement#modelElement" },
+		  { "name":"sourceElement", "type":"di:DiagramElement", "isAttr":true, "isReference":true, "redefines":"di:Edge#source" },
+		  { "name":"targetElement", "type":"di:DiagramElement", "isAttr":true, "isReference":true, "redefines":"di:Edge#target" }
+		]
+	  },
+	  {
+		"name":"SimpleDebugEditorLabel",
+		"superClass": [ "di:Label" ],
+		"properties": [
+		  { "name":"labelStyle", "type":"sdedi:SimpleDebugEditorLabelStyle", "isAttr":true, "isReference":true, "redefines":"di:DiagramElement#style" }
+		]
+	  },
+	  {
+		"name":"SimpleDebugEditorLabelStyle",
+		"superClass": [ "di:Style" ],
+		"properties": [
+		  { "name":"font", "type":"dc:Font" }
+		]
+	  }
+	]
+  }
