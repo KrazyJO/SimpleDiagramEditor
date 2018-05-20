@@ -61,7 +61,7 @@ export class Viewer extends Diagram {
 	importXML(xml: string, done: (err: any, warnings?: any) => void = function () { }) {
 		const self = this;
 		xml = this.emit('import.parse.start', { xml: xml }) || xml;
-		this.moddle.fromXML(xml, 'ea:EasyGraph', {}, function (err: any, definitions: any, context: any) {
+		this.moddle.fromXML(xml, 'sde:SimpleDebugEditorGraph', {}, function (err: any, definitions: any, context: any) {
 			console.log('Successfully parsed!');
 			definitions = self.emit('import.parse.complete', {
 				error: err,
