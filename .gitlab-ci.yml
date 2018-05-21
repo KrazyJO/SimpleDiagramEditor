@@ -6,7 +6,7 @@ stages:
   - deploy
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
+  key: build-cache
   paths:
     - node_modules/
     - dist/
@@ -16,11 +16,19 @@ test_tslint:
   script:
     - yarn install
     - yarn run tslint
+  cache:
+    key: build-cache
+    paths:
+      - node_modules/
+      - dist/
 
 build:
   stage: build
   script:
+    - yarn install
     - yarn run webpack
+  cache:
+    key: build-cache
 
 pages:
   stage: deploy
@@ -28,6 +36,8 @@ pages:
   - mkdir .public
   - cp -r dist/* .public
   - mv .public public
+  cache:
+    key: build-cache
   artifacts:
     paths:
     - public
