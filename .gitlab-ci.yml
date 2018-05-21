@@ -37,8 +37,6 @@ pages:
   - mkdir .public
   - cp -r dist/* .public
   - mv .public public
-  cache:
-    key: build-cache
   artifacts:
     paths:
     - public
