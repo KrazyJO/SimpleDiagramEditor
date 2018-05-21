@@ -16,20 +16,16 @@ test_tslint:
   script:
     - yarn install
     - yarn run tslint
-  cache:
-    key: build-cache
-    paths:
-      - node_modules/
+  artifacts:
+    untracked: true
 
 build:
   stage: build
   script:
     - yarn install
     - yarn run webpack
-  cache:
-    key: build-cache
-    paths:
-      - dist/
+  artifacts:
+    untracked: true
 
 pages:
   stage: deploy
