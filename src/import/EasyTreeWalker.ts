@@ -97,15 +97,25 @@ export default class EasyTreeWalker {
   }
 
   handleBaseElement(element, context?) {
-    if (element.$instanceOf('ea:Node')) {
+    // if (element.$instanceOf('ea:Node')) {
+    //   this.handleResource(element, context);
+    // } else if (element.$instanceOf('ea:Edge')) {
+    //   this.handleConnection(element, context);
+    // }
+    if (element.$instanceOf('sde:Node')) {
       this.handleResource(element, context);
-    } else if (element.$instanceOf('ea:Edge')) {
+    } else if (element.$instanceOf('sde:Edge')) {
       this.handleConnection(element, context);
     }
   }
 
   handleConnection(connection, ctx) {
-    if (connection.$instanceOf('ea:Edge')) {
+    // if (connection.$instanceOf('ea:Edge')) {
+    //   this.visitIfDi(connection, ctx);
+    // } else {
+    //   this.logError('type safety would be nice');
+    // }
+    if (connection.$instanceOf('sde:Edge')) {
       this.visitIfDi(connection, ctx);
     } else {
       this.logError('type safety would be nice');

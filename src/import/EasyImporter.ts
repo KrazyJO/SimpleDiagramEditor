@@ -37,7 +37,7 @@ export default class EasyImporter {
   add(businessObject, parentElement) {
     const di = businessObject.di;
     let element;
-    if (di && di.$instanceOf('eadi:EasyShape')) {
+    if (di && di.$instanceOf('sdedi:SimpleDebugEditorShape')) {
       const bounds = businessObject.di.bounds;
       element = this.elementFactory.createShape(elementData(businessObject, {
         x: Math.round(bounds.x),
@@ -47,7 +47,7 @@ export default class EasyImporter {
       }));
       this.canvas.addShape(element, parentElement);
     }
-    else if (di && di.$instanceOf('eadi:EasyEdge')) {
+    else if (di && di.$instanceOf('sdedi:SimpleDebugEditorEdge')) {
       const source = this.getSource(businessObject);
       const target = this.getTarget(businessObject);
       element = this.elementFactory.createConnection(elementData(businessObject, {
@@ -64,14 +64,14 @@ export default class EasyImporter {
   }
 
   private getSource(connection) {
-    if (connection.$instanceOf('ea:Edge')) {
+    if (connection.$instanceOf('sde:Edge')) {
       const sourceRes = connection.sourceNode;
       return this.elementRegistry.get(sourceRes.id);
     }
   }
 
   private getTarget(connection) {
-    if (connection.$instanceOf('ea:Edge')) {
+    if (connection.$instanceOf('sde:Edge')) {
       const targetRes = connection.targetNode;
       return this.elementRegistry.get(targetRes.id);
     }
