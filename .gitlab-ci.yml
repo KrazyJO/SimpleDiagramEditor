@@ -28,7 +28,7 @@ build:
     - yarn run webpack
   cache:
     key: build-cache
-    path:
+    paths:
       - dist/
 
 pages:
