@@ -20,7 +20,6 @@ test_tslint:
     key: build-cache
     paths:
       - node_modules/
-      - dist/
 
 build:
   stage: build
@@ -29,6 +28,8 @@ build:
     - yarn run webpack
   cache:
     key: build-cache
+    path:
+      - dist/
 
 pages:
   stage: deploy
