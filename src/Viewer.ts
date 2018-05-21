@@ -8,6 +8,7 @@ import { domify, query } from 'min-dom';
 const Ids = require('ids');
 
 import EasyModdle from './EasyModdle';
+import { importEasyDiagram } from './import/Importer';
 // import { importEasyDiagram } from './import/Importer';
 
 //---------------------CONSTANTS---------------------
@@ -27,7 +28,7 @@ const DEFAULT_MODULES = [
 	require('./diagram-ts/navigation/zoomscroll'),
 	// modeling components
 	require('./draw'),
-	// require('./import'),
+	require('./import'),
 ];
 
 //---------------------CLASS--------------------
@@ -90,7 +91,7 @@ export class Viewer extends Diagram {
 			this.definitions = definitions;
 			// Attention, this done need to be removed after import is implemented!!!
 			done();
-			// importEasyDiagram(this, definitions, done);
+			importEasyDiagram(this, definitions, done);
 		} catch (e) {
 			done(e);
 		}

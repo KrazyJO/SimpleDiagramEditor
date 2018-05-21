@@ -1,8 +1,10 @@
 //---------------------IMPORTS---------------------
-import * as Refs from 'object-refs';
+// import * as Refs from 'object-refs';
+const Refs = require('object-refs');
 
 //---------------------CONSTANTS---------------------
-let diRefs = new Refs({ name: 'easyElement', enumerable: true }, { name: 'di' });
+// let diRefs = new Refs({ name: 'easyElement', enumerable: true }, { name: 'di' });
+let diRefs = new Refs({ name: 'simpleDebugEditorElement', enumerable: true }, { name: 'di' });
 
 //---------------------CLASS--------------------
 export default class EasyTreeWalker {
@@ -51,7 +53,8 @@ export default class EasyTreeWalker {
 
   ////// DI handling ////////////////////////////
   registerDi(di) {
-    const easyElement = di.easyElement;
+    // const easyElement = di.easyElement;
+    const easyElement = di.simpleDebugEditorElement;
     if (easyElement) {
       if (easyElement.di) {
         this.logError(`multiple DI elements defined for ${this.elementToString(easyElement)}`, { element: easyElement });
