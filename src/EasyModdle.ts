@@ -1,7 +1,7 @@
 //---------------------IMPORTS---------------------
 import { assign } from 'lodash';
 import { Reader as XMLReader, Writer as XMLWriter } from 'moddle-xml';
-import * as Moddle from 'moddle';
+import Moddle from 'moddle';
 
 // const Ids = require('ids');
 

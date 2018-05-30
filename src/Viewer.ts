@@ -106,7 +106,7 @@ export class Viewer extends Diagram {
 			}
 		];
 		const diagramModules = staticModules.concat(baseModules, additionalModules);
-		const diagramOptions = assign(omit(options, 'additionalModules'), {
+		const diagramOptions = assign(omit(options, ['additionalModules']), {
 			canvas: assign({}, options.canvas, { container: container }),
 			modules: diagramModules
 		});
@@ -123,7 +123,7 @@ export class Viewer extends Diagram {
 	}
 
 	protected createModdle(options: any) {
-		this.modules = DEFAULT_MODULES;
+		// this.modules = DEFAULT_MODULES;
 		const moddle = new EasyModdle(options.moddleExtensions);
 		moddle.ids = new Ids([32, 36, 1]);
 		return moddle;
