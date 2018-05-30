@@ -58,10 +58,11 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 
-const extractPlugin = new ExtractTextPlugin({
-    filename: 'main.css'
-});
+// const extractPlugin = new ExtractTextPlugin({
+//     filename: 'main.css'
+// });
 
+const extractPlugin = new ExtractTextPlugin('main.css');
 
 const config = {
     mode : "development",
@@ -89,6 +90,12 @@ const config = {
                 exclude: '/node_modules/'
             },
             {
+              test: /\.scss$/,
+              use: extractPlugin.extract({
+                use: ['css-loader', 'sass-loader']
+              })
+            },
+            {
                 test: /\.html$/,
                 use: ['html-loader']
             },
@@ -103,6 +110,7 @@ const config = {
             $: "jquery",
             jQuery: "jquery"
         }),
+        extractPlugin,
         new BrowserSyncPlugin({
             host: 'localhost',
             port: 9000,

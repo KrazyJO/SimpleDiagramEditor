@@ -1,0 +1,118 @@
+@import "./vendor.scss";
+
+body, html {
+  height: 100%; 
+  max-height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#js-canvas {
+  height: 100%;
+}
+
+.djs-container.two-column .djs-palette.open {
+  width: 94px;
+}
+
+a, a:visited {
+  text-decoration: none;
+}
+
+#page-main-menu {
+  width: 800px;
+}
+
+#main-svg-canvas {
+  width: 100%;
+  height: 500px;
+}
+
+.djs-palette {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  background: #f6f6f6;
+
+  .entry {
+    display: block;
+    width: 47px;
+  }
+}
+
+.content,
+.content > div {
+  width: 100%;
+  height: 100%;
+}
+
+.content > .message {
+  text-align: center;
+  display: table;
+
+  font-size: 16px;
+  color: #111;
+}
+
+.content > .message .note {
+  vertical-align: middle;
+  text-align: center;
+  display: table-cell;
+}
+
+.content > .message .note a, .content > .message .note a:visited {
+  color: #222;
+}
+
+.content > .message .note a:hover {
+  color: #E84545;
+}
+
+.content .error .details {
+  max-width: 500px;
+  font-size: 12px;
+  margin: 20px auto;
+  text-align: left;
+}
+
+.content .error pre {
+  border: solid 1px #CCC;
+  background: #EEE;
+  padding: 10px;
+}
+
+.content:not(.with-error) .error,
+.content.with-error .intro,
+.content.with-diagram .intro {
+  display: none;
+}
+
+.content .canvas,
+.content.with-error .canvas {
+  visibility: hidden;
+}
+
+.content.with-diagram .canvas {
+  visibility: visible;
+}
+
+#js-properties-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 260px;
+  z-index: 10;
+  border-left: 1px solid #666;
+  overflow: auto;
+  padding: 16px;
+  background: #f6f6f6;
+  &:empty {
+    display: none;
+  }
+  > .djs-properties-panel {
+    padding-bottom: 70px;
+    min-height: 100%;
+  }
+}

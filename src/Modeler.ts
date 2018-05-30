@@ -1,4 +1,5 @@
 //---------------------IMPORTS---------------------
+import '../assets/scss/main.scss';
 import { Viewer } from './Viewer';
 
 //---------------------CONSTANTS---------------------
