@@ -67,7 +67,7 @@ export default class EasyImporter {
     if (connection.$instanceOf('sde:Edge')) {
       const sourceRes = connection.sourceNode;
       return this.elementRegistry.get(sourceRes.id);
-    }
+    } 
   }
 
   private getTarget(connection) {
