@@ -7,7 +7,7 @@ import Modeling from './Modeling';
 import BaseLayouter from '../../layout/BaseLayouter';
 
 
-export default {
+module.exports = {
   __depends__: [
     CommandModule,
     ChangeSupportModule,

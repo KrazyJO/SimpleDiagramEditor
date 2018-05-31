@@ -4,8 +4,7 @@ import RulesModule from '../rules';
 
 import Create from './Create';
 
-
-export default {
+let defexport = {
   __depends__: [
     DraggingModule,
     SelectionModule,
@@ -13,3 +12,7 @@ export default {
   ],
   create: [ 'type', Create ]
 };
+
+export default defexport;
+
+module.exports = defexport;

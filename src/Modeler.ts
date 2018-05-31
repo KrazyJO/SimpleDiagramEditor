@@ -17,12 +17,10 @@ const DEFAULT_MODULES = [
 	require('./diagram-ts/features/lasso-tool'),
 	require('./diagram-ts/features/move'),
 
-	// require('./features/context-pad'),
-	// require('./features/origin'),
-	// require('./features/grid-background'),
+	require('./features/context-pad'),
 	// require('./features/label-editing'),
 	require('./features/modeling'),
-	// require('./features/palette'),
+	require('./features/palette'),
 	// require('./features/properties-panel'),
 	// require('./features/rules'),
 	// require('./features/snapping')

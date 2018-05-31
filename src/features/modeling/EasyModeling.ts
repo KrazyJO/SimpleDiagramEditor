@@ -11,6 +11,7 @@ export default class EasyModeling extends Modeling {
 	//---------------------CONSTRUCTOR---------------------
 	constructor(public eventBus, public elementFactory, public commandStack, private easyRules) {
 		super(eventBus, elementFactory, commandStack);
+		console.log("constructor EasyModeling");
 	}
 
 	//---------------------METHODS---------------------
@@ -29,4 +30,4 @@ export default class EasyModeling extends Modeling {
 	}
 }
 
-(Modeling as any).$inject = ['eventBus', 'elementFactory', 'commandStack', 'easyRules'];
+(Modeling as any).$inject = ['eventBus', 'elementFactory', 'commandStack'/*, 'easyRules'*/];

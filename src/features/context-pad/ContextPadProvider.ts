@@ -40,6 +40,7 @@ class ContextPadProvider {
 		public rules: Rules
 	) {
 		contextPad.registerProvider(this);
+		console.log("constructor ContextPadProvider");
 	}
 
 	//---------------------METHODS---------------------
