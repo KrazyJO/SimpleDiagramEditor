@@ -19,59 +19,59 @@ import { is } from '@utils/ModelUtil';
 //---------------------CLASS--------------------
 export default class ContextPadProvider {
 
-  //---------------------CONSTRUCTOR---------------------
-  constructor(
-    private contextPad: ContextPad,
-    private modeling: Modeling,
-    private elementFactory: ElementFactory,
-    private connect: Connect,
-    private create: Create,
-    private canvas: Canvas,
-    private rules: Rules
-  ) {
-    contextPad.registerProvider(this);
-  }
+	//---------------------CONSTRUCTOR---------------------
+	constructor(
+		contextPad: ContextPad,
+		private modeling: Modeling,
+		elementFactory: ElementFactory,
+		private connect: Connect,
+		create: Create,
+		canvas: Canvas,
+		rules: Rules
+	) {
+		contextPad.registerProvider(this);
+	}
 
-  //---------------------METHODS---------------------
-  getContextPadEntries(element) {
-    let actions = {};
-    const businessObject = element.businessObject;
-    const removeElement = event => this.modeling.removeElements([element]);
-    const startConnect = (event, element, autoActivate) => this.connect.start(event, element, autoActivate);
-    if (is(businessObject, 'ea:Node')) {
-      assign(actions, {
-        connect: {
-          group: 'connect',
-          className: connectIcon(),
-          title: 'Connect Node together',
-          action: {
-            click: startConnect,
-            dragstart: startConnect
-          }
-        }
-      });
-    }
-    assign(actions, {
-      delete: {
-        group: 'edit',
-        className: trashIcon(),
-        title: 'Remove',
-        action: {
-          click: removeElement,
-          dragstart: removeElement
-        }
-      }
-    });
-    return actions;
-  }
+	//---------------------METHODS---------------------
+	getContextPadEntries(element) {
+		let actions = {};
+		const businessObject = element.businessObject;
+		const removeElement = event => this.modeling.removeElements([element]);
+		const startConnect = (event, element, autoActivate) => this.connect.start(event, element, autoActivate);
+		if (is(businessObject, 'ea:Node')) {
+			assign(actions, {
+				connect: {
+					group: 'connect',
+					className: connectIcon(),
+					title: 'Connect Node together',
+					action: {
+						click: startConnect,
+						dragstart: startConnect
+					}
+				}
+			});
+		}
+		assign(actions, {
+			delete: {
+				group: 'edit',
+				className: trashIcon(),
+				title: 'Remove',
+				action: {
+					click: removeElement,
+					dragstart: removeElement
+				}
+			}
+		});
+		return actions;
+	}
 }
 
 (ContextPadProvider as any).$inject = [
-  'contextPad',
-  'modeling',
-  'elementFactory',
-  'connect',
-  'create',
-  'canvas',
-  'rules',
+	'contextPad',
+	'modeling',
+	'elementFactory',
+	'connect',
+	'create',
+	'canvas',
+	'rules',
 ];
