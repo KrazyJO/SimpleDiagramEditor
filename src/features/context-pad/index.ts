@@ -1,0 +1,15 @@
+//---------------------IMPORTS---------------------
+import ContextPadProvider from './ContextPadProvider';
+
+//---------------------EXPORTS---------------------
+module.exports = {
+  __depends__: [
+    require('diagram-js-direct-editing'),
+    require('diagram-js/lib/features/context-pad'),
+    require('diagram-js/lib/features/selection'),
+    require('diagram-js/lib/features/connect'),
+    require('diagram-js/lib/features/create'),
+  ],
+  __init__: ['contextPadProvider'],
+  contextPadProvider: ['type', ContextPadProvider]
+};
