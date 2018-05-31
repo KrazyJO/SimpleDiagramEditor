@@ -21,7 +21,7 @@ const DEFAULT_MODULES = [
 	// require('./features/origin'),
 	// require('./features/grid-background'),
 	// require('./features/label-editing'),
-	// require('./features/modeling'),
+	require('./features/modeling'),
 	// require('./features/palette'),
 	// require('./features/properties-panel'),
 	// require('./features/rules'),

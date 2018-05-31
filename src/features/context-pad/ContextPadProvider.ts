@@ -17,17 +17,27 @@ import { connectIcon, trashIcon } from '@utils/FaUtil';
 import { is } from '@utils/ModelUtil';
 
 //---------------------CLASS--------------------
-export default class ContextPadProvider {
+class ContextPadProvider {
+
+	// public static $inject = [
+	// 	'contextPad',
+	// 	'modeling',
+	// 	'elementFactory',
+	// 	'connect',
+	// 	'create',
+	// 	'canvas',
+	// 	'rules',
+	// ];
 
 	//---------------------CONSTRUCTOR---------------------
 	constructor(
-		contextPad: ContextPad,
+		public contextPad: ContextPad,
 		private modeling: Modeling,
-		elementFactory: ElementFactory,
+		public elementFactory: ElementFactory,
 		private connect: Connect,
-		create: Create,
-		canvas: Canvas,
-		rules: Rules
+		public create: Create,
+		public canvas: Canvas,
+		public rules: Rules
 	) {
 		contextPad.registerProvider(this);
 	}
@@ -38,7 +48,7 @@ export default class ContextPadProvider {
 		const businessObject = element.businessObject;
 		const removeElement = event => this.modeling.removeElements([element]);
 		const startConnect = (event, element, autoActivate) => this.connect.start(event, element, autoActivate);
-		if (is(businessObject, 'ea:Node')) {
+		if (is(businessObject, 'sde:Node')) {
 			assign(actions, {
 				connect: {
 					group: 'connect',
@@ -75,3 +85,4 @@ export default class ContextPadProvider {
 	'canvas',
 	'rules',
 ];
+export default ContextPadProvider;

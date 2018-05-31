@@ -6,8 +6,10 @@ import Modeling from '../../diagram-ts/features/modeling/Modeling';
 //---------------------CLASS--------------------
 export default class EasyModeling extends Modeling {
 
+	// public static $inject = ['eventBus', 'elementFactory', 'commandStack', 'easyRules'];
+
 	//---------------------CONSTRUCTOR---------------------
-	constructor(eventBus, elementFactory, commandStack, private easyRules) {
+	constructor(public eventBus, public elementFactory, public commandStack, private easyRules) {
 		super(eventBus, elementFactory, commandStack);
 	}
 
