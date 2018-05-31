@@ -24,8 +24,8 @@ export default class EasyElementFactory extends ElementFactory {
 				throw new Error('no shape type specified');
 			}
 			businessObject = this.easyFactory.create(attrs.type);
-			if (businessObject.$instanceOf('ea:Element') && !businessObject.name) {
-				const shortType = businessObject.$type.replace(/^ea\:/, '');
+			if (businessObject.$instanceOf('sde:Element') && !businessObject.name) {
+				const shortType = businessObject.$type.replace(/^sde\:/, '');
 				businessObject.name = 'new ' + shortType;
 			}
 		}

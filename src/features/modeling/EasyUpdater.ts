@@ -109,7 +109,7 @@ export default class EasyUpdater extends CommandInterceptor {
     const businessObject = getBusinessObject(connection);
     const newSource = getBusinessObject(connection.source);
     const newTarget = getBusinessObject(connection.target);
-    if (is(businessObject, 'ea:Edge')) {
+    if (is(businessObject, 'sde:Edge')) {
       if (newSource && newTarget) {
         if (!businessObject.$parent || !businessObject.di.$parent) {
           const rootShape = this.getRootFromElement(connection);
@@ -177,14 +177,14 @@ export default class EasyUpdater extends CommandInterceptor {
     let businessObject = getBusinessObject(element);
     let parentBusinessObject = getBusinessObject(element.parent);
     let parentDi = parentBusinessObject && parentBusinessObject.di;
-    if (is(parentBusinessObject, 'eadi:EasyDiagram')) {
+    if (is(parentBusinessObject, 'sdedi:EasyDiagram')) {
       parentDi = parentBusinessObject;
     }
     if (!parentBusinessObject && parentShape) {
       parentBusinessObject = this.getModel(parentShape);
       parentDi = this.getCurrentRootDIContainer(parentBusinessObject);
     }
-    if (is(businessObject, 'ea:Node')) {
+    if (is(businessObject, 'sde:Node')) {
       this.updateParentBusinessObject(businessObject, parentBusinessObject);
     }
     this.updateParentDI(businessObject.di, parentDi);
@@ -197,13 +197,13 @@ export default class EasyUpdater extends CommandInterceptor {
       return;
     }
     if (newParentBusinessObject) {
-      if (is(newParentBusinessObject, 'ea:EasyGraph')) {
-        if (is(businessObject, 'ea:Node')) {
+      if (is(newParentBusinessObject, 'sde:EasyGraph')) {
+        if (is(businessObject, 'sde:Node')) {
           containment = 'myNodes';
         }
-      } else if (is(newParentBusinessObject, 'eadi:EasyDiagram')) {
+      } else if (is(newParentBusinessObject, 'sdedi:EasyDiagram')) {
         newParentBusinessObject = this.getModelRootFromBo(newParentBusinessObject);
-        if (is(businessObject, 'ea:Node')) {
+        if (is(businessObject, 'sde:Node')) {
           containment = 'myNodes';
         }
       }
@@ -213,7 +213,7 @@ export default class EasyUpdater extends CommandInterceptor {
       businessObject.$parent = null;
     }
     if (oldParentBusinessObject) {
-      if (is(businessObject, 'ea:Node')) {
+      if (is(businessObject, 'sde:Node')) {
         containment = 'myNodes';
       }
       Collections.remove(oldParentBusinessObject.get(containment), businessObject);
@@ -227,19 +227,19 @@ export default class EasyUpdater extends CommandInterceptor {
     }
     // add to new parent
     if (newParentDi) {
-      if (newParentDi.$type === 'eadi:EasyDiagram') {
+      if (newParentDi.$type === 'sdedi:EasyDiagram') {
         newParentDi.get('diagramElements').push(di);
-      } else if (newParentDi.$type === 'eadi:EasyShape') {
+      } else if (newParentDi.$type === 'sdedi:EasyShape') {
         newParentDi.get('easyElement').push(di);
       } else {
         di.$parent = null;
       }
       // remove from old parent
       if (oldParentDi) {
-        if (oldParentDi.$type === 'eadi:EasyDiagram') {
+        if (oldParentDi.$type === 'sdedi:EasyDiagram') {
           Collections.remove(oldParentDi.get('diagramElements'), di);
         }
-        else if (oldParentDi.$type === 'eadi:EasyShape') {
+        else if (oldParentDi.$type === 'sdedi:EasyShape') {
           Collections.remove(oldParentDi.get('easyElement'), di);
         }
       }
