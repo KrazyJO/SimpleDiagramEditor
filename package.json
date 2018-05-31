@@ -43,6 +43,9 @@
     "webpack-notifier": "^1.6.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "didi": "^4.0.0",
     "hammerjs": "^2.0.1",
     "ids": "^0.2.2",
