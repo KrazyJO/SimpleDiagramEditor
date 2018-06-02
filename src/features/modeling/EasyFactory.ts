@@ -15,7 +15,7 @@ export default class EasyFactory {
 	}
 
 	createDiShape(semantic, bounds, attrs) {
-		return this.create('sdedi:EasyShape', assign({
+		return this.create('sdedi:SimpleDebugEditorShape', assign({
 			easyElement: semantic,
 			bounds: this.createDiBounds(bounds)
 		}, attrs));
@@ -37,7 +37,7 @@ export default class EasyFactory {
 	}
 
 	createDiEdge(semantic, waypoints, attrs) {
-		return this.create('sdedi:EasyEdge', assign({
+		return this.create('sdedi:SimpleDebugEditorEdge', assign({
 			easyElement: semantic
 		}, attrs));
 	}
