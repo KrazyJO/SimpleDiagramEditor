@@ -109,4 +109,4 @@ export default class CroppingConnectionDocking {
 
 }
 
-module.exports = CroppingConnectionDocking;
+// module.exports = CroppingConnectionDocking;

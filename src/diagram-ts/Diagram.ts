@@ -30,6 +30,11 @@ function bootstrap(bootstrapModules : any) : any {
       return;
     }
 
+    if (!m)
+    {
+      console.log("hier fehler");
+    }
+
     (m.__depends__ || []).forEach(visit);
 
     if (hasModule(m)) {

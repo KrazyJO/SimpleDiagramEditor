@@ -34,7 +34,7 @@ import EasyModeling from './EasyModeling';
 // 	modeling: ['type', EasyModeling],
 // 	connectionDocking: ['type', require('../../diagram-ts/layout/CroppingConnectionDocking')]
 // };
-module.exports = {
+export default {
 	__init__: ['modeling', 'easyUpdater'],
 	__depends__: [
 		// require('../label-editing'),
@@ -53,6 +53,6 @@ module.exports = {
 	easyFactory: ['type', EasyFactory],
 	easyUpdater: ['type', EasyUpdater],
 	modeling: ['type', EasyModeling],
-	connectionDocking: ['type', require('../../diagram-ts/layout/CroppingConnectionDocking')]
+	connectionDocking: ['type', require('../../diagram-ts/layout/CroppingConnectionDocking').default]
   };
   
