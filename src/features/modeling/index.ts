@@ -38,7 +38,7 @@ export default {
 	__init__: ['modeling', 'easyUpdater'],
 	__depends__: [
 		// require('../label-editing'),
-		// require('../rules'),
+		require('../rules'),
 
 		require('../../diagram-ts/command'),
 		require('../../diagram-ts/features/tooltips'),
