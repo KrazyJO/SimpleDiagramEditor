@@ -1,7 +1,5 @@
 //---------------------IMPORTS---------------------
-// import Snapping = require('../../diagram-ts/features/snapping/Snapping');
 import Snapping from '@diagram-ts/features/snapping/Snapping';
-// import SnapUtil = require('../../diagram-ts/features/snapping/SnapUtil');
 import {mid as SnapMid} from '@diagram-ts/features/snapping/SnapUtil';
 // import SnapContext = require('../../diagram-ts/features/snapping/SnapContext');
 // import { is } from '@utils/ModelUtil';
