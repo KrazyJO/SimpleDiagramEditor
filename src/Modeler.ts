@@ -22,7 +22,7 @@ const DEFAULT_MODULES = [
 	require('./features/modeling').default,
 	require('./features/palette').default,
 	require('./features/properties-panel'),
-	// require('./features/rules'),
+	require('./features/rules'),
 	// require('./features/snapping')
 ];
 
