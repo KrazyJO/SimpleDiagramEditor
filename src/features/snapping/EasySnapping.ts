@@ -1,6 +1,8 @@
 //---------------------IMPORTS---------------------
-import Snapping = require('../../diagram-ts/features/snapping/Snapping');
-import SnapUtil = require('../../diagram-ts/features/snapping/SnapUtil');
+// import Snapping = require('../../diagram-ts/features/snapping/Snapping');
+import Snapping from '@diagram-ts/features/snapping/Snapping';
+// import SnapUtil = require('../../diagram-ts/features/snapping/SnapUtil');
+import {mid as SnapMid} from '@diagram-ts/features/snapping/SnapUtil';
 // import SnapContext = require('../../diagram-ts/features/snapping/SnapContext');
 // import { is } from '@utils/ModelUtil';
 // import { asTRBL } from 'diagram-js/lib/layout/LayoutUtil';
@@ -44,18 +46,18 @@ export default class EasySnapping extends Snapping {
 				});
 				return;
 			}
-			snapPoints.add('mid', SnapUtil.mid(sibling));
+			snapPoints.add('mid', SnapMid(sibling));
 		});
 		shape.incoming.forEach(c => {
 			if (siblings.indexOf(c.source) === -1) {
-				snapPoints.add('mid', SnapUtil.mid(c.source));
+				snapPoints.add('mid', SnapMid(c.source));
 			}
 			const docking = c.waypoints[0];
 			snapPoints.add(c.id + '-docking', docking.original || docking);
 		});
 		shape.outgoing.forEach(c => {
 			if (siblings.indexOf(c.target) === -1) {
-				snapPoints.add('mid', SnapUtil.mid(c.target));
+				snapPoints.add('mid', SnapMid(c.target));
 			}
 			const docking = c.waypoints[c.waypoints.length - 1];
 			snapPoints.add(c.id + '-docking', docking.original || docking);

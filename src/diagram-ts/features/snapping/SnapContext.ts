@@ -118,7 +118,7 @@ SnapContext.prototype.pointsForTarget = function(target) {
  *
  * @param {Object<String, Array<Point>>} [defaultPoints]
  */
-function SnapPoints(defaultSnaps) {
+function SnapPoints(defaultSnaps?) {
 
   /**
    * Map<String, Map<(x|y), Array<Number>>> mapping snap locations,

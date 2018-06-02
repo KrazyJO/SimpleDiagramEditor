@@ -34,7 +34,7 @@ export function topLeft(bounds) {
 }
 
 
-export function mid(bounds, defaultValue) {
+export function mid(bounds, defaultValue?) {
 
   if (!bounds || isNaN(bounds.x) || isNaN(bounds.y)) {
     return defaultValue;
@@ -64,7 +64,7 @@ export function bottomRight(bounds) {
  * @return {Boolean} the snapped state
  *
  */
-export function isSnapped(event, axis) {
+export function isSnapped(event, axis?) {
   var snapped = event.snapped;
 
   if (!snapped) {
