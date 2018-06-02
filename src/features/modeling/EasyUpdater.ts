@@ -177,7 +177,7 @@ export default class EasyUpdater extends CommandInterceptor {
     let businessObject = getBusinessObject(element);
     let parentBusinessObject = getBusinessObject(element.parent);
     let parentDi = parentBusinessObject && parentBusinessObject.di;
-    if (is(parentBusinessObject, 'sdedi:EasyDiagram')) {
+    if (is(parentBusinessObject, 'sdedi:SimpleDebugEditorDiagram')) {
       parentDi = parentBusinessObject;
     }
     if (!parentBusinessObject && parentShape) {
@@ -197,11 +197,11 @@ export default class EasyUpdater extends CommandInterceptor {
       return;
     }
     if (newParentBusinessObject) {
-      if (is(newParentBusinessObject, 'sde:EasyGraph')) {
+      if (is(newParentBusinessObject, 'sde:SimpleDebugEditorGraph')) {
         if (is(businessObject, 'sde:Node')) {
           containment = 'myNodes';
         }
-      } else if (is(newParentBusinessObject, 'sdedi:EasyDiagram')) {
+      } else if (is(newParentBusinessObject, 'sdedi:SimpleDebugEditorDiagram')) {
         newParentBusinessObject = this.getModelRootFromBo(newParentBusinessObject);
         if (is(businessObject, 'sde:Node')) {
           containment = 'myNodes';
@@ -227,20 +227,20 @@ export default class EasyUpdater extends CommandInterceptor {
     }
     // add to new parent
     if (newParentDi) {
-      if (newParentDi.$type === 'sdedi:EasyDiagram') {
+      if (newParentDi.$type === 'sdedi:SimpleDebugEditorDiagram') {
         newParentDi.get('diagramElements').push(di);
-      } else if (newParentDi.$type === 'sdedi:EasyShape') {
-        newParentDi.get('easyElement').push(di);
+      } else if (newParentDi.$type === 'sdedi:SimpleDebugEditorShape') {
+        newParentDi.get('simpleDebugEditorElement').push(di);
       } else {
         di.$parent = null;
       }
       // remove from old parent
       if (oldParentDi) {
-        if (oldParentDi.$type === 'sdedi:EasyDiagram') {
+        if (oldParentDi.$type === 'sdedi:SimpleDebugEditorDiagram') {
           Collections.remove(oldParentDi.get('diagramElements'), di);
         }
-        else if (oldParentDi.$type === 'sdedi:EasyShape') {
-          Collections.remove(oldParentDi.get('easyElement'), di);
+        else if (oldParentDi.$type === 'sdedi:SimpleDebugEditorPlaneShape') {
+          Collections.remove(oldParentDi.get('simpleDebugEditorElement'), di);
         }
       }
     }
