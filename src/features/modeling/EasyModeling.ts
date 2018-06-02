@@ -5,12 +5,11 @@ import Modeling from '../../diagram-ts/features/modeling/Modeling';
 //---------------------CLASS--------------------
 export default class EasyModeling extends Modeling {
 
-	// public static $inject = ['eventBus', 'elementFactory', 'commandStack', 'easyRules'];
+	public static $inject = ['eventBus', 'elementFactory', 'commandStack', 'easyRules'];
 
 	//---------------------CONSTRUCTOR---------------------
 	constructor(public eventBus, public elementFactory, public commandStack, private easyRules) {
 		super(eventBus, elementFactory, commandStack);
-		console.log("constructor EasyModeling");
 	}
 
 	//---------------------METHODS---------------------
@@ -29,4 +28,4 @@ export default class EasyModeling extends Modeling {
 	}
 }
 
-(Modeling as any).$inject = ['eventBus', 'elementFactory', 'commandStack', 'easyRules'];
+// (Modeling as any).$inject = ['eventBus', 'elementFactory', 'commandStack', 'easyRules'];

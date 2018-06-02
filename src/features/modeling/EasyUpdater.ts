@@ -1,10 +1,7 @@
 //---------------------IMPORTS---------------------
 import { assign } from 'lodash';
-// import { getBusinessObject, is } from '../../utils/ModelUtil';
 import { getBusinessObject, is } from '@utils/ModelUtil';
-// import * as Collections from 'diagram-js/lib/util/Collections';
 import * as Collections from '../../diagram-ts/util/Collections';
-// import CommandInterceptor = require('diagram-js/lib/command/CommandInterceptor');
 import CommandInterceptor from '../../diagram-ts/command/CommandInterceptor';
 
 //---------------------CLASS--------------------

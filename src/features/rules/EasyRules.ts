@@ -1,7 +1,5 @@
 //---------------------IMPORTS---------------------
-// import  RuleProvider = require('diagram-js/lib/features/rules/RuleProvider');
 import RuleProvider from '../../diagram-ts/features/rules/RuleProvider';
-// import { Root } from 'diagram-js/lib/model/index';
 // import {Root} from '../../diagram-ts/model/index';
 import { is } from '@utils/ModelUtil';
 

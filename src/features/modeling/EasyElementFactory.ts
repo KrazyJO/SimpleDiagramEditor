@@ -1,6 +1,5 @@
 //---------------------IMPORTS---------------------
 import { assign } from 'lodash';
-// import ElementFactory = require('diagram-js/lib/core/ElementFactory');
 import ElementFactory from '../../diagram-ts/core/ElementFactory';
 
 //---------------------CLASS--------------------

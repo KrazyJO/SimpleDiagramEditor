@@ -1,7 +1,5 @@
 //---------------------IMPORTS---------------------
-// import  BaseLayouter = require('diagram-js/lib/layout/BaseLayouter');
 import BaseLayouter from '../../diagram-ts/layout/BaseLayouter';
-// import { getMid } from 'diagram-js/lib/layout/LayoutUtil';
 import { getMid } from '../../diagram-ts/layout/LayoutUtil';
 
 //---------------------CLASS--------------------
