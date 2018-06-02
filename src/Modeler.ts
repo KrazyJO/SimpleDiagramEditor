@@ -21,7 +21,7 @@ const DEFAULT_MODULES = [
 	// require('./features/label-editing'),
 	require('./features/modeling').default,
 	require('./features/palette').default,
-	// require('./features/properties-panel'),
+	require('./features/properties-panel'),
 	// require('./features/rules'),
 	// require('./features/snapping')
 ];
