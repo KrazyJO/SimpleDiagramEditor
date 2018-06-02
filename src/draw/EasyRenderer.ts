@@ -5,7 +5,7 @@ import { createLine } from '../diagram-ts/util/RenderUtil';
 import BaseRenderer from '../diagram-ts/draw/BaseRenderer';
 import  TextUtil from '../diagram-ts/util/Text';
 import {append as svgAppend} from 'tiny-svg';
-import {query as domQuery} from 'min-dom';// = require('min-dom/lib/query');
+import {query as domQuery} from 'min-dom';
 // import svgAppend = require('tiny-svg/lib/append');
 import {attr as svgAttr} from 'tiny-svg';
 import {create as svgCreate} from 'tiny-svg';
@@ -47,10 +47,10 @@ export default class EasyRenderer extends BaseRenderer {
         strokeWidth: 2
     });
     this.handlers = {
-      'ea:Node': (visuals : any, element : any) => {
+      'sde:Node': (visuals : any, element : any) => {
         return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
       },
-      'ea:Edge': (visuals : any, element : any) => {
+      'sde:Edge': (visuals : any, element : any) => {
         return this.drawLine(visuals, element.waypoints, CONNECTION_STYLE);
       }
     };

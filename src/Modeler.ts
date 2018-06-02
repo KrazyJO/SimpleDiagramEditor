@@ -12,10 +12,10 @@ const DEFAULT_OPTIONS: any = {
 };
 const DEFAULT_MODULES = [
 	// modeling components
-	require('./diagram-ts/features/auto-scroll'),
-	require('./diagram-ts/features/hand-tool'),
-	require('./diagram-ts/features/lasso-tool'),
-	require('./diagram-ts/features/move'),
+	require('./diagram-ts/features/auto-scroll').default,
+	require('./diagram-ts/features/hand-tool').default,
+	require('./diagram-ts/features/lasso-tool').default,
+	require('./diagram-ts/features/move').default,
 
 	require('./features/context-pad').default,
 	// require('./features/label-editing'),

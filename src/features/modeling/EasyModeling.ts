@@ -27,5 +27,3 @@ export default class EasyModeling extends Modeling {
 		super.removeElements(elements);
 	}
 }
-
-// (Modeling as any).$inject = ['eventBus', 'elementFactory', 'commandStack', 'easyRules'];

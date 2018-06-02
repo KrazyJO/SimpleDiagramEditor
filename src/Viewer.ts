@@ -1,15 +1,11 @@
 //---------------------IMPORTS---------------------
-// import * as DiagramJS from 'diagram-js';
 import Diagram from './diagram-ts/Diagram';
 import { assign, omit } from 'lodash';
 import { domify, query } from 'min-dom';
-// import Ids = require('ids');
-// import {Ids as Ids} from 'ids';
 const Ids = require('ids');
 
 import EasyModdle from './EasyModdle';
 import { importEasyDiagram } from './import/Importer';
-// import { importEasyDiagram } from './import/Importer';
 
 //---------------------CONSTANTS---------------------
 // const DEFAULT_PRIORITY = 1000;
@@ -111,7 +107,6 @@ export class Viewer extends Diagram {
 			modules: diagramModules
 		});
 		// invoke diagram constructor
-		// DiagramJS.call(this, diagramOptions);
 		Diagram.call(this, diagramOptions);
 		if (options && options.container) {
 			this.attachTo(options.container);
