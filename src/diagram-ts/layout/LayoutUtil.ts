@@ -7,7 +7,7 @@ import {
 	pointDistance
 } from '../util/Geometry';
 
-import intersectPaths from 'path-intersection'; 
+var intersectPaths = require('path-intersection');
 import { Point, Bounds } from '../../interfaces';
 
 
@@ -176,5 +176,7 @@ export function getElementLineIntersection(elementPath : any, linePath : any, cr
 
 
 export function getIntersections(a : any, b : any) {
+	// return PathIntersection.intersectPaths(a, b);
 	return intersectPaths(a, b);
+	// return findPathIntersections(a, b);
 }
