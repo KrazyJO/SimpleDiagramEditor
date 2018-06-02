@@ -7,8 +7,8 @@ import Moddle from 'moddle';
 
 //---------------------CONSTANTS---------------------
 const DEFAULT_PACKAGES: Moddle.Package[] = [
-	require('../assets/easy.json'),
-	require('../assets/easydi.json'),
+	// require('../assets/easy.json'),
+	// require('../assets/easydi.json'),
 	require('../assets/dc.json'),
 	require('../assets/di.json'),
 	require('../assets/se.json'),
@@ -27,7 +27,7 @@ export default class EasyModdle extends Moddle {
 	}
 
 	//---------------------METHODS---------------------
-	public fromXML(xmlStr: string, typeName: string = 'ea:EasyGraph', options = {}, done: () => void = () => {}): void {
+	public fromXML(xmlStr: string, typeName: string = 'sde:SimpleDebugEditorGraph', options = {}, done: () => void = () => {}): void {
 			const reader = new XMLReader(assign({model: this, lax: true}, options));
 			const rootHandler = reader.handler(typeName);
 			reader.fromXML(xmlStr, rootHandler, done);

@@ -68,7 +68,7 @@ export default class PropertiesPanel {
     const idHTML =
     `
     <fieldset class="well">
-      <legend class="well-legend">${is(element, 'ea:Node') ? 'Node' : 'Edge'}</legend>
+      <legend class="well-legend">${is(element, 'sde:Node') ? 'Node' : 'Edge'}</legend>
       <div class="form-group row">
         <div class="col-2">
           <label for="${element.id}-id" class="col-form-label-sm">ID</label>

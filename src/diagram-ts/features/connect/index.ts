@@ -4,15 +4,12 @@ import DraggingModule from '../dragging';
 
 import Connect from './Connect';
 
-let defexport = {
+
+export default {
   __depends__: [
     SelectionModule,
     RulesModule,
     DraggingModule
   ],
   connect: [ 'type', Connect ]
-}; 
-
-export default defexport;
-
-module.exports = defexport;
+};

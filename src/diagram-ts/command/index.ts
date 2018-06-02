@@ -1,9 +1,5 @@
 import CommandStack from './CommandStack';
 
-let defexport = {
+export default {
   commandStack: [ 'type', CommandStack ]
 };
-
-module.exports = defexport
-
-export default defexport;

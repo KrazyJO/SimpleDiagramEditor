@@ -4,15 +4,11 @@ import RulesModule from '../rules';
 
 import Create from './Create';
 
-let defexport = {
+export default {
   __depends__: [
     DraggingModule,
     SelectionModule,
     RulesModule
   ],
   create: [ 'type', Create ]
-};
-
-export default defexport;
-
-module.exports = defexport;
+};;

@@ -11,11 +11,11 @@ export default {
 	__depends__: [
 		// require('../label-editing'),
 		require('../rules'),
-		require('../../diagram-ts/command'),
+		require('../../diagram-ts/command').default,
 		require('../../diagram-ts/features/tooltips'),
 		require('../../diagram-ts/features/label-support'),
 		require('../../diagram-ts/features/attach-support'),
-		require('../../diagram-ts/features/selection'),
+		require('../../diagram-ts/features/selection').default,
 		require('../../diagram-ts/features/change-support'),
 		require('../../diagram-ts/features/space-tool')
 	],

@@ -4,7 +4,7 @@ import OverlaysModule from '../overlays';
 import ContextPad from './ContextPad';
 
 
-module.exports = {
+export default {
   __depends__: [
     InteractionEventsModule,
     OverlaysModule

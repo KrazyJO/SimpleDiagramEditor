@@ -6,8 +6,7 @@ import RulesModule from '../rules';
 import Modeling from './Modeling';
 import BaseLayouter from '../../layout/BaseLayouter';
 
-
-module.exports = {
+export default {
   __depends__: [
     CommandModule,
     ChangeSupportModule,
