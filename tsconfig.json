@@ -16,7 +16,8 @@
     "noUnusedLocals": true,
     "baseUrl": "src",
     "paths": {
-      "@utils/*": ["Util/*"]
+      "@utils/*": ["Util/*"],
+      "@diagram-ts/*": ["diagram-ts/*"]
     } 
   },
   "exclude": [
