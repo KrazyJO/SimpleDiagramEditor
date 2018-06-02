@@ -1,5 +1,4 @@
 //---------------------IMPORTS---------------------
-// import Modeling = require('diagram-js/lib/features/modeling/Modeling');
 import Modeling from '../../diagram-ts/features/modeling/Modeling';
 // import { is } from '@utils/ModelUtil';
 
@@ -30,4 +29,4 @@ export default class EasyModeling extends Modeling {
 	}
 }
 
-(Modeling as any).$inject = ['eventBus', 'elementFactory', 'commandStack'/*, 'easyRules'*/];
+(Modeling as any).$inject = ['eventBus', 'elementFactory', 'commandStack', 'easyRules'];
