@@ -1,12 +1,12 @@
-// import {
-// 	event as domEvent,
-// 	closest as domClosest
-// } from 'min-dom';
+import {
+	event as domEvent,
+	closest as domClosest
+} from 'min-dom';
 
-const {
-	event,
-	closest
-} = require('min-dom');
+// const {
+// 	event,
+// 	closest
+// } = require('min-dom');
 
 import {
 	getStepSize,
@@ -17,9 +17,9 @@ import {
 	log10
 } from '../../util/Math';
 
-// import {
-// 	bind
-// } from 'min-dash';
+import {
+	bind
+} from 'min-dash';
 import EventBus from '../../core/EventBus';
 import Canvas from '../../core/Canvas';
 
@@ -65,7 +65,7 @@ export default class ZoomScroll {
 		// this._container = canvas._container;
 		this._container = canvas.getContainer();
 
-		// this._handleWheel = bind(this._handleWheel, this);
+		this._handleWheel = bind(this._handleWheel, this);
 
 		this._totalDelta = 0;
 		this._scale = config.scale || DEFAULT_SCALE;
@@ -74,7 +74,7 @@ export default class ZoomScroll {
 
 
 		//TODO das hier geht ja ger nicht :(
-		eventBus.on('canvas.init', function (e : any) {
+		eventBus.on('canvas.init', function (e: any) {
 			self._init(config.enabled !== false);
 		});
 	}
@@ -85,12 +85,12 @@ export default class ZoomScroll {
 		'canvas'
 	];
 
-	public scroll(delta : any) : void {
+	public scroll(delta: any): void {
 		this._canvas.scroll(delta);
 	};
 
 
-	public reset() : void {
+	public reset(): void {
 		this._canvas.zoom('fit-viewport');
 	};
 
@@ -100,7 +100,7 @@ export default class ZoomScroll {
 	 * @param {number} delta - Zoom delta.
 	 * @param {Object} position - Zoom position.
 	 */
-	public zoom(delta: number, position: any) : void {
+	public zoom(delta: number, position: any): void {
 
 		// zoom with half the step size of stepZoom
 		var stepSize = getStepSize(RANGE, NUM_STEPS * 2);
@@ -117,9 +117,9 @@ export default class ZoomScroll {
 	};
 
 
-	private _handleWheel(event: any) : void {
+	private _handleWheel(event: any): void {
 		// event is already handled by '.djs-scrollable'
-		if (closest(event.target, '.djs-scrollable', true)) {
+		if (domClosest(event.target, '.djs-scrollable', true)) {
 			return;
 		}
 
@@ -184,7 +184,7 @@ export default class ZoomScroll {
 	 * @param {number} delta - Zoom delta (1 for zooming in, -1 for out).
 	 * @param {Object} position - Zoom position.
 	 */
-	public stepZoom(delta: number, position?: any) : void {
+	public stepZoom(delta: number, position?: any): void {
 
 		var stepSize = getStepSize(RANGE, NUM_STEPS);
 
@@ -225,7 +225,7 @@ export default class ZoomScroll {
 	 *
 	 * @param  {Boolean} [newEnabled] new enabled state
 	 */
-	public toggle(newEnabled: boolean) : boolean {
+	public toggle(newEnabled: boolean): any {
 
 		var element = this._container;
 		var handleWheel = this._handleWheel;
@@ -241,7 +241,7 @@ export default class ZoomScroll {
 
 			// add or remove wheel listener based on
 			// changed enabled state
-			event[newEnabled ? 'bind' : 'unbind'](element, 'wheel', handleWheel, false);
+			domEvent[newEnabled ? 'bind' : 'unbind'](element, 'wheel', handleWheel, false);
 		}
 
 		this._enabled = newEnabled;
@@ -250,7 +250,7 @@ export default class ZoomScroll {
 	};
 
 
-	private _init(newEnabled: boolean) : void {
+	private _init(newEnabled: boolean): void {
 		this.toggle(newEnabled);
 	};
 

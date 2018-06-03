@@ -64,22 +64,22 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	//---------------------METHODS---------------------
-	addMarker(id: any, element: any) {
+	public addMarker(id: any, element: any) {
 		console.log("EasyRenderer.addMarker()");
 		this.markers[id] = element;
 	}
 
-	marker(id: any) {
+	public marker(id: any) {
 		console.log("EasyRenderer.marker()");
 		return this.markers[id];
 	}
 
-	getMarker(id: any) {
+	public getMarker(id: any) {
 		console.log("EasyRenderer.getMarker()");
 		return `url(#${id})`;
 	}
 
-	initMarker() {
+	public initMarker() {
 		console.log("EasyRenderer.initMarker()");
 		const self = this;
 		function createMarker(id: any, options: any) {
@@ -127,7 +127,7 @@ export default class EasyRenderer extends BaseRenderer {
 		});
 	}
 
-	drawRect(visuals: any, width: any, height: any, offset: any, attrs?: any) {
+	public drawRect(visuals: any, width: any, height: any, offset: any, attrs?: any) {
 		console.log("EasyRenderer.drawRect()");
 		if (isObject(offset)) {
 			attrs = offset;
@@ -151,7 +151,7 @@ export default class EasyRenderer extends BaseRenderer {
 		return rect;
 	}
 
-	drawLine(p: any, waypoints: any, attrs?: any) {
+	public drawLine(p: any, waypoints: any, attrs?: any) {
 		console.log("EasyRenderer.drawLine()");
 		attrs = this.computeStyle(attrs, ['no-fill'], {
 			stroke: 'slategray',
@@ -163,12 +163,12 @@ export default class EasyRenderer extends BaseRenderer {
 		return line;
 	}
 
-	renderEmbeddedLabel(p, element, align) {
+	public renderEmbeddedLabel(p, element, align) {
 		console.log("EasyRenderer.renderEmbeddedLabel()");
 		return this.renderLabel(p, element.businessObject.name, { box: element, align: align, padding: 5 });
 	}
 
-	renderLabel(p, label, options) {
+	public renderLabel(p, label, options) {
 		console.log("EasyRenderer.renderLabel()");
 		const text = this.textUtil.createText(label || '', options);
 		svgClasses(text).add('djs-label');
@@ -176,18 +176,18 @@ export default class EasyRenderer extends BaseRenderer {
 		return text;
 	}
 
-	canRender(element: any): boolean {
+	public canRender(element: any): boolean {
 		console.log("EasyRenderer.canRender()");
 		return is(element, 'uml:Element') || is(element, 'label');
 	}
 
-	drawShape(visuals: any, element: any) {
+	public drawShape(visuals: any, element: any) {
 		console.log("EasyRenderer.drawShape()");
 		const handler = this.handlers[element.type];
 		return handler(visuals, element);
 	}
 
-	drawConnection(visuals: any, element: any) {
+	public drawConnection(visuals: any, element: any) {
 		console.log("EasyRenderer.renderConnection()");
 		const handler = this.handlers[element.type];
 		return handler(visuals, element);
