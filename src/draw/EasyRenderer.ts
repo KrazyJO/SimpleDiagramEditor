@@ -35,7 +35,6 @@ export default class EasyRenderer extends BaseRenderer {
 	//---------------------CONSTRUCTOR---------------------
 	constructor(eventBus: EventBus, styles: Styles, canvas: Canvas, priority: any) {
 		super(eventBus, priority);
-		console.log("constructor EasyRenderer");
 		this.textUtil = new TextUtil({
 			style: LABEL_STYLE,
 			size: { width: 100 }
@@ -65,22 +64,18 @@ export default class EasyRenderer extends BaseRenderer {
 
 	//---------------------METHODS---------------------
 	public addMarker(id: any, element: any) {
-		console.log("EasyRenderer.addMarker()");
 		this.markers[id] = element;
 	}
 
 	public marker(id: any) {
-		console.log("EasyRenderer.marker()");
 		return this.markers[id];
 	}
 
 	public getMarker(id: any) {
-		console.log("EasyRenderer.getMarker()");
 		return `url(#${id})`;
 	}
 
 	public initMarker() {
-		console.log("EasyRenderer.initMarker()");
 		const self = this;
 		function createMarker(id: any, options: any) {
 			const attrs = assign({
@@ -128,7 +123,6 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public drawRect(visuals: any, width: any, height: any, offset: any, attrs?: any) {
-		console.log("EasyRenderer.drawRect()");
 		if (isObject(offset)) {
 			attrs = offset;
 			offset = 0;
@@ -152,7 +146,6 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public drawLine(p: any, waypoints: any, attrs?: any) {
-		console.log("EasyRenderer.drawLine()");
 		attrs = this.computeStyle(attrs, ['no-fill'], {
 			stroke: 'slategray',
 			strokeWidth: 2,
@@ -164,12 +157,10 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public renderEmbeddedLabel(p, element, align) {
-		console.log("EasyRenderer.renderEmbeddedLabel()");
 		return this.renderLabel(p, element.businessObject.name, { box: element, align: align, padding: 5 });
 	}
 
 	public renderLabel(p, label, options) {
-		console.log("EasyRenderer.renderLabel()");
 		const text = this.textUtil.createText(label || '', options);
 		svgClasses(text).add('djs-label');
 		svgAppend(p, text);
@@ -177,22 +168,16 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public canRender(element: any): boolean {
-		var bValue = is(element, 'sde:Element') || is(element, 'label');
-		console.log("EasyRenderer.canRender(): " + bValue);
-		return bValue
+		return is(element, 'sde:Element') || is(element, 'label');
 	}
 
 	public drawShape(visuals: any, element: any) {
-		console.log("EasyRenderer.drawShape()");
 		const handler = this.handlers[element.type];
 		return handler(visuals, element);
 	}
 
 	public drawConnection(visuals: any, element: any) {
-		console.log("EasyRenderer.renderConnection()");
 		const handler = this.handlers[element.type];
 		return handler(visuals, element);
 	}
 }
-
-// (EasyRenderer as any).$inject = ['eventBus', 'styles', 'canvas'];
