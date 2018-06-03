@@ -32,7 +32,8 @@
 		"superClass": [ "sde:Element" ],
 		"properties": [
 		  { "name": "sourceNode", "type": "sde:Edge", "isAttr": true, "isReference": true },
-		  { "name": "targetNode", "type": "sde:Edge", "isAttr": true, "isReference": true }
+			{ "name": "targetNode", "type": "sde:Edge", "isAttr": true, "isReference": true },
+			{ "name": "name", "type": "String", "isAttr": true }
 		]
 	  }
 	]

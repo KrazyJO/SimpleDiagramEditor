@@ -16,6 +16,8 @@ const DEFAULT_MODULES = [
 	require('./diagram-ts/features/hand-tool').default,
 	require('./diagram-ts/features/lasso-tool').default,
 	require('./diagram-ts/features/move').default,
+	require('./diagram-ts/features/resize').default,
+	require('./diagram-ts/features/space-tool').default,
 
 	require('./features/context-pad'),
 	require('./features/label-editing'),
