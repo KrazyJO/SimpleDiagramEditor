@@ -53,10 +53,12 @@ export default class EasyRenderer extends BaseRenderer {
 				// return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				const rect = this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				this.renderEmbeddedLabel(visuals, element, 'center-top');
-				this.renderLabel(visuals, 'prop: value1', { box: element, align: 'left', padding: 5, addToY : 25 });
-				this.renderLabel(visuals, 'prop: value2', { box: element, align: 'left', padding: 5, addToY : 40 });
-				this.renderLabel(visuals, 'prop: value3', { box: element, align: 'left', padding: 5, addToY : 55 });
-				// this.renderEmbeddedLabel(element, 'center-top');
+
+				let addToY = 25;
+				(element.businessObject.members || []).forEach(member => {
+					this.renderLabel(visuals, member, { box: element, align: 'left', padding: 5, addToY : addToY });
+					addToY += 15;
+				});
 				return rect;
 			},
 			'sde:Edge': (visuals: any, element: any) => {
