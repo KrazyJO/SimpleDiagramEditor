@@ -26,7 +26,7 @@ export default class EasyRenderer extends BaseRenderer {
 	//---------------------ATTRIBUTES---------------------
 	markers = {};
 	computeStyle: any;
-	public textUtil: any;
+	textUtil: any;
 	handlers: any;
 	canvas: any;
 
@@ -177,8 +177,9 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public canRender(element: any): boolean {
-		console.log("EasyRenderer.canRender()");
-		return is(element, 'uml:Element') || is(element, 'label');
+		var bValue = is(element, 'sde:Element') || is(element, 'label');
+		console.log("EasyRenderer.canRender(): " + bValue);
+		return bValue
 	}
 
 	public drawShape(visuals: any, element: any) {

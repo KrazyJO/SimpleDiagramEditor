@@ -6,19 +6,19 @@ import {
 	reduce
 } from 'min-dash';
 
-// import {
-// 	append as svgAppend,
-// 	attr as svgAttr,
-// 	create as svgCreate,
-// 	remove as svgRemove
-// } from 'tiny-svg';
+import {
+	append as svgAppend,
+	attr as svgAttr,
+	create as svgCreate,
+	remove as svgRemove
+} from 'tiny-svg';
 
-const {
-	append,
-	attr,
-	create,
-	remove
-} = require('tiny-svg');
+// const {
+// 	append,
+// 	attr,
+// 	create,
+// 	remove
+// } = require('tiny-svg');
 
 var DEFAULT_BOX_PADDING = 0;
 
@@ -171,9 +171,9 @@ function getHelperSvg() {
 	var helperSvg = document.getElementById('helper-svg');
 
 	if (!helperSvg) {
-		helperSvg = create('svg');
+		helperSvg = svgCreate('svg');
 
-		attr(helperSvg, {
+		svgAttr(helperSvg, {
 			id: 'helper-svg',
 			width: 0,
 			height: 0,
@@ -186,6 +186,11 @@ function getHelperSvg() {
 	return helperSvg;
 }
 
+function getLineHeight(style) : any {
+	if ('fontSize' in style && 'lineHeight' in style) {
+		return style.lineHeight * parseInt(style.fontSize, 10);
+	}
+}
 
 /**
  * Creates a new label utility
@@ -198,7 +203,7 @@ function getHelperSvg() {
  */
 export default class Text {
 
-	public _config : any;
+	public _config: any;
 	constructor(config: any) {
 		this._config = assign({}, {
 			size: DEFAULT_LABEL_SIZE,
@@ -209,106 +214,139 @@ export default class Text {
 
 	}
 
-	public layoutText(text: string, options: options) {
+	/**
+	 * Returns the layouted text as an SVG element.
+	 *
+	 * @param {String} text
+	 * @param {Object} options
+	 *
+	 * @return {SVGElement}
+	 */
+	public createText(text, options) {
+		return this.layoutText(text, options).element;
+	};
+
+	/**
+	 * Returns a labels layouted dimensions.
+	 *
+	 * @param {String} text to layout
+	 * @param {Object} options
+	 *
+	 * @return {Dimensions}
+	 */
+	public getDimensions(text, options) {
+		return this.layoutText(text, options).dimensions;
+	};
+
+	public layoutText(text, options) {
 		var box = assign({}, this._config.size, options.box),
 			style = assign({}, this._config.style, options.style),
 			align = parseAlign(options.align || this._config.align),
 			padding = parsePadding(options.padding !== undefined ? options.padding : this._config.padding),
 			fitBox = options.fitBox || false;
-	
+	  
+		var lineHeight = getLineHeight(style);
+	  
 		var lines = text.split(/\r?\n/g),
 			layouted = [];
-	
+	  
 		var maxWidth = box.width - padding.left - padding.right;
-	
+	  
 		// ensure correct rendering by attaching helper text node to invisible SVG
-		var helperText = create('text');
-		attr(helperText, { x: 0, y: 0 });
-		attr(helperText, style);
-	
+		var helperText = svgCreate('text');
+		svgAttr(helperText, { x: 0, y: 0 });
+		svgAttr(helperText, style);
+	  
 		var helperSvg = getHelperSvg();
-	
-		append(helperSvg, helperText);
-	
+	  
+		svgAppend(helperSvg, helperText);
+	  
 		while (lines.length) {
-			layouted.push(layoutNext(lines, maxWidth, helperText));
+		  layouted.push(layoutNext(lines, maxWidth, helperText));
 		}
-	
-		var totalHeight = reduce(layouted, function (sum: number, line: any, idx: number): boolean {
-			return sum + line.height;
+	  
+		var totalHeight = reduce(layouted, function(sum, line, idx) {
+		  return sum + (lineHeight || line.height);
 		}, 0);
-	
-		var maxLineWidth = reduce(layouted, function (sum: number, line: any, idx: number): boolean {
-			return line.width > sum ? line.width : sum;
+	  
+		var maxLineWidth = reduce(layouted, function(sum, line, idx) {
+		  return line.width > sum ? line.width : sum;
 		}, 0);
-	
+	  
 		// the y position of the next line
-		var y: number, x: number;
-	
+		var y;
+	  
 		switch (align.vertical) {
-			case 'middle':
-				y = (box.height - totalHeight) / 2 - layouted[0].height / 4;
-				break;
-	
-			default:
-				y = padding.top;
+		case 'middle':
+		  y = (box.height - totalHeight) / 2;
+		  break;
+	  
+		default:
+		  y = padding.top;
 		}
-	
-		var textElement = create('text');
-	
-		attr(textElement, style);
-	
+	  
+		// magic number initial offset
+		y -= (lineHeight || layouted[0].height) / 4;
+	  
+	  
+		var textElement = svgCreate('text');
+	  
+		svgAttr(textElement, style);
+	  
 		// layout each line taking into account that parent
 		// shape might resize to fit text size
-		forEach(layouted, function (line: any) {
-			y += line.height;
-	
-			switch (align.horizontal) {
-				case 'left':
-					x = padding.left;
-					break;
-	
-				case 'right':
-					x = ((fitBox ? maxLineWidth : maxWidth)
-						- padding.right - line.width);
-					break;
-	
-				default:
-					// aka center
-					x = Math.max((((fitBox ? maxLineWidth : maxWidth)
-						- line.width) / 2 + padding.left), 0);
-			}
-	
-			var tspan = create('tspan');
-			attr(tspan, { x: x, y: y });
-	
-			tspan.textContent = line.text;
-	
-			append(textElement, tspan);
+		forEach(layouted, function(line) {
+	  
+		  var x;
+	  
+		  y += (lineHeight || line.height);
+	  
+		  switch (align.horizontal) {
+		  case 'left':
+			x = padding.left;
+			break;
+	  
+		  case 'right':
+			x = ((fitBox ? maxLineWidth : maxWidth)
+			  - padding.right - line.width);
+			break;
+	  
+		  default:
+			// aka center
+			x = Math.max((((fitBox ? maxLineWidth : maxWidth)
+			  - line.width) / 2 + padding.left), 0);
+		  }
+	  
+		  var tspan = svgCreate('tspan');
+		  svgAttr(tspan, { x: x, y: y });
+	  
+		  tspan.textContent = line.text;
+	  
+		  svgAppend(textElement, tspan);
 		});
-	
-		remove(helperText);
-	
+	  
+		svgRemove(helperText);
+	  
 		var dimensions = {
-			width: maxLineWidth,
-			height: totalHeight
+		  width: maxLineWidth,
+		  height: totalHeight
 		};
-	
+	  
 		return {
-			dimensions: dimensions,
-			element: textElement
+		  dimensions: dimensions,
+		  element: textElement
 		};
-	};
-	
+	  };
+
 }
 
 
 
-interface options {
-	align: string,
-	style: string,
-	fitBox: boolean,
-	box: any,
-	padding: any
-}
+// interface options {
+// 	align: string,
+// 	style: string,
+// 	fitBox: boolean,
+// 	box: any,
+// 	padding: any
+// }
 
