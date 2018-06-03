@@ -23,7 +23,7 @@ const XML : string =
 <sde:SimpleDebugEditorGraph id="eg_1" xmlns:sde="https://seblog.cs.uni-kassel.de/sde" xmlns:sdedi="https://seblog.cs.uni-kassel.de/sdedi" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <sde:Node id="node_1" name="a"></sde:Node>
   <sde:Node id="node_2" name="b"></sde:Node>
-  <sde:Edge id="edge_1" sourceNode="node_1" targetNode="node_2"></sde:Edge>
+  <sde:Edge id="edge_1" sourceNode="node_1" name="edge1" targetNode="node_2"></sde:Edge>
   <sdedi:SimpleDebugEditorDiagram id="ed_1">
     <sdedi:SimpleDebugEditorShape id="shape_1" simpleDebugEditorElement="node_1">
       <dc:Bounds x="500" y="200" width="150" height="100" />

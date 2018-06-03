@@ -15,16 +15,16 @@ const DEFAULT_OPTIONS = {
 	position: 'relative',
 };
 const DEFAULT_MODULES = [
-	// modules the viewer is composed of
-	require('./diagram-ts/features/overlays'),
-	require('./diagram-ts/features/selection'),
-	// non-modeling components
-	require('./diagram-ts/navigation/movecanvas'),
-	require('./diagram-ts/navigation/touch'),
-	require('./diagram-ts/navigation/zoomscroll'),
 	// modeling components
 	require('./draw'),
 	require('./import'),
+	// modules the viewer is composed of
+	require('./diagram-ts/features/overlays').default,
+	require('./diagram-ts/features/selection').default,
+	// non-modeling components
+	require('./diagram-ts/navigation/movecanvas').default,
+	require('./diagram-ts/navigation/touch').default,
+	require('./diagram-ts/navigation/zoomscroll').default,
 ];
 
 //---------------------CLASS--------------------

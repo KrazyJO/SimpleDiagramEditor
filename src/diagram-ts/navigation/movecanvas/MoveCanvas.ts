@@ -16,6 +16,10 @@ import {
 // 	closest as domClosest
 // } from 'min-dom';
 
+import {
+	event as domEvent
+} from 'min-dom';
+
 const {
 	event,
 	closest
@@ -101,8 +105,8 @@ export default class MoveCanvas {
 			start: toPoint(event)
 		};
 
-		event.bind(document, 'mousemove', handleMove);
-		event.bind(document, 'mouseup', handleEnd);
+		domEvent.bind(document, 'mousemove', handleMove);
+		domEvent.bind(document, 'mouseup', handleEnd);
 
 		// we've handled the event
 		return true;

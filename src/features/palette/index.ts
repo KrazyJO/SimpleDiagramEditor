@@ -5,7 +5,7 @@ import PaletteProvider from './PaletteProvider';
 module.exports = {
   __depends__: [
     require('@diagram-ts/features/palette').default,
-    require('@diagram-ts/features/create'),
+    require('../../diagram-ts/features/create').default,
     require('@diagram-ts/features/hand-tool').default,
     require('@diagram-ts/features/lasso-tool').default,
     require('../../diagram-ts/features/space-tool').default

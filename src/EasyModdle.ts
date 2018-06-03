@@ -1,5 +1,5 @@
 //---------------------IMPORTS---------------------
-import { assign } from 'lodash';
+import { assign } from 'min-dash';
 import { Reader as XMLReader, Writer as XMLWriter } from 'moddle-xml';
 import Moddle from 'moddle';
 

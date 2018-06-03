@@ -1,5 +1,5 @@
 // import {inherits as inherits} from 'inherits';
-let inherits = require('inherits');
+// let inherits = require('inherits');
 
 import BaseRenderer from './BaseRenderer';
 
@@ -33,7 +33,7 @@ var DEFAULT_RENDER_PRIORITY = 1;
  * @param {EventBus} eventBus
  * @param {Styles} styles
  */
-export default class DefaultRenderer {
+export default class DefaultRenderer extends BaseRenderer {
 
 	static $inject = ['eventBus', 'styles'];
 
@@ -41,17 +41,18 @@ export default class DefaultRenderer {
 	public SHAPE_STYLE: any;
 
 	constructor(eventBus: EventBus, styles : Styles) {
-		BaseRenderer.call(this, eventBus, DEFAULT_RENDER_PRIORITY);
+		// BaseRenderer.call(this, eventBus, DEFAULT_RENDER_PRIORITY);
+		super(eventBus, DEFAULT_RENDER_PRIORITY);
 
 		this.CONNECTION_STYLE = styles.style(['no-fill'], { strokeWidth: 5, stroke: 'fuchsia' });
 		this.SHAPE_STYLE = styles.style({ fill: 'white', stroke: 'fuchsia', strokeWidth: 2 });
 	}
 
-	public canRender = function (): boolean {
+	public canRender(): boolean {
 		return true;
 	};
 
-	public drawShape = function drawShape(visuals: any, element: any): any {
+	public drawShape(visuals: any, element: any): any {
 
 		var rect = create('rect');
 		attr(rect, {
@@ -67,7 +68,7 @@ export default class DefaultRenderer {
 		return rect;
 	};
 
-	public drawConnection = function drawConnection(visuals: any, connection: any): any {
+	public drawConnection(visuals: any, connection: any): any {
 
 		var line = createLine(connection.waypoints, this.CONNECTION_STYLE);
 		append(visuals, line);
@@ -75,7 +76,7 @@ export default class DefaultRenderer {
 		return line;
 	};
 
-	public getShapePath = function getShapePath(shape: any): any {
+	public getShapePath(shape: any): any {
 
 		var x = shape.x,
 			y = shape.y,
@@ -93,7 +94,7 @@ export default class DefaultRenderer {
 		return componentsToPath(shapePath);
 	};
 
-	public getConnectionPath = function getConnectionPath(connection: any): any {
+	public getConnectionPath(connection: any): any {
 		var waypoints = connection.waypoints;
 
 		var idx, point, connectionPath = [];
@@ -111,6 +112,6 @@ export default class DefaultRenderer {
 	};
 }
 
-inherits(DefaultRenderer, BaseRenderer);
+// inherits(DefaultRenderer, BaseRenderer);
 
 // DefaultRenderer.$inject = ['eventBus', 'styles'];
