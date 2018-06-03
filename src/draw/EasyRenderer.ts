@@ -26,7 +26,7 @@ export default class EasyRenderer extends BaseRenderer {
 	//---------------------ATTRIBUTES---------------------
 	markers = {};
 	computeStyle: any;
-	textUtil: any;
+	textUtil: TextUtil;
 	handlers: any;
 	canvas: any;
 
@@ -53,11 +53,16 @@ export default class EasyRenderer extends BaseRenderer {
 				// return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				const rect = this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				this.renderEmbeddedLabel(visuals, element, 'center-top');
+				this.renderLabel(visuals, 'prop: value1', { box: element, align: 'left', padding: 5, addToY : 25 });
+				this.renderLabel(visuals, 'prop: value2', { box: element, align: 'left', padding: 5, addToY : 40 });
+				this.renderLabel(visuals, 'prop: value3', { box: element, align: 'left', padding: 5, addToY : 55 });
 				// this.renderEmbeddedLabel(element, 'center-top');
 				return rect;
 			},
 			'sde:Edge': (visuals: any, element: any) => {
-				return this.drawLine(visuals, element.waypoints, CONNECTION_STYLE);
+				const line = this.drawEdge(visuals, element.waypoints, CONNECTION_STYLE, element);
+				// this.renderEmbeddedLabel(line, element, 'center-bottom');
+				return line;
 			}
 		};
 	}
@@ -145,7 +150,7 @@ export default class EasyRenderer extends BaseRenderer {
 		return rect;
 	}
 
-	public drawLine(p: any, waypoints: any, attrs?: any) {
+	public drawEdge(p: any, waypoints: any, attrs?: any, element? : any) {
 		attrs = this.computeStyle(attrs, ['no-fill'], {
 			stroke: 'slategray',
 			strokeWidth: 2,

@@ -243,7 +243,8 @@ export default class Text {
 			style = assign({}, this._config.style, options.style),
 			align = parseAlign(options.align || this._config.align),
 			padding = parsePadding(options.padding !== undefined ? options.padding : this._config.padding),
-			fitBox = options.fitBox || false;
+			fitBox = options.fitBox || false,
+			addToY = options.addToY || 0;
 	  
 		var lineHeight = getLineHeight(style);
 	  
@@ -317,6 +318,8 @@ export default class Text {
 			  - line.width) / 2 + padding.left), 0);
 		  }
 	  
+		  y += addToY;
+
 		  var tspan = svgCreate('tspan');
 		  svgAttr(tspan, { x: x, y: y });
 	  

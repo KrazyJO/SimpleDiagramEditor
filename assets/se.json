@@ -24,7 +24,8 @@
 		"name": "Node",
 		"superClass": [ "sde:Element" ],
 		"properties": [
-		  { "name": "name", "type": "String", "isAttr": true }
+			{ "name": "name", "type": "String", "isAttr": true },
+			{ "name" : "members", "type" : "String", "isAttr" : true, "isMany" : true}
 		]
 	  },
 	  {
