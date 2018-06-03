@@ -2,7 +2,7 @@
 import PaletteProvider from './PaletteProvider';
 
 //---------------------EXPORT---------------------
-export default {
+module.exports = {
   __depends__: [
     require('@diagram-ts/features/palette').default,
     require('@diagram-ts/features/create'),

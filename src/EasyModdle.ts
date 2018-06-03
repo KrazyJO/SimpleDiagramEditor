@@ -38,8 +38,10 @@ export default class EasyModdle extends Moddle {
 		try {
 			const result = writer.toXML(element);
 			done(null, result);
+			console.log(result);
 		} catch(e) {
 			done(e);
+			console.error(e);
 		}
 	}
 }

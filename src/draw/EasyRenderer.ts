@@ -48,7 +48,11 @@ export default class EasyRenderer extends BaseRenderer {
     });
     this.handlers = {
       'sde:Node': (visuals : any, element : any) => {
-        return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
+        // return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
+        const rect = this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
+        this.renderEmbeddedLabel(visuals, element, 'center-top');
+        // this.renderEmbeddedLabel(element, 'center-top');
+        return rect;
       },
       'sde:Edge': (visuals : any, element : any) => {
         return this.drawLine(visuals, element.waypoints, CONNECTION_STYLE);
@@ -150,9 +154,14 @@ export default class EasyRenderer extends BaseRenderer {
     return line;
   }
 
-  renderLabel(p : any, label : any, options : any) {
-    const text = this.textUtil.createText(p, label || '', options);
+  renderEmbeddedLabel(p, element, align) {
+    return this.renderLabel(p, element.businessObject.name, { box: element, align: align, padding: 5 });
+  }
+
+  renderLabel(p, label, options) {
+    const text = this.textUtil.createText(label || '', options);
     svgClasses(text).add('djs-label');
+    svgAppend(p, text);
     return text;
   }
 

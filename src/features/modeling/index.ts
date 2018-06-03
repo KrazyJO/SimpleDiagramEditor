@@ -6,10 +6,10 @@ import EasyUpdater from './EasyUpdater';
 import EasyModeling from './EasyModeling';
 
 //---------------------EXPORTS---------------------
-export default {
+module.exports = {
 	__init__: ['modeling', 'easyUpdater'],
 	__depends__: [
-		// require('../label-editing'),
+		require('../label-editing'),
 		require('../rules'),
 		require('../../diagram-ts/command').default,
 		require('../../diagram-ts/features/tooltips'),

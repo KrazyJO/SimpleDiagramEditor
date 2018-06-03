@@ -2,7 +2,7 @@
 import ContextPadProvider from './ContextPadProvider';
 
 //---------------------EXPORTS---------------------
-export default {
+module.exports = {
   __depends__: [
     require('../../diagram-js-direct-editing').default,
     require('@diagram-ts/features/context-pad').default,

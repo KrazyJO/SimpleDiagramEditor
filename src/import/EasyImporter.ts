@@ -59,7 +59,8 @@ export default class EasyImporter {
     } else {
       throw new Error('unknown di');
     }
-    this.eventBus.fire('easyElement.added', { element: element });
+    // this.eventBus.fire('easyElement.added', { element: element });
+    this.eventBus.fire('simpleDebugEditorElement.added', { element: element });
     return element;
   }
 
