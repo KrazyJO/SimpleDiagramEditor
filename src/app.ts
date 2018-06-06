@@ -69,9 +69,12 @@ $(document).ready(function () {
 	createNewDiagram();
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
-		monaco.editor.create(editorContainer, {
-			language: 'javascript'
+		let editor = monaco.editor.create(editorContainer, {
+			language: 'javascript',
+			theme : 'vs-dark'
 		});
+		console.log(editor);
+		window["myEditor"] = editor;
 	}
 
 });
