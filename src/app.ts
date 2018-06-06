@@ -48,6 +48,12 @@ const XML: string =
 </sde:SimpleDebugEditorGraph>
 `;
 
+let myEditor;
+
+window["editorRun"] =  function() {
+	console.log(myEditor.getValue());
+}
+
 const modeler = new EA.Modeler({
 	container: '#js-canvas',
 	propertiesPanel: { parent: '#js-properties-panel' }
@@ -69,12 +75,10 @@ $(document).ready(function () {
 	createNewDiagram();
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
-		let editor = monaco.editor.create(editorContainer, {
+		myEditor = monaco.editor.create(editorContainer, {
 			language: 'javascript',
 			theme : 'vs-dark'
 		});
-		console.log(editor);
-		window["myEditor"] = editor;
 	}
 
 });
