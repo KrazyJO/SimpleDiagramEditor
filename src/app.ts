@@ -48,10 +48,26 @@ const XML: string =
 </sde:SimpleDebugEditorGraph>
 `;
 
-let myEditor;
 
+//save the editor reference here for later use!
+let myEditor : monaco.editor.IStandaloneCodeEditor;
+
+
+//this function is invoked by the 'Run the editor code!'-button.
+//code from the editor will be injected to the preview iframe.
 window["editorRun"] =  function() {
-	console.log(myEditor.getValue());
+	let iFrame : HTMLIFrameElement = <HTMLIFrameElement>document.getElementById("preview");
+	
+	//reload the window to earase old content
+	iFrame.contentWindow.location.reload();
+
+	//create script for injection
+	var myscript = document.createElement('script');
+	myscript.textContent = myEditor.getValue();
+	//append script to the iframe
+	var iFrameHead = iFrame.contentDocument.getElementsByTagName("head")[0];
+	iFrameHead.appendChild(myscript);
+	
 }
 
 const modeler = new EA.Modeler({
