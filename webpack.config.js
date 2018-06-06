@@ -7,6 +7,7 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const config = {
     mode : "development",
@@ -88,7 +89,8 @@ const config = {
             title: 'SimpleDiagramEditor'
         }),
 
-        new CleanWebpackPlugin(['dist'])
+        new CleanWebpackPlugin(['dist']),
+        new MonacoWebpackPlugin()
     ]
 };
 

@@ -12,7 +12,7 @@ export default class PropertiesPanel {
 	constructor(config, private eventBus, private commandStack, public canvas) {
 		this.init(config);
 	}
-
+ 
 	//---------------------METHODS---------------------
 	static getCmdHandlers(): any {
 		return {

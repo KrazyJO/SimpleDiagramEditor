@@ -1,3 +1,5 @@
+import * as monaco from 'monaco-editor';
+
 const EA = (window as any).EasyJS;
 
 // const XML =
@@ -17,8 +19,8 @@ const EA = (window as any).EasyJS;
 // `;
 
 //now I understand :)
-const XML : string =
-`
+const XML: string =
+	`
 <?xml version="1.0" encoding="UTF-8"?>
 <sde:SimpleDebugEditorGraph id="eg_1" xmlns:sde="https://seblog.cs.uni-kassel.de/sde" xmlns:sdedi="https://seblog.cs.uni-kassel.de/sdedi" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <sde:Node id="node_1" name="a"></sde:Node>
@@ -47,22 +49,29 @@ const XML : string =
 `;
 
 const modeler = new EA.Modeler({
-  container: '#js-canvas',
-  propertiesPanel: {parent: '#js-properties-panel'}
+	container: '#js-canvas',
+	propertiesPanel: { parent: '#js-properties-panel' }
 });
 
 function createNewDiagram() {
-  console.log('Start with creating the diagram!');
-  modeler.importXML(XML, function (err: any) {
-	if (!err) {
-	  modeler.get('canvas').zoom('fit-viewport');
-	  console.log('Yay look at this beautiful Diagram :D');
-	} else {
-	  console.log('There went something wrong: ', err);
-	}
-  });
+	console.log('Start with creating the diagram!');
+	modeler.importXML(XML, function (err: any) {
+		if (!err) {
+			modeler.get('canvas').zoom('fit-viewport');
+			console.log('Yay look at this beautiful Diagram :D');
+		} else {
+			console.log('There went something wrong: ', err);
+		}
+	});
 }
 
-$(document).ready(function() {
-  createNewDiagram();
+$(document).ready(function () {
+	createNewDiagram();
+	const editorContainer = document.getElementById('editor');
+	if (editorContainer) {
+		monaco.editor.create(editorContainer, {
+			language: 'javascript'
+		});
+	}
+
 });
