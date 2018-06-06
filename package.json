@@ -5,10 +5,13 @@
   "scripts": {
     "tslint": "tslint -c tslint.json 'src/**/*.ts' --exclude 'src/typings/**'",
     "dev": "yarn run webpack:dev",
+    "build": "yarn run webpack:prod",
     "obsolet-test": "karma start",
     "webpack": "webpack --mode production",
-    "obsolet-webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --progress --profile --port=9060",
-    "webpack:dev": "cross-env NODE_ENV=development --mode=development webpack-dev-server --progress --profile --port=9060"
+    "obsolet-webpack:dev": "cross-env NODE_ENV=development --mode=development webpack-dev-server --progress --profile --port=9060",
+    "webpack:dev": "webpack-dev-server --progress --profile --port=9060 --mode=development",
+    "webpack:prod": "webpack --mode=production"
+
   },
   "devDependencies": {
     "@types/ids": "^0.2.1",
@@ -20,14 +23,13 @@
     "browser-sync": "^2.24.4",
     "browser-sync-webpack-plugin": "^2.2.2",
     "clean-webpack-plugin": "^0.1.19",
-    "cross-env": "^5.1.5",
     "css-loader": "^0.28.11",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "image-webpack-loader": "^4.2.0",
     "json-loader": "^0.5.7",
+    "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.21.0",

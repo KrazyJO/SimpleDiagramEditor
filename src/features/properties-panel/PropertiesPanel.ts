@@ -21,7 +21,7 @@ export default class PropertiesPanel {
 	}
 
 	private static addTitle(container): void {
-		const titleHtml = '<div><h3 class="text-center">Properties</h3></div><hr>';
+		const titleHtml = '<div><h3 class="text-center">Properties</h3></div><hr>'; 
 		container.append(titleHtml);
 	}
 

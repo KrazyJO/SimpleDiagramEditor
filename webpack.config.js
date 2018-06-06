@@ -1,18 +1,12 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+// const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
-
-// const extractPlugin = new ExtractTextPlugin({
-//     filename: 'main.css'
-// });
-
-const extractPlugin = new ExtractTextPlugin('main.css');
 
 const config = {
     mode : "development",
@@ -27,7 +21,7 @@ const config = {
     },
     output: {
         library: '[name]',
-        libraryTarget: 'var',
+        // libraryTarget: 'var',
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js'
     },
@@ -39,11 +33,20 @@ const config = {
                 loader: ['awesome-typescript-loader', 'tslint-loader'],
                 exclude: '/node_modules/'
             },
+            // {
+            //   test: /\.scss$/,
+            //   use: extractPlugin.extract({
+            //     use: ['css-loader', 'sass-loader']
+            //   })
+            // },
             {
-              test: /\.scss$/,
-              use: extractPlugin.extract({
-                use: ['css-loader', 'sass-loader']
-              })
+                test: /\.s?css$/,
+                use: [
+                  MiniCssExtractPlugin.loader,
+                  'css-loader',
+                  'sass-loader'
+                ]
+         
             },
             {
                 test: /\.html$/,
@@ -55,12 +58,17 @@ const config = {
             }
         ]
     },
+    node: {
+        fs: 'empty'
+      },
+    
     plugins: [
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
         }),
-        extractPlugin,
+        // extractPlugin,
+        new MiniCssExtractPlugin(),
         new BrowserSyncPlugin({
             host: 'localhost',
             port: 9000,
