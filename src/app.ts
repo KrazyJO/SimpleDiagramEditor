@@ -92,9 +92,23 @@ $(document).ready(function () {
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
 		myEditor = monaco.editor.create(editorContainer, {
+      value: [
+        '// Press F4 to run your code!',
+        'window.onload = function() {',
+        '  const hw = document.createElement("div");',
+        '  hw.innerText = "HelloWorld!";',
+        '  document.body.appendChild(hw)',
+        '}'
+      ].join('\n'),
 			language: 'javascript',
 			theme : 'vs-dark'
-		});
+    });
+    myEditor.addCommand(monaco.KeyCode.F4, () => {
+      const prev = document.getElementById('preview');
+      if (prev != null) {
+        prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
+      }
+    }, '');
 	}
 
 });
