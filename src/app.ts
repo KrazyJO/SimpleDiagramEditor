@@ -70,7 +70,7 @@ function createNewDiagram() {
 }
 
 $(document).ready(function () {
-	createNewDiagram();
+  createNewDiagram();
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
 		myEditor = monaco.editor.create(editorContainer, {
@@ -80,6 +80,7 @@ $(document).ready(function () {
         '  const hw = document.createElement("div");',
         '  hw.innerText = "HelloWorld!";',
         '  document.body.appendChild(hw)',
+        '  this.rootModle = {a : "1", b : "2"}',
         '}'
       ].join('\n'),
 			language: 'javascript',
@@ -94,3 +95,12 @@ $(document).ready(function () {
 	}
 
 });
+
+export function btnRun() {
+  const prev = <HTMLIFrameElement>document.getElementById('preview');
+  let rootModle = prev.contentWindow["rootModle"];
+  if (rootModle)
+  {
+    console.log(rootModle);
+  }
+}
