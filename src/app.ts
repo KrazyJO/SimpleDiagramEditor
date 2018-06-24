@@ -87,7 +87,7 @@ $(document).ready(function () {
     });
     myEditor.addCommand(monaco.KeyCode.F4, () => {
       const prev = document.getElementById('preview');
-      if (prev != null) {
+      if (prev) {
         prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
       }
     }, '');
