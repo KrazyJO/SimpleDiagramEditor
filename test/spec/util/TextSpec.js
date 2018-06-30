@@ -39,7 +39,7 @@ function toFitBBox(actual, expected) {
   return !!pass;
 }
 
-import TextUtil from 'lib/util/Text';
+import TextUtil from '../../../src/diagram-ts/util/Text';
 
 import TestContainer from 'mocha-test-container-support';
 

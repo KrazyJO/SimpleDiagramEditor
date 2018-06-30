@@ -1,4 +1,4 @@
-import IdGenerator from 'lib/util/IdGenerator';
+import IdGenerator from '../../../src/diagram-ts/util/IdGenerator';
 
 
 describe('util/IdGenerator', function() {

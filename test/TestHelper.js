@@ -1,4 +1,4 @@
-// export * from './helper';
+export * from './helper';
 
 import {
   insertCSS
