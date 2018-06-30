@@ -124,7 +124,6 @@ export function inject(fn) {
     if (!DIAGRAM_JS) {
       throw new Error('no bootstraped diagram, ensure you created it via #bootstrapDiagram');
     }
-
     return DIAGRAM_JS.invoke(fn);
   };
 }

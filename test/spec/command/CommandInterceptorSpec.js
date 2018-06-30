@@ -6,6 +6,7 @@ import {
 import inherits from 'inherits';
 
 import cmdModule from '../../../src/diagram-ts/command';
+// var cmdModule = require('../../../src/diagram-ts/command').default;
 
 import CommandInterceptor from '../../../src/diagram-ts/command/CommandInterceptor';
 
@@ -56,6 +57,9 @@ inherits(TestInterceptor, CommandInterceptor);
 
 describe('command/CommandInterceptor', function() {
 
+  console.log("hey ho");
+  console.log(bootstrapDiagram);
+  console.log(cmdModule);
   beforeEach(bootstrapDiagram({ modules: [ cmdModule ] }));
 
 

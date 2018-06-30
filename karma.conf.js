@@ -8,22 +8,24 @@ var absoluteBasePath = path.resolve(__dirname);
 
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
-var browsers =
-  (process.env.TEST_BROWSERS || 'PhantomJS')
-    .replace(/^\s+|\s+$/, '')
-    .split(/\s*,\s*/g)
-    .map(function(browser) {
-      if (browser === 'ChromeHeadless') {
-        process.env.CHROME_BIN = require('puppeteer').executablePath();
+// var browsers =
+//   (process.env.TEST_BROWSERS || 'PhantomJS')
+//     .replace(/^\s+|\s+$/, '')
+//     .split(/\s*,\s*/g)
+//     .map(function(browser) {
+//       if (browser === 'ChromeHeadless') {
+//         process.env.CHROME_BIN = require('puppeteer').executablePath();
 
-        // workaround https://github.com/GoogleChrome/puppeteer/issues/290
-        if (process.platform === 'linux') {
-          return 'ChromeHeadless_Linux';
-        }
-      }
+//         // workaround https://github.com/GoogleChrome/puppeteer/issues/290
+//         if (process.platform === 'linux') {
+//           return 'ChromeHeadless_Linux';
+//         }
+//       }
 
-      return browser;
-    });
+//       return browser;
+//     });
+
+var browsers = ['Chrome']
 
 var webpackCongig = require('./webpack.config');
 
@@ -45,16 +47,18 @@ module.exports = function(karma) {
       'test/spec/util/IdGeneratorSpec.js',
       'test/spec/util/LineIntersectionSpec.js',
       'test/spec/util/TextSpec.js',
-      'test/spec/command/CommandInterceptorSpec.js'
+      'test/spec/command/CommandInterceptorSpec.js',
+      'test/spec/command/CommandStackSpec.js'
     ],
 
     preprocessors: {
-      'test/**/*.*': [ 'webpack' ]
+      'test/**/*.*': [ 'webpack', 'sourcemap' ]
     },
 
     webpack : {
       module : webpackCongig.module,
       resolve : webpackCongig.resolve,
+      devtool: 'inline-source-map',
       node: {
         fs: 'empty'
       }
@@ -74,6 +78,10 @@ module.exports = function(karma) {
           '--disable-setuid-sandbox'
         ],
         debug: true
+      },
+      ChromeDebugging: {
+        base: 'Chrome',
+        flags: [ '--remote-debugging-port=9333' ]
       }
     },
 

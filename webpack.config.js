@@ -97,16 +97,16 @@ const config = {
 
 // Check if build is running in production mode, then change the sourcemap type
 if (process.env.NODE_ENV === 'production') {
-    console.log('production mode run UglifyJsPlugin');
-    config.mode = "production";
-    config.devtool = ''; // No sourcemap for production
-    config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-        parallel: true,
-        uglifyOptions: {
-            ie8: false,
-            ecma: 8
-        }
-    }));
+    // console.log('production mode run UglifyJsPlugin');
+    // config.mode = "production";
+    // config.devtool = ''; // No sourcemap for production
+    // config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    //     parallel: true,
+    //     uglifyOptions: {
+    //         ie8: false,
+    //         ecma: 8
+    //     }
+    // }));
 }
 
 module.exports = config;
