@@ -12,8 +12,7 @@
             "url": "http://localhost:9000/",
             "webRoot": "${workspaceRoot}/dist",
             "sourceMaps": true,
-            "timeout": 15000,
-            "trace":"verbose"
+            "timeout": 15000
         }
     ]
 }
