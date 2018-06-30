@@ -1,7 +1,4 @@
-import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
+import {bootstrapDiagram, inject} from '../../helper';
 
 import {
   keys
@@ -9,9 +6,9 @@ import {
 
 import {
   getEnclosedElements
-} from 'lib/util/Elements';
+} from '../../../src/diagram-ts/util/Elements';
 
-import modelingModule from 'lib/features/modeling';
+import modelingModule from '../../../src/diagram-ts/features/modeling';
 
 
 describe('util/Elements', function() {

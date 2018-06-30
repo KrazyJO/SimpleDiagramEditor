@@ -36,7 +36,12 @@ module.exports = function(karma) {
     ],
 
     files: [
-      'test/spec/DiagramSpec.js'
+      'test/spec/DiagramSpec.js',
+      'test/spec/util/AttachUtilSpec.js',
+      'test/spec/util/CopyPasteUtil.js',
+      'test/spec/util/ElementIntegrationSpec.js',
+      'test/spec/util/ElementsSpec.js',
+      'test/spec/util/GeometrySpec.js'
     ],
 
     preprocessors: {
