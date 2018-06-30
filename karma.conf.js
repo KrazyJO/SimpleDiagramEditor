@@ -44,7 +44,8 @@ module.exports = function(karma) {
       'test/spec/util/GeometrySpec.js',
       'test/spec/util/IdGeneratorSpec.js',
       'test/spec/util/LineIntersectionSpec.js',
-      'test/spec/util/TextSpec.js'
+      'test/spec/util/TextSpec.js',
+      'test/spec/command/CommandInterceptorSpec.js'
     ],
 
     preprocessors: {
