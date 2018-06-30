@@ -1,5 +1,4 @@
-import Diagram from 'lib/Diagram';
-
+import Diagram from '../../src/diagram-ts/Diagram';
 
 describe('diagram', function() {
 

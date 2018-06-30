@@ -25,22 +25,30 @@ var browsers =
       return browser;
     });
 
+var webpackCongig = require('./webpack.config');
 
 module.exports = function(karma) {
   karma.set({
 
     frameworks: [
-      'browserify',
       'mocha',
       'sinon-chai'
     ],
 
     files: [
-      'test/**/*Spec.js'
+      'test/spec/DiagramSpec.js'
     ],
 
     preprocessors: {
-      'test/**/*Spec.js': [ 'browserify' ]
+      'test/**/*.*': [ 'webpack' ]
+    },
+
+    webpack : {
+      module : webpackCongig.module,
+      resolve : webpackCongig.resolve,
+      node: {
+        fs: 'empty'
+      }
     },
 
     reporters: [ 'spec' ],
@@ -63,14 +71,5 @@ module.exports = function(karma) {
     autoWatch: false,
     singleRun: true,
 
-    // browserify configuration
-    browserify: {
-      debug: true,
-      paths: [ absoluteBasePath ],
-      transform: [
-        'babelify',
-        'brfs'
-      ]
-    }
   });
 };
