@@ -24,7 +24,8 @@ const config = {
         library: '[name]',
         // libraryTarget: 'var',
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].bundle.js'
+        filename: '[name].bundle.js',
+        devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },
     devtool: 'inline-source-map',
     module: {
