@@ -8,39 +8,61 @@ var absoluteBasePath = path.resolve(__dirname);
 
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
-var browsers =
-  (process.env.TEST_BROWSERS || 'PhantomJS')
-    .replace(/^\s+|\s+$/, '')
-    .split(/\s*,\s*/g)
-    .map(function(browser) {
-      if (browser === 'ChromeHeadless') {
-        process.env.CHROME_BIN = require('puppeteer').executablePath();
+// var browsers =
+//   (process.env.TEST_BROWSERS || 'PhantomJS')
+//     .replace(/^\s+|\s+$/, '')
+//     .split(/\s*,\s*/g)
+//     .map(function(browser) {
+//       if (browser === 'ChromeHeadless') {
+//         process.env.CHROME_BIN = require('puppeteer').executablePath();
 
-        // workaround https://github.com/GoogleChrome/puppeteer/issues/290
-        if (process.platform === 'linux') {
-          return 'ChromeHeadless_Linux';
-        }
-      }
+//         // workaround https://github.com/GoogleChrome/puppeteer/issues/290
+//         if (process.platform === 'linux') {
+//           return 'ChromeHeadless_Linux';
+//         }
+//       }
 
-      return browser;
-    });
+//       return browser;
+//     });
 
+var browsers = ['Chrome']
+
+var webpackCongig = require('./webpack.config');
 
 module.exports = function(karma) {
   karma.set({
 
     frameworks: [
-      'browserify',
       'mocha',
       'sinon-chai'
     ],
 
     files: [
-      'test/**/*Spec.js'
+      // 'test/spec/DiagramSpec.js',
+      // 'test/spec/util/AttachUtilSpec.js',
+      // 'test/spec/util/CopyPasteUtil.js',
+      // 'test/spec/util/ElementIntegrationSpec.js',
+      // 'test/spec/util/ElementsSpec.js',
+      // 'test/spec/util/GeometrySpec.js',
+      // 'test/spec/util/IdGeneratorSpec.js',
+      // 'test/spec/util/LineIntersectionSpec.js',
+      // 'test/spec/util/TextSpec.js',
+      // 'test/spec/command/CommandInterceptorSpec.js',
+      // 'test/spec/command/CommandStackSpec.js'
+      'test/spec/transformer/JsonToXmlSpec.js'
     ],
 
     preprocessors: {
-      'test/**/*Spec.js': [ 'browserify' ]
+      'test/**/*.*': [ 'webpack', 'sourcemap' ]
+    },
+
+    webpack : {
+      module : webpackCongig.module,
+      resolve : webpackCongig.resolve,
+      devtool: 'inline-source-map',
+      node: {
+        fs: 'empty'
+      }
     },
 
     reporters: [ 'spec' ],
@@ -57,20 +79,15 @@ module.exports = function(karma) {
           '--disable-setuid-sandbox'
         ],
         debug: true
+      },
+      ChromeDebugging: {
+        base: 'Chrome',
+        flags: [ '--remote-debugging-port=9333' ]
       }
     },
 
-    autoWatch: false,
-    singleRun: true,
+    autoWatch: true,
+    // singleRun: true,
 
-    // browserify configuration
-    browserify: {
-      debug: true,
-      paths: [ absoluteBasePath ],
-      transform: [
-        'babelify',
-        'brfs'
-      ]
-    }
   });
 };

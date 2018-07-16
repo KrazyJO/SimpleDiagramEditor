@@ -2,7 +2,8 @@ import {
 	pointDistance
 } from './Geometry';
 
-import intersectPaths from 'path-intersection';
+// import intersectPaths from 'path-intersection';
+var intersectPaths = require('path-intersection');
 import { Point } from '../../interfaces';
 
 interface pathIntersection {

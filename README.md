@@ -23,6 +23,11 @@ Two bundles will be created and injected in demo html. Just run
 yarn run webpack:dev
 ```
 
+## debugging in vscode
+- install extension 'Debugger for Chrome' in vs code
+- run npm:dev
+- launch debug configuration 'Launch Chrome Debugger'
+
 ## Build
 (not final yet)
 

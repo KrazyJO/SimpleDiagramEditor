@@ -1,13 +1,14 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from '../../TestHelper';
 
 import inherits from 'inherits';
 
-import cmdModule from 'lib/command';
+import cmdModule from '../../../src/diagram-ts/command';
+// var cmdModule = require('../../../src/diagram-ts/command').default;
 
-import CommandInterceptor from 'lib/command/CommandInterceptor';
+import CommandInterceptor from '../../../src/diagram-ts/command/CommandInterceptor';
 
 
 // example commands
@@ -56,6 +57,9 @@ inherits(TestInterceptor, CommandInterceptor);
 
 describe('command/CommandInterceptor', function() {
 
+  console.log("hey ho");
+  console.log(bootstrapDiagram);
+  console.log(cmdModule);
   beforeEach(bootstrapDiagram({ modules: [ cmdModule ] }));
 
 

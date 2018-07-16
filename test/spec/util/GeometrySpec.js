@@ -1,6 +1,6 @@
 import {
   pointsOnLine
-} from 'lib/util/Geometry';
+} from '../../../src/diagram-ts/util/Geometry';
 
 
 describe('util/Geometry', function() {

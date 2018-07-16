@@ -1,4 +1,4 @@
-import CopyPasteUtil from 'lib/util/CopyPasteUtil';
+import * as CopyPasteUtil from '../../../src/diagram-ts/util/CopyPasteUtil';
 
 
 describe('util/CopyPasteUtil', function() {

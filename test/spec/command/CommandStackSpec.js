@@ -3,10 +3,10 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from '../../TestHelper';
 
 
-import cmdModule from 'lib/command';
+import cmdModule from '../../../src/diagram-ts/command';
 
 // example commands
 

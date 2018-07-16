@@ -3,7 +3,7 @@ import {
   selfAndAllChildren,
   getBBox,
   getClosure
-} from 'lib/util/Elements';
+} from '../../../src/diagram-ts/util/Elements';
 
 
 describe('util/Elements', function() {

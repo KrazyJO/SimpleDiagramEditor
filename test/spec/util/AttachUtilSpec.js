@@ -1,6 +1,6 @@
 import {
   getNewAttachPoint
-} from 'lib/util/AttachUtil';
+} from '../../../src/diagram-ts/util/AttachUtil';
 
 
 describe('AttachUtil', function() {

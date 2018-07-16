@@ -1,0 +1,29 @@
+{
+    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
+    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
+    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome Debugger",
+            "port": 9222,
+            "url": "http://localhost:9000/",
+            "webRoot": "${workspaceRoot}/dist",
+            "sourceMaps": true,
+            "timeout": 15000
+        },
+        {
+			"type": "chrome",
+			"request": "attach",
+			"name": "Attach Karma Chrome",
+			"address": "localhost",
+			"port": 9333,
+			"pathMapping": {
+				"/": "${workspaceRoot}/",
+				"/base/": "${workspaceRoot}/"
+			}
+		}
+    ]
+}

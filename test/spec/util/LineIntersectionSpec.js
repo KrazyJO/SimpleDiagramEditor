@@ -1,6 +1,6 @@
 import {
   getApproxIntersection
-} from 'lib/util/LineIntersection';
+} from '../../../src/diagram-ts/util/LineIntersection';
 
 
 describe('features/bendpoints - LineIntersection', function() {
