@@ -4,13 +4,16 @@ class Transformer {
     private result : string;
     private diagram : string;
     private diagramInterchange : string;
+    private nodeNumber : number;
 
 
     /**
      * transform the object of this class to an xml string
      */
     public transformJsonToDiagram(obj : object) : string {
-        this.diagramInterchange = '';
+        this.nodeNumber = 1;
+        this.diagramInterchange = '<sdedi:SimpleDebugEditorDiagram id="ed_1">';
+        this.addLineBreakToDiagramInterchange()
         this.diagram = '';
         this.result = '<?xml version="1.0" encoding="UTF-8"?>'; // add xml definition
         this.addLineBreakToResult();
@@ -21,7 +24,10 @@ class Transformer {
         this.transformObject(obj, 'root');
         this.result += this.diagram;
 
-        this.diagram += this.diagramInterchange;
+        //write di
+        this.diagramInterchange += '</sdedi:SimpleDebugEditorDiagram>';
+        this.addLineBreakToDiagramInterchange();
+        this.result += this.diagramInterchange;
 
         //close root
         this.result += '</sde:SimpleDebugEditorGraph>';
@@ -30,9 +36,16 @@ class Transformer {
 
     private transformObject(obj : object, name : string) : void {
         //add node
-        this.diagram += `<sde:Node id="node_1" name="${name}">`;
+        let nodeNumber = this.nodeNumber++;
+        this.diagram += `<sde:Node id="node_${nodeNumber}" name="${name}">`;
         this.addLineBreakToDiagram();
-        
+
+        //write di (node -> shape)
+        this.diagramInterchange += `<sdedi:SimpleDebugEditorShape id="shape_${nodeNumber}" simpleDebugEditorElement="node_${nodeNumber}">`;
+        this.addLineBreakToDiagramInterchange();
+        this.diagramInterchange += '<dc:Bounds x="500" y="200" width="150" height="100" />'
+        this.addLineBreakToDiagramInterchange();
+
         //add object properties
         let keys = Object.keys(obj);
         
@@ -55,7 +68,15 @@ ${keys[i]}
 
             }
         }
+
+        //close diagram
         this.diagram += '</sde:Node>'
+
+        //close di
+        this.diagramInterchange += '</sdedi:SimpleDebugEditorShape>';
+        this.addLineBreakToDiagramInterchange();
+
+
         this.addLineBreakToDiagram();
 
         //add more objects to diagram
@@ -75,9 +96,9 @@ ${keys[i]}
         this.diagram += '\n';
     }
 
-    // private addLineBreakToDiagramInterchange() {
-    //     this.diagramInterchange += '\n';
-    // }
+    private addLineBreakToDiagramInterchange() {
+        this.diagramInterchange += '\n';
+    }
 
     // private addLineBreakToString(str : string) : string {
     //     return str += '\n';

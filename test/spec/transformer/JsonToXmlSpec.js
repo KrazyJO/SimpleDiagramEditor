@@ -36,11 +36,19 @@ a
 b
 </sde:members>
 </sde:Node>
-<sde:Node id="node_1" name="c">
+<sde:Node id="node_2" name="c">
 <sde:members>
 d
 </sde:members>
 </sde:Node>
+<sdedi:SimpleDebugEditorDiagram id="ed_1">
+<sdedi:SimpleDebugEditorShape id="shape_1" simpleDebugEditorElement="node_1">
+<dc:Bounds x="500" y="200" width="150" height="100" />
+</sdedi:SimpleDebugEditorShape>
+<sdedi:SimpleDebugEditorShape id="shape_2" simpleDebugEditorElement="node_2">
+<dc:Bounds x="500" y="200" width="150" height="100" />
+</sdedi:SimpleDebugEditorShape>
+</sdedi:SimpleDebugEditorDiagram>
 </sde:SimpleDebugEditorGraph>`;
             
             let oTransformer = new Transformer();
