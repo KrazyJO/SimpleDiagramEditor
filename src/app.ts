@@ -101,6 +101,7 @@ export function btnRun() {
   let rootModle = prev.contentWindow["rootModle"];
   if (rootModle)
   {
+    modeler.importFromJsonObject(rootModle);
     console.log(rootModle);
   }
 }
