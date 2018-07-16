@@ -38,17 +38,18 @@ module.exports = function(karma) {
     ],
 
     files: [
-      'test/spec/DiagramSpec.js',
-      'test/spec/util/AttachUtilSpec.js',
-      'test/spec/util/CopyPasteUtil.js',
-      'test/spec/util/ElementIntegrationSpec.js',
-      'test/spec/util/ElementsSpec.js',
-      'test/spec/util/GeometrySpec.js',
-      'test/spec/util/IdGeneratorSpec.js',
-      'test/spec/util/LineIntersectionSpec.js',
-      'test/spec/util/TextSpec.js',
-      'test/spec/command/CommandInterceptorSpec.js',
-      'test/spec/command/CommandStackSpec.js'
+      // 'test/spec/DiagramSpec.js',
+      // 'test/spec/util/AttachUtilSpec.js',
+      // 'test/spec/util/CopyPasteUtil.js',
+      // 'test/spec/util/ElementIntegrationSpec.js',
+      // 'test/spec/util/ElementsSpec.js',
+      // 'test/spec/util/GeometrySpec.js',
+      // 'test/spec/util/IdGeneratorSpec.js',
+      // 'test/spec/util/LineIntersectionSpec.js',
+      // 'test/spec/util/TextSpec.js',
+      // 'test/spec/command/CommandInterceptorSpec.js',
+      // 'test/spec/command/CommandStackSpec.js'
+      'test/spec/transformer/JsonToXmlSpec.js'
     ],
 
     preprocessors: {
@@ -85,8 +86,8 @@ module.exports = function(karma) {
       }
     },
 
-    autoWatch: false,
-    singleRun: true,
+    autoWatch: true,
+    // singleRun: true,
 
   });
 };
