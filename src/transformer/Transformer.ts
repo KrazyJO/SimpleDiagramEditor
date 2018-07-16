@@ -18,7 +18,6 @@ class Transformer {
         this.result += '<sde:SimpleDebugEditorGraph id="eg_1" xmlns:sde="https://seblog.cs.uni-kassel.de/sde" xmlns:sdedi="https://seblog.cs.uni-kassel.de/sdedi" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
         this.addLineBreakToResult(); 
         
-        // this.result += this.transformObject(obj, 'root');
         this.transformObject(obj, 'root');
         this.result += this.diagram;
 

@@ -18,7 +18,10 @@ describe('transformer', () => {
         it('should transform object to simple diagram string', () => {
             let oObjectToTransform = {
                 a : "12",
-                b : 45
+                b : 45,
+                c : {
+                    d : "42"
+                }
             };
 
             //yes, it is ugly...
@@ -31,6 +34,11 @@ a
 </sde:members>
 <sde:members>
 b
+</sde:members>
+</sde:Node>
+<sde:Node id="node_1" name="c">
+<sde:members>
+d
 </sde:members>
 </sde:Node>
 </sde:SimpleDebugEditorGraph>`;
