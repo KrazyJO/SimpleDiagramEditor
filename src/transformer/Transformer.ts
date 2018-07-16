@@ -34,7 +34,7 @@ class Transformer {
         return this.result;
     }
 
-    private transformObject(obj : object, name : string) : void {
+    private transformObject(obj : object, name : string, level = 1, positionInLevel = 1 ) : void {
         //add node
         let nodeNumber = this.nodeNumber++;
         this.diagram += `<sde:Node id="node_${nodeNumber}" name="${name}">`;
@@ -43,7 +43,10 @@ class Transformer {
         //write di (node -> shape)
         this.diagramInterchange += `<sdedi:SimpleDebugEditorShape id="shape_${nodeNumber}" simpleDebugEditorElement="node_${nodeNumber}">`;
         this.addLineBreakToDiagramInterchange();
-        this.diagramInterchange += '<dc:Bounds x="500" y="200" width="150" height="100" />'
+        //calculate position
+        let y = 100 * level + 50 * level;
+        let x = 150 * positionInLevel + 50 * positionInLevel;
+        this.diagramInterchange += `<dc:Bounds x="${x}" y="${y}" width="150" height="100" />`;
         this.addLineBreakToDiagramInterchange();
 
         //add object properties
@@ -83,7 +86,7 @@ ${keys[i]}
         for (let i = 0; i < keys.length; i++)
         {
             if (typeof obj[keys[i]] === 'object') {
-                this.transformObject(obj[keys[i]], keys[i]);
+                this.transformObject(obj[keys[i]], keys[i], level + 1, positionInLevel);
             }
         }
     }

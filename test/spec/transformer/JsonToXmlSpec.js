@@ -43,10 +43,10 @@ d
 </sde:Node>
 <sdedi:SimpleDebugEditorDiagram id="ed_1">
 <sdedi:SimpleDebugEditorShape id="shape_1" simpleDebugEditorElement="node_1">
-<dc:Bounds x="500" y="200" width="150" height="100" />
+<dc:Bounds x="200" y="150" width="150" height="100" />
 </sdedi:SimpleDebugEditorShape>
 <sdedi:SimpleDebugEditorShape id="shape_2" simpleDebugEditorElement="node_2">
-<dc:Bounds x="500" y="200" width="150" height="100" />
+<dc:Bounds x="200" y="300" width="150" height="100" />
 </sdedi:SimpleDebugEditorShape>
 </sdedi:SimpleDebugEditorDiagram>
 </sde:SimpleDebugEditorGraph>`;
