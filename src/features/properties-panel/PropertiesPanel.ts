@@ -64,7 +64,6 @@ export default class PropertiesPanel {
 		}
 	}
 
-	//TODO: make it right and nice
 	private addElementDefaults(element, container) {
 		let members : any[] = element.businessObject.members || [];
 		let renderedMembers : string = '';
