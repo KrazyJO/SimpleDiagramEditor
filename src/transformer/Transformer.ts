@@ -76,14 +76,14 @@ class Transformer {
         for (let i = 0; i < keys.length; i++)
         {
             if (typeof obj[keys[i]] === 'number' ) {
-                this.diagram += `<sde:members>
-${keys[i]}
-</sde:members>`
+                //<sde:Member name="prop1" propType="string" value="12"></sde:Member>
+                this.diagram += `<sde:Member name="${keys[i]}" propType="number" value="${obj[keys[i]]}"></sde:Member>`;
                 this.addLineBreakToDiagram();
             } else if (typeof obj[keys[i]]  === 'string' ) {
-                this.diagram += `<sde:members>
-${keys[i]}
-</sde:members>`
+//                 this.diagram += `<sde:members>
+// ${keys[i]}
+// </sde:members>`
+                this.diagram += `<sde:Member name="${keys[i]}" propType="string" value="${obj[keys[i]]}"></sde:Member>`;
                 this.addLineBreakToDiagram();
             } else if (typeof obj[keys[i]] === 'boolean') {
 

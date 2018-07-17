@@ -66,7 +66,7 @@ export default class PropertiesPanel {
 
 	//TODO: make it right and nice
 	private addElementDefaults(element, container) {
-		let members : string[] = element.businessObject.members || [];
+		let members : any[] = element.businessObject.members || [];
 		let renderedMembers : string = '';
 
 		if (members.length > 0 )
@@ -76,10 +76,10 @@ export default class PropertiesPanel {
 				renderedMembers += `
 					<div class="row">
 						<div class="col-2">
-							<label for="${element.id + member}-name" class="col-form-label-sm">${member}</label>
+							<label for="${element.id + member.name}-name" class="col-form-label-sm">${member.name}</label>
 						</div>
 						<div class="col-10">
-							<input type="text" class="form-control-sm" id="${element.id}-name" value="${member}">
+							<input type="text" class="form-control-sm" id="${element.id}-name" value="${member.value}">
 						</div>
 					</div>  
 				  `
