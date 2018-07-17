@@ -94,10 +94,10 @@ ${keys[i]}
                 edges.push({
                     sourceNode : `node_${nodeNumber}`,
                     tragetNode : `node_${nodeNumberTarget}`,
-                    sourceX : x,
-                    sourceY : y,
-                    targetX : 100 * (level+numberChildren) + 50 * (level+numberChildren),
-                    targetY : 150 * (positionInLevel+1) + 50 * (positionInLevel+1),
+                    sourceX : x+75, //+75 for center x
+                    sourceY : y+100, //+100 for bottom
+                    targetX : (100 * (level+numberChildren) + 50 * (level+numberChildren)),
+                    targetY : (150 * (positionInLevel+1) + 50 * (positionInLevel+1)) - 100,
                     nodeNumber : nodeNumber,
                     nodeNumberTarget : nodeNumberTarget,
                     edgeid : ++this.edgeid

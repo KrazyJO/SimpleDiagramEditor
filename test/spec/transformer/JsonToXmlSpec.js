@@ -41,6 +41,7 @@ b
 d
 </sde:members>
 </sde:Node>
+<sde:Edge id="edge_1" sourceNode="node_1" name="edge1" targetNode="node_2"></sde:Edge>
 <sdedi:SimpleDebugEditorDiagram id="ed_1">
 <sdedi:SimpleDebugEditorShape id="shape_1" simpleDebugEditorElement="node_1">
 <dc:Bounds x="200" y="150" width="150" height="100" />
@@ -48,6 +49,10 @@ d
 <sdedi:SimpleDebugEditorShape id="shape_2" simpleDebugEditorElement="node_2">
 <dc:Bounds x="200" y="300" width="150" height="100" />
 </sdedi:SimpleDebugEditorShape>
+<sdedi:SimpleDebugEditorEdge id="conn_1" simpleDebugEditorElement="edge_1" sourceElement="shape_1" targetElement="shape_2">
+<di:waypoint x="275" y="250" />
+<di:waypoint x="300" y="300" />
+</sdedi:SimpleDebugEditorEdge>
 </sdedi:SimpleDebugEditorDiagram>
 </sde:SimpleDebugEditorGraph>`;
             
