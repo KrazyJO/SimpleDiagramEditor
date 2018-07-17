@@ -1,3 +1,16 @@
+
+interface edge {
+    sourceNode : string
+    tragetNode : string
+    sourceX : number
+    sourceY : number
+    targetX : number
+    targetY : number
+    nodeNumber : number
+    nodeNumberTarget : number
+    edgeid : number
+}
+
 class Transformer {
     
 
@@ -5,12 +18,16 @@ class Transformer {
     private diagram : string;
     private diagramInterchange : string;
     private nodeNumber : number;
+    private edgeid : number;
+
+    
 
 
     /**
      * transform the object of this class to an xml string
      */
     public transformJsonToDiagram(obj : object) : string {
+        this.edgeid = 0,
         this.nodeNumber = 1;
         this.diagramInterchange = '<sdedi:SimpleDebugEditorDiagram id="ed_1">';
         this.addLineBreakToDiagramInterchange()
@@ -34,7 +51,11 @@ class Transformer {
         return this.result;
     }
 
-    private transformObject(obj : object, name : string) : void {
+    
+    private transformObject(obj : object, name : string, level = 1, positionInLevel = 1 ) : void {
+        let edges : edge[] = [];
+        let numberChildren : number = 0;
+        
         //add node
         let nodeNumber = this.nodeNumber++;
         this.diagram += `<sde:Node id="node_${nodeNumber}" name="${name}">`;
@@ -43,7 +64,10 @@ class Transformer {
         //write di (node -> shape)
         this.diagramInterchange += `<sdedi:SimpleDebugEditorShape id="shape_${nodeNumber}" simpleDebugEditorElement="node_${nodeNumber}">`;
         this.addLineBreakToDiagramInterchange();
-        this.diagramInterchange += '<dc:Bounds x="500" y="200" width="150" height="100" />'
+        //calculate position
+        let y = 100 * level + 50 * level;
+        let x = 150 * positionInLevel + 50 * positionInLevel;
+        this.diagramInterchange += `<dc:Bounds x="${x}" y="${y}" width="150" height="100" />`;
         this.addLineBreakToDiagramInterchange();
 
         //add object properties
@@ -61,11 +85,23 @@ ${keys[i]}
 ${keys[i]}
 </sde:members>`
                 this.addLineBreakToDiagram();
-            } else if (typeof (obj[keys[i]] === 'boolean')) {
+            } else if (typeof obj[keys[i]] === 'boolean') {
 
-            }
-            else if (typeof obj[keys[i]] === 'object') {
-
+            } else if (typeof obj[keys[i]] === 'object') {
+                // it's an edge
+                numberChildren++;
+                let nodeNumberTarget = nodeNumber + numberChildren;
+                edges.push({
+                    sourceNode : `node_${nodeNumber}`,
+                    tragetNode : `node_${nodeNumberTarget}`,
+                    sourceX : x+75, //+75 for center x
+                    sourceY : y+100, //+100 for bottom
+                    targetX : (100 * (level+numberChildren) + 50 * (level+numberChildren)),
+                    targetY : (150 * (positionInLevel+1) + 50 * (positionInLevel+1)) - 100,
+                    nodeNumber : nodeNumber,
+                    nodeNumberTarget : nodeNumberTarget,
+                    edgeid : ++this.edgeid
+                });
             }
         }
 
@@ -79,13 +115,33 @@ ${keys[i]}
 
         this.addLineBreakToDiagram();
 
-        //add more objects to diagram
+        //add child objects to diagram
+        numberChildren = 0;
         for (let i = 0; i < keys.length; i++)
         {
             if (typeof obj[keys[i]] === 'object') {
-                this.transformObject(obj[keys[i]], keys[i]);
+                this.transformObject(obj[keys[i]], keys[i], level +1, positionInLevel+numberChildren);
+                numberChildren++;
             }
         }
+        
+        //add edges to diagram and diagram interchange
+        edges.forEach(edge => {
+            this.addEdge(edge);
+        });
+    }
+
+    private addEdge(edge : edge) : void {
+        //add to diagram
+        // <sde:Edge id="edge_1" sourceNode="node_1" name="edge1" targetNode="node_2"></sde:Edge>
+        this.diagram += `<sde:Edge id="edge_${edge.edgeid}" sourceNode="${edge.sourceNode}" name="edge${edge.edgeid}" targetNode="${edge.tragetNode}"></sde:Edge>`;
+        this.addLineBreakToDiagram();
+        //add to diagram interchange
+        this.diagramInterchange += `<sdedi:SimpleDebugEditorEdge id="conn_${edge.edgeid}" simpleDebugEditorElement="edge_${edge.edgeid}" sourceElement="shape_${edge.nodeNumber}" targetElement="shape_${edge.nodeNumberTarget}">
+<di:waypoint x="${edge.sourceX}" y="${edge.sourceY}" />
+<di:waypoint x="${edge.targetX}" y="${edge.targetY}" />
+</sdedi:SimpleDebugEditorEdge>`;
+        this.addLineBreakToDiagramInterchange();
     }
 
     private addLineBreakToResult() {
