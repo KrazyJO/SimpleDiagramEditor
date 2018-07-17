@@ -80,7 +80,7 @@ $(document).ready(function () {
         '  const hw = document.createElement("div");',
         '  hw.innerText = "HelloWorld!";',
         '  document.body.appendChild(hw)',
-        '  this.rootModle = {a : "1", b : "2"}',
+        '  this.rootModle = {a : "1", b : "2", c : {d: 42}, e : {f : 12} }',
         '}'
       ].join('\n'),
 			language: 'javascript',
