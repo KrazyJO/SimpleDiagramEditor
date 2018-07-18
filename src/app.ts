@@ -85,3 +85,8 @@ export function btnRun() {
     console.log(rootModle);
   }
 }
+
+export function getModel() {
+  console.log("getModel() call modeler.getModdel()");
+  modeler.getModdel();
+}

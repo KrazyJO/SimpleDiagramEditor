@@ -79,6 +79,66 @@ export class Viewer extends Diagram {
 		});
 	}
 
+	/**
+	 * Export the currently displayed BPMN 2.0 diagram as
+	 * a BPMN 2.0 XML document.
+	 *
+	 * ## Life-Cycle Events
+	 *
+	 * During XML saving the viewer will fire life-cycle events:
+	 *
+	 *   * saveXML.start (before serialization)
+	 *   * saveXML.serialized (after xml generation)
+	 *   * saveXML.done (everything done)
+	 *
+	 * You can use these events to hook into the life-cycle.
+	 *
+	 * @param {Object} [options] export options
+	 * @param {Boolean} [options.format=false] output formated XML
+	 * @param {Boolean} [options.preamble=true] output preamble
+	 *
+	 * @param {Function} done invoked with (err, xml)
+	 */
+	public saveXML(options: any, done: (err: any, warnings?: any) => void = function () { }) {
+
+		if (!done) {
+			done = options;
+			options = {};
+		}
+	
+		var self = this;
+	
+		var definitions = this.definitions;
+	
+		if (!definitions) {
+			return done(new Error('no definitions loaded'));
+		}
+	
+		// allow to fiddle around with definitions
+		definitions = this.emit('saveXML.start', {
+			definitions: definitions
+		}) || definitions;
+	
+		this.moddle.toXML(definitions, options, function(err, xml) {
+	
+			try {
+				xml = self.emit('saveXML.serialized', {
+					error: err,
+					xml: xml
+				}) || xml;
+		
+				self.emit('saveXML.done', {
+					error: err,
+					xml: xml
+				});
+			} catch (e) {
+				console.error('error in saveXML life-cycle listener', e);
+			}
+		
+			done(err, xml);
+		});
+	}
+
 	importDefinitions(definitions: any, done: any) {
 		try {
 			if (this.definitions) {
