@@ -50,7 +50,6 @@ export default class EasyRenderer extends BaseRenderer {
 		});
 		this.handlers = {
 			'sde:Node': (visuals: any, element: any) => {
-				console.log("sde:Node!");
 				// return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				const rect = this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				this.renderEmbeddedLabel(visuals, element, 'center-top');
@@ -69,7 +68,6 @@ export default class EasyRenderer extends BaseRenderer {
 				return rect;
 			},
 			'sde:Member' : (visuals? : any, element? : any) => {
-				console.log("member!");
 				return;
 			},
 			'sde:Edge': (visuals: any, element: any) => {
@@ -175,7 +173,7 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public renderEmbeddedLabel(p, element, align) {
-		return this.renderLabel(p, element.businessObject.name, { box: element, align: align, padding: 5 });
+		return this.renderLabel(p, element.businessObject.name + ':' + element.businessObject.class, { box: element, align: align, padding: 5 });
 	}
 
 	public renderLabel(p, label, options) {

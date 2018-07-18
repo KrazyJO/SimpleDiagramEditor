@@ -62,10 +62,11 @@ class Transformer {
         let atomicTypes = ["string", "number", "boolean"];
         let edges : edge[] = [];
         let numberChildren : number = 0;
+        let className : string = obj.constructor.name;
         
         //add node
         let nodeNumber = this.nodeNumber++;
-        this.diagram += `<sde:Node id="node_${nodeNumber}" name="${name}">`;
+        this.diagram += `<sde:Node id="node_${nodeNumber}" name="${name}" class="${className}">`;
         this.addLineBreakToDiagram();
 
         //write di (node -> shape)
@@ -82,7 +83,7 @@ class Transformer {
         let objectType = "";
         for (let i = 0; i < keys.length; i++)
         {
-            objectType = typeof obj[keys[i]]
+            objectType = typeof obj[keys[i]];
             //add atomic types as <sde:Member> to xml
             if ( atomicTypes.indexOf(objectType) > -1) {
                 this.addMemberToDiagram({

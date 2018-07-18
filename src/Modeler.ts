@@ -56,7 +56,7 @@ export class Modeler extends Viewer {
 		this.importXML(XML, function (err: any) {
 			if (!err) {
 			  this.get('canvas').zoom('fit-viewport');
-			  console.log('Yay look at this beautiful Diagram :D');
+			//   console.log('Yay look at this beautiful Diagram :D');
 			} else {
 			  console.log('There went something wrong: ', err);
 			}
@@ -64,7 +64,6 @@ export class Modeler extends Viewer {
 	}
 
 	public getModdel() : any {
-		console.log("getModel()");
 		this.saveXML({format: true, preable : true}, (error, xml) => {
 			if (!error)
 			{

@@ -37,12 +37,16 @@ const modeler = new EA.Modeler({
 	propertiesPanel: { parent: '#js-properties-panel' }
 });
 
-function createNewDiagram() {
-	console.log('Start with creating the diagram!');
+function createNewDiagram(preventImport) {
+  if (preventImport)
+  {
+    return;
+  }
+	// console.log('Start with creating the diagram!');
 	modeler.importXML(XML, function (err: any) {
 		if (!err) {
 			modeler.get('canvas').zoom('fit-viewport');
-			console.log('Yay look at this beautiful Diagram :D');
+			// console.log('Yay look at this beautiful Diagram :D');
 		} else {
 			console.log('There went something wrong: ', err);
 		}
@@ -50,7 +54,7 @@ function createNewDiagram() {
 }
 
 $(document).ready(function () {
-  createNewDiagram();
+  createNewDiagram(true);
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
 		myEditor = monaco.editor.create(editorContainer, {
@@ -60,21 +64,40 @@ $(document).ready(function () {
         '  const hw = document.createElement("div");',
         '  hw.innerText = "HelloWorld!";',
         '  document.body.appendChild(hw)',
-        '  this.rootModle = {a : "1", b : "2", c : {d: 42}, e : {f : 12} }',
+        '  let Foo = function(){',
+        '    let b = 2;',
+        '    this.b = 42;',
+        '  };',
+        '  class Bar {',
+        '    constructor(value) {',
+        '      this.barValue = 4200;',
+        '    }',
+        '  }',
+        '  let bar = new Bar()',
+        '  let foo = new Foo();',
+        '  this.rootModle = {foo : foo, bar : bar, a : "1", b : "2", c : {d: 42}, e : {f : 12} }',
         '}'
       ].join('\n'),
 			language: 'javascript',
 			theme : 'vs-dark'
     });
     myEditor.addCommand(monaco.KeyCode.F4, () => {
-      const prev = document.getElementById('preview');
-      if (prev) {
-        prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
-      }
+      // const prev = document.getElementById('preview');
+      // if (prev) {
+      //   prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
+      // }
+      run();
     }, '');
 	}
 
 });
+
+function run() {
+  const prev = document.getElementById('preview');
+      if (prev) {
+        prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
+      }
+}
 
 export function btnRun() {
   const prev = <HTMLIFrameElement>document.getElementById('preview');
@@ -89,4 +112,8 @@ export function btnRun() {
 export function getModel() {
   console.log("getModel() call modeler.getModdel()");
   modeler.getModdel();
+}
+
+export function btnRunCode() {
+  run();
 }
