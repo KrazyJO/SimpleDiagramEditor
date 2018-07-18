@@ -36,7 +36,7 @@ export class Viewer extends Diagram {
 
 	//---------------------CONSTRUCTOR---------------------
 	constructor(options?: any, modules?: any[]) {
-		console.log("init Viewer");
+		// console.log("init Viewer");
 		options = assign({}, DEFAULT_OPTIONS, options);
 		super(options);
 
@@ -59,7 +59,7 @@ export class Viewer extends Diagram {
 		const self = this;
 		xml = this.emit('import.parse.start', { xml: xml }) || xml;
 		this.moddle.fromXML(xml, 'sde:SimpleDebugEditorGraph', {}, function (err: any, definitions: any, context: any) {
-			console.log('Successfully parsed!');
+			// console.log('Successfully parsed!');
 			definitions = self.emit('import.parse.complete', {
 				error: err,
 				definitions: definitions,
