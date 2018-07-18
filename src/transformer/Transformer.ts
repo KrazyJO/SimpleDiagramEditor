@@ -82,7 +82,7 @@ class Transformer {
         let objectType = "";
         for (let i = 0; i < keys.length; i++)
         {
-            objectType = typeof obj[keys[i]]
+            objectType = typeof obj[keys[i]];
             //add atomic types as <sde:Member> to xml
             if ( atomicTypes.indexOf(objectType) > -1) {
                 this.addMemberToDiagram({
