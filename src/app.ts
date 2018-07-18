@@ -37,7 +37,11 @@ const modeler = new EA.Modeler({
 	propertiesPanel: { parent: '#js-properties-panel' }
 });
 
-function createNewDiagram() {
+function createNewDiagram(preventImport) {
+  if (preventImport)
+  {
+    return;
+  }
 	// console.log('Start with creating the diagram!');
 	modeler.importXML(XML, function (err: any) {
 		if (!err) {
@@ -50,7 +54,7 @@ function createNewDiagram() {
 }
 
 $(document).ready(function () {
-  createNewDiagram();
+  createNewDiagram(true);
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
 		myEditor = monaco.editor.create(editorContainer, {

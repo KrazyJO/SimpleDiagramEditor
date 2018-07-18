@@ -173,7 +173,7 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public renderEmbeddedLabel(p, element, align) {
-		return this.renderLabel(p, element.businessObject.name, { box: element, align: align, padding: 5 });
+		return this.renderLabel(p, element.businessObject.name + ':' + element.businessObject.class, { box: element, align: align, padding: 5 });
 	}
 
 	public renderLabel(p, label, options) {

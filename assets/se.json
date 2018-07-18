@@ -25,7 +25,8 @@
 			"superClass": [ "sde:Element" ],
 			"properties": [
 				{ "name": "name", "type": "String", "isAttr": true },
-				{ "name" : "members", "type" : "sde:Member", "isMany" : true}
+				{ "name" : "members", "type" : "sde:Member", "isMany" : true},
+				{ "name" : "class", "type" : "String", "isAttr": true }
 			]
 		},
 		{

@@ -62,10 +62,11 @@ class Transformer {
         let atomicTypes = ["string", "number", "boolean"];
         let edges : edge[] = [];
         let numberChildren : number = 0;
+        let className : string = obj.constructor.name;
         
         //add node
         let nodeNumber = this.nodeNumber++;
-        this.diagram += `<sde:Node id="node_${nodeNumber}" name="${name}">`;
+        this.diagram += `<sde:Node id="node_${nodeNumber}" name="${name}" class="${className}">`;
         this.addLineBreakToDiagram();
 
         //write di (node -> shape)
