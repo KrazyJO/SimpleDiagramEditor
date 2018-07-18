@@ -38,7 +38,8 @@ export default class UpdatePropertiesHandler {
     }
     const elementRegistry = this.elementRegistry;
     const ids = this.moddle.ids;
-    const businessObject = element.businessObject;
+    const businessObject = context.member? context.member : element.businessObject;
+
     const properties = context.properties;
     const oldProperties = context.oldProperties || getProperties(businessObject, keys(properties));
     if (ID in properties) {
@@ -65,6 +66,9 @@ export default class UpdatePropertiesHandler {
     context.oldProperties = oldProperties;
     context.changed = changed;
     // indicate changed on objects affected by the update
+
+
+
     return changed;
   }
 

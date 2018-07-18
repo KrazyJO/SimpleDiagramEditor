@@ -46,6 +46,10 @@ export class Modeler extends Viewer {
 		}, this);
 	}
 
+	/**
+	 * 
+	 * @param obj object to display as diagram
+	 */
 	public importFromJsonObject(obj: object) {
 		let oTransformer = new Transformer();
 		let XML = oTransformer.transformJsonToDiagram(obj);
@@ -57,5 +61,20 @@ export class Modeler extends Viewer {
 			  console.log('There went something wrong: ', err);
 			}
 		  }.bind(this));
+	}
+
+	public getModdel() : any {
+		console.log("getModel()");
+		this.saveXML({format: true, preable : true}, (error, xml) => {
+			if (!error)
+			{
+				console.log(xml);
+			}
+			else
+			{
+				console.error("this xml was not good!");
+				console.log(error);
+			}
+		});
 	}
 }

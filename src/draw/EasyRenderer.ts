@@ -50,16 +50,27 @@ export default class EasyRenderer extends BaseRenderer {
 		});
 		this.handlers = {
 			'sde:Node': (visuals: any, element: any) => {
+				console.log("sde:Node!");
 				// return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				const rect = this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				this.renderEmbeddedLabel(visuals, element, 'center-top');
 
 				let addToY = 25;
 				(element.businessObject.members || []).forEach(member => {
-					this.renderLabel(visuals, member, { box: element, align: 'left', padding: 5, addToY : addToY });
+					let text = member.name + ': ' + member.propType + ' = ';
+					if (member.propType === "string") {
+						text += `"${member.value}"`;
+					} else {
+						text += member.value;
+					}
+					this.renderLabel(visuals, text, { box: element, align: 'left', padding: 5, addToY : addToY });
 					addToY += 15;
 				});
 				return rect;
+			},
+			'sde:Member' : (visuals? : any, element? : any) => {
+				console.log("member!");
+				return;
 			},
 			'sde:Edge': (visuals: any, element: any) => {
 				const line = this.drawEdge(visuals, element.waypoints, CONNECTION_STYLE, element);

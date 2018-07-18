@@ -11,6 +11,12 @@ interface edge {
     edgeid : number
 }
 
+interface Member {
+    name : string
+    propType : string
+    value : any
+}
+
 class Transformer {
     
 
@@ -53,6 +59,7 @@ class Transformer {
 
     
     private transformObject(obj : object, name : string, level = 1, positionInLevel = 1 ) : void {
+        let atomicTypes = ["string", "number", "boolean"];
         let edges : edge[] = [];
         let numberChildren : number = 0;
         
@@ -72,22 +79,19 @@ class Transformer {
 
         //add object properties
         let keys = Object.keys(obj);
-        
+        let objectType = "";
         for (let i = 0; i < keys.length; i++)
         {
-            if (typeof obj[keys[i]] === 'number' ) {
-                this.diagram += `<sde:members>
-${keys[i]}
-</sde:members>`
-                this.addLineBreakToDiagram();
-            } else if (typeof obj[keys[i]]  === 'string' ) {
-                this.diagram += `<sde:members>
-${keys[i]}
-</sde:members>`
-                this.addLineBreakToDiagram();
-            } else if (typeof obj[keys[i]] === 'boolean') {
-
-            } else if (typeof obj[keys[i]] === 'object') {
+            objectType = typeof obj[keys[i]]
+            //add atomic types as <sde:Member> to xml
+            if ( atomicTypes.indexOf(objectType) > -1) {
+                this.addMemberToDiagram({
+                    name : keys[i],
+                    propType : objectType,
+                    value : obj[keys[i]]
+                });
+            } else if (objectType === 'object') {
+                // other objects will be added to diagram xml and diagram interchange later
                 // it's an edge
                 numberChildren++;
                 let nodeNumberTarget = nodeNumber + numberChildren;
@@ -129,6 +133,11 @@ ${keys[i]}
         edges.forEach(edge => {
             this.addEdge(edge);
         });
+    }
+
+    private addMemberToDiagram(options : Member) {
+        this.diagram += `<sde:Member name="${options.name}" propType="${options.propType}" value="${options.value}"></sde:Member>`;
+        this.addLineBreakToDiagram();
     }
 
     private addEdge(edge : edge) : void {

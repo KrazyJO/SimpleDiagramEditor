@@ -49,7 +49,7 @@ export default class PropertiesPanel {
 
 	private refreshPropertiePannel(panel, element): void {
 		panel.empty();
-		if (element.businessObject && element.businessObject.$type !== 'sdedi:EasyDiagram') {
+		if (element.businessObject && element.businessObject.$type !== 'sdedi:SimpleDebugEditorDiagram') {
 			PropertiesPanel.addTitle(panel);
 			this.addProperties(element, panel);
 		}
@@ -64,9 +64,8 @@ export default class PropertiesPanel {
 		}
 	}
 
-	//TODO: make it right and nice
 	private addElementDefaults(element, container) {
-		let members : string[] = element.businessObject.members || [];
+		let members : any[] = element.businessObject.members || [];
 		let renderedMembers : string = '';
 
 		if (members.length > 0 )
@@ -76,13 +75,14 @@ export default class PropertiesPanel {
 				renderedMembers += `
 					<div class="row">
 						<div class="col-2">
-							<label for="${element.id + member}-name" class="col-form-label-sm">${member}</label>
+							<label for="${element.id}-member${member.id}-value" class="col-form-label-sm">${member.name}</label>
 						</div>
 						<div class="col-10">
-							<input type="text" class="form-control-sm" id="${element.id}-name" value="${member}">
+							<input type="text" class="form-control-sm" id="${element.id}-member${member.id}-value" value="${member.value}">
 						</div>
 					</div>  
 				  `
+				//   this.addMemberValListener($('#' + member.id + '-value'), member);
 			});
 			renderedMembers += '</div>';
 		}
@@ -114,6 +114,21 @@ export default class PropertiesPanel {
 		container.append(idHTML);
 		this.addIDListener($('#' + element.id + '-id'), element);
 		this.addNameListener($('#' + element.id + '-name'), element);
+		(members).forEach(member => {
+			this.addMemberValListener($('#' + element.id+'-member'+member.id + '-value'), element, member);
+		});
+	}
+	
+	private addMemberValListener(node, element, member) : void {
+		node.bind({
+			input : () => {
+				this.commandStack.execute('element.updateProperties', {
+					member : member,
+					element: element,
+					properties: { value: node.val() }
+				});
+			}
+		});
 	}
 
 	private addIDListener(node, element): void {

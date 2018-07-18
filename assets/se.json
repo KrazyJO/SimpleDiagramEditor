@@ -1,41 +1,50 @@
 {
-	"comment" : "easy.json",
+	"comment" : "se.json",
 	"name": "SimpleDebugEditor",
 	"uri": "https://seblog.cs.uni-kassel.de/sde",
 	"prefix": "sde",
 	"enumeration": [],
 	"types": [
-	  {
-		"name": "Element",
-		"properties": [
-		  { "name": "id", "type": "String", "isAttr": true, "isId": true }
-		]
-	  },
-	  {
-		"name": "SimpleDebugEditorGraph",
-		"superClass": [ "sde:Element" ],
-		"properties": [
-		  { "name": "myNodes", "type": "sde:Node", "isMany": true },
-		  { "name": "myEdges", "type": "sde:Edge", "isMany": true },
-		  { "name": "diagram", "type": "sdedi:SimpleDebugEditorDiagram" }
-		]
-	  },
-	  {
-		"name": "Node",
-		"superClass": [ "sde:Element" ],
-		"properties": [
-			{ "name": "name", "type": "String", "isAttr": true },
-			{ "name" : "members", "type" : "String", "isAttr" : true, "isMany" : true}
-		]
-	  },
-	  {
-		"name": "Edge",
-		"superClass": [ "sde:Element" ],
-		"properties": [
-		  { "name": "sourceNode", "type": "sde:Edge", "isAttr": true, "isReference": true },
-			{ "name": "targetNode", "type": "sde:Edge", "isAttr": true, "isReference": true },
-			{ "name": "name", "type": "String", "isAttr": true }
-		]
-	  }
+		{
+			"name": "Element",
+			"properties": [
+				{ "name": "id", "type": "String", "isAttr": true, "isId": true }
+			]
+		},
+		{
+			"name": "SimpleDebugEditorGraph",
+			"superClass": [ "sde:Element" ],
+			"properties": [
+				{ "name": "myNodes", "type": "sde:Node", "isMany": true },
+				{ "name": "myEdges", "type": "sde:Edge", "isMany": true },
+				{ "name": "diagram", "type": "sdedi:SimpleDebugEditorDiagram" }
+			]
+		},
+		{
+			"name": "Node",
+			"superClass": [ "sde:Element" ],
+			"properties": [
+				{ "name": "name", "type": "String", "isAttr": true },
+				{ "name" : "members", "type" : "sde:Member", "isMany" : true}
+			]
+		},
+		{
+			"name" : "Member",
+			"superClass" : [ "sde:Element" ],
+			"properties" : [
+				{ "name" : "name", "type" : "String", "isAttr" : true},
+				{ "name": "propType", "type": "String", "isAttr": true },
+				{ "name" : "value", "type": "String", "isAttr" : true}
+			]
+		},
+		{
+			"name": "Edge",
+			"superClass": [ "sde:Element" ],
+			"properties": [
+				{ "name": "sourceNode", "type": "sde:Edge", "isAttr": true, "isReference": true },
+				{ "name": "targetNode", "type": "sde:Edge", "isAttr": true, "isReference": true },
+				{ "name": "name", "type": "String", "isAttr": true }
+			]
+		}
 	]
-  }
+	}
