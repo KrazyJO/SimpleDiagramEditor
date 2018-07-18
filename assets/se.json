@@ -34,7 +34,7 @@
 			"properties" : [
 				{ "name" : "name", "type" : "String", "isAttr" : true},
 				{ "name": "propType", "type": "String", "isAttr": true },
-				{ "name" : "value", "type": "String"}
+				{ "name" : "value", "type": "String", "isAttr" : true}
 			]
 		},
 		{
