@@ -73,8 +73,8 @@ class Transformer {
         this.diagramInterchange += `<sdedi:SimpleDebugEditorShape id="shape_${nodeNumber}" simpleDebugEditorElement="node_${nodeNumber}">`;
         this.addLineBreakToDiagramInterchange();
         //calculate position
-        let y = 100 * level + 50 * level;
         let x = 150 * positionInLevel + 50 * positionInLevel;
+        let y = 100 * level + 50 * level;
         this.diagramInterchange += `<dc:Bounds x="${x}" y="${y}" width="150" height="100" />`;
         this.addLineBreakToDiagramInterchange();
 
@@ -101,12 +101,13 @@ class Transformer {
                     tragetNode : `node_${nodeNumberTarget}`,
                     sourceX : x+75, //+75 for center x
                     sourceY : y+100, //+100 for bottom
-                    targetX : (100 * (level+numberChildren) + 50 * (level+numberChildren)),
+                    targetX : (150 * (level+numberChildren) + 50 * (level+numberChildren)) - 125,
                     targetY : (150 * (positionInLevel+1) + 50 * (positionInLevel+1)) - 100,
                     nodeNumber : nodeNumber,
                     nodeNumberTarget : nodeNumberTarget,
                     edgeid : ++this.edgeid
                 });
+                // let x = 150 * positionInLevel + 50 * positionInLevel;
             }
         }
 
