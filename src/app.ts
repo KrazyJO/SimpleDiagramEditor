@@ -102,63 +102,14 @@ $(document).ready(function () {
 	createNewDiagram(true);
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
+		let demoCode = require('./demoCode/app.txt');
+		console.log(demoCode);
 		myEditor = monaco.editor.create(editorContainer, {
-			value: [
-				'// Press F4 to run your code!',
-				'window.onload = function() {',
-				'  const hw = document.createElement("div");',
-				'  hw.setAttribute("id", "hw");',
-				'  hw.innerText = "HelloWorld!";',
-				'  document.body.appendChild(hw)',
-				'  let Foo = function(){',
-				'    let b = 2;',
-				'    this.b = 42;',
-				'  };',
-				'  class Bar {',
-				'    constructor(value) {',
-				'      this.barValue = 4200;',
-				'      this.newFoo = new Foo();',
-				'      this.newFoo.newnewFoo = new Foo();',
-				'      this.newFoo.newnewFoo.newnewnewFoo = new Foo();',
-				'      this.newFoo.newnewFoo.newnewnewFoo.c = "c";',
-				'    }',
-				'  }',
-				'  let bar = new Bar()',
-				'  let foo = new Foo();',
-				'  this.rootModle = {foo : foo, bar : bar, a : "1", b : "2", c : {d: 42}, e : {f : 12} }',
-				'}',
-				'function doStep(sStepFunctionName) {',
-				'  if (window[sStepFunctionName] && typeof window[sStepFunctionName] === "function") {',
-				'    window[sStepFunctionName].call(this);',
-				'  }',
-				'}',
-				'function step1() {',
-				'	const hw = document.getElementById("hw");',
-				'	let hwText = hw.innerText;',
-				'	hwText += "\\nstep1";',
-				'	hw.innerText = hwText;',
-				'  }',
-				'function step2() {',
-				'	const hw = document.getElementById("hw");',
-				'	let hwText = hw.innerText;',
-				'	hwText += "\\nstep2";',
-				'	hw.innerText = hwText;',
-				'  }',
-				'function step3() {',
-				'	const hw = document.getElementById("hw");',
-				'	let hwText = hw.innerText;',
-				'	hwText += "\\nstep3";',
-				'	hw.innerText = hwText;',
-				'  }'
-			].join('\n'),
+			value : demoCode,
 			language: 'javascript',
 			theme : 'vs-dark'
 		});
 		myEditor.addCommand(monaco.KeyCode.F4, () => {
-			// const prev = document.getElementById('preview');
-			// if (prev) {
-			//   prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
-			// }
 			run();
 		}, '');
 	}
