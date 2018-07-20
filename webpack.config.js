@@ -57,6 +57,10 @@ const config = {
             {
                 test: /\.(jpe?g|png|gif|svg|woff|woff2|ttf|eot)$/i,
                 loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]']
+            },
+            {
+                test: /\.txt$/,
+                use: 'raw-loader'
             }
         ]
     },

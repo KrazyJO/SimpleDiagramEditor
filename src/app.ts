@@ -1,6 +1,8 @@
 import * as monaco from 'monaco-editor';
+import Debugger from './Debugger';
 
 const EA = (window as any).EasyJS;
+const oDebugger = new Debugger();
 
 //now I understand :)
 const XML: string =
@@ -47,12 +49,12 @@ function initResizer(init) {
 	resizer.on('mousedown', () => {
 		// console.log("resizer mouse down");
 		mouseDown = true;
-	})
+	});
 
 	$(document).on('mouseup', () => {
 		console.log("resizer mouse up");
 		mouseDown = false;
-	})
+	});
 
 	resizer.on('mousemove', (evt) => {
 		if (mouseDown)
@@ -65,9 +67,7 @@ function initResizer(init) {
 			let percentage2 = 100 - percentage;
 			frameContainer.setAttribute('style', `height: calc(${percentage2}% - 2px);`);
 		}
-
-
-	})
+	});
 }
 
 initResizer(false);
@@ -96,110 +96,42 @@ function createNewDiagram(preventImport) {
 	});
 }
 
-let steps = [];
+// let steps = [];
 
 $(document).ready(function () {
 	createNewDiagram(true);
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
+		let demoCode = require('./demoCode/app.txt');
 		myEditor = monaco.editor.create(editorContainer, {
-			value: [
-				'// Press F4 to run your code!',
-				'window.onload = function() {',
-				'  const hw = document.createElement("div");',
-				'  hw.setAttribute("id", "hw");',
-				'  hw.innerText = "HelloWorld!";',
-				'  document.body.appendChild(hw)',
-				'  let Foo = function(){',
-				'    let b = 2;',
-				'    this.b = 42;',
-				'  };',
-				'  class Bar {',
-				'    constructor(value) {',
-				'      this.barValue = 4200;',
-				'      this.newFoo = new Foo();',
-				'      this.newFoo.newnewFoo = new Foo();',
-				'      this.newFoo.newnewFoo.newnewnewFoo = new Foo();',
-				'      this.newFoo.newnewFoo.newnewnewFoo.c = "c";',
-				'    }',
-				'  }',
-				'  let bar = new Bar()',
-				'  let foo = new Foo();',
-				'  this.rootModle = {foo : foo, bar : bar, a : "1", b : "2", c : {d: 42}, e : {f : 12} }',
-				'}',
-				'function doStep(sStepFunctionName) {',
-				'  if (window[sStepFunctionName] && typeof window[sStepFunctionName] === "function") {',
-				'    window[sStepFunctionName].call(this);',
-				'  }',
-				'}',
-				'function step1() {',
-				'	const hw = document.getElementById("hw");',
-				'	let hwText = hw.innerText;',
-				'	hwText += "\\nstep1";',
-				'	hw.innerText = hwText;',
-				'  }',
-				'function step2() {',
-				'	const hw = document.getElementById("hw");',
-				'	let hwText = hw.innerText;',
-				'	hwText += "\\nstep2";',
-				'	hw.innerText = hwText;',
-				'  }',
-				'function step3() {',
-				'	const hw = document.getElementById("hw");',
-				'	let hwText = hw.innerText;',
-				'	hwText += "\\nstep3";',
-				'	hw.innerText = hwText;',
-				'  }'
-			].join('\n'),
+			value : demoCode,
 			language: 'javascript',
 			theme : 'vs-dark'
 		});
 		myEditor.addCommand(monaco.KeyCode.F4, () => {
-			// const prev = document.getElementById('preview');
-			// if (prev) {
-			//   prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
-			// }
-			run();
+			runCode();
 		}, '');
 	}
 
 });
 
-function run() {
-	const prev = document.getElementById('preview');
-	if (prev) {
-		prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
-	}
-}
-
-export function btnRun() {
+export function updateDiagram() {
 	const prev = <HTMLIFrameElement>document.getElementById('preview');
 	let rootModle = prev.contentWindow["rootModle"];
 	if (rootModle)
 	{
 		modeler.importFromJsonObject(rootModle);
-		console.log(rootModle);
 	}
 }
 
 export function getModel() {
-	console.log("getModel() call modeler.getModdel()");
 	modeler.getModdel();
 }
 
-function setDebuggerButtonsToDisabled(bDisabled : boolean) {
-	let btn : any = $('#btnStep')[0];
-	btn.disabled = bDisabled;
 
-	let btnRunAll : any = $('#btnRunAll')[0];
-	btnRunAll.disabled = bDisabled;
-}
-
-
-export function btnRunCode() {
-	steps = ['step1', 'step2', 'step3'];
-	setDebuggerButtonsToDisabled(false);
-	run();
+export function runCode() {
+	oDebugger.run(myEditor.getValue());
+	modeler.clear();
 }
 
 /**
@@ -207,28 +139,24 @@ export function btnRunCode() {
  * if no step is ava
  */
 export function btnDoStep() {
-	let sFunctionName : string = steps.shift();
-	if (sFunctionName) {
-		const prev : any = document.getElementById('preview');
-		prev.contentWindow.doStep(sFunctionName);
-	} 
-
-	//was it the last step? disable button
-	if (steps.length === 0)
-	{
-		setDebuggerButtonsToDisabled(true);
+	oDebugger.step();
+	if (oDebugger.isRunning()) {
+		updateDiagram();
+	} else {
+		modeler.clear();
 	}
-
 }
 
 export function btnRunAll() {
-	const prev : any = document.getElementById('preview');
-	for (let i = 0; i < steps.length; i++)
-	{
-		prev.contentWindow.doStep(steps[i]);
+	oDebugger.runAll();
+	modeler.clear();
+}
+
+export function btnDebugCode() {
+	oDebugger.debug(myEditor.getValue());
+	if (oDebugger.isRunning()) {
+		updateDiagram();
+	} else {
+		modeler.clear();
 	}
-
-	setDebuggerButtonsToDisabled(true);
-
-	steps = [];
 }
