@@ -7,7 +7,7 @@ class Debugger {
      * @param sCode the code to run
      */
     public run(sCode : string) : void {
-        this.steps = ['step1', 'step2', 'step3'];
+        this.steps = [];
         
         this.enableDebuggerButtons();
         this.injectCode(sCode);
@@ -56,6 +56,10 @@ class Debugger {
         this.disableDebuggerButtons();
     
         this.steps = [];
+    }
+
+    public isRunning() : boolean {
+        return this.steps.length > 0;
     }
 
     /**

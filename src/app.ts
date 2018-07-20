@@ -115,7 +115,7 @@ $(document).ready(function () {
 
 });
 
-export function btnUpdateDiagram() {
+export function updateDiagram() {
 	const prev = <HTMLIFrameElement>document.getElementById('preview');
 	let rootModle = prev.contentWindow["rootModle"];
 	if (rootModle)
@@ -131,6 +131,7 @@ export function getModel() {
 
 export function runCode() {
 	oDebugger.run(myEditor.getValue());
+	modeler.clear();
 }
 
 /**
@@ -139,12 +140,23 @@ export function runCode() {
  */
 export function btnDoStep() {
 	oDebugger.step();
+	if (oDebugger.isRunning()) {
+		updateDiagram();
+	} else {
+		modeler.clear();
+	}
 }
 
 export function btnRunAll() {
 	oDebugger.runAll();
+	modeler.clear();
 }
 
 export function btnDebugCode() {
 	oDebugger.debug(myEditor.getValue());
+	if (oDebugger.isRunning()) {
+		updateDiagram();
+	} else {
+		modeler.clear();
+	}
 }

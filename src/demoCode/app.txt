@@ -31,16 +31,19 @@ function step1() {
 	let hwText = hw.innerText;
 	hwText += "\nstep1";
 	hw.innerText = hwText;
+	this.rootModle.a = "2";
 }
 function step2() {
 	const hw = document.getElementById("hw");
 	let hwText = hw.innerText;
 	hwText += "\nstep2";
 	hw.innerText = hwText;
+	this.rootModle.a = "3";
 }
 function step3() {
 	const hw = document.getElementById("hw");
 	let hwText = hw.innerText;
 	hwText += "\nstep3";
 	hw.innerText = hwText;
+	this.rootModle.a = "4";
 }
