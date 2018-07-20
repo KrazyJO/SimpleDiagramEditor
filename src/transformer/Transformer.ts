@@ -17,6 +17,14 @@ interface Member {
     value : any
 }
 
+interface Node {
+    obj : object
+    name : string
+    level : number
+    positionInLevel : number
+    nodeNumber : number
+}
+
 class Transformer {
     
 
@@ -44,7 +52,7 @@ class Transformer {
         this.result += '<sde:SimpleDebugEditorGraph id="eg_1" xmlns:sde="https://seblog.cs.uni-kassel.de/sde" xmlns:sdedi="https://seblog.cs.uni-kassel.de/sdedi" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
         this.addLineBreakToResult(); 
         
-        this.transformObject(obj, 'root');
+        this.transformObject(obj, 'root', 0, 0, 0);
         this.result += this.diagram;
 
         //write di
@@ -58,14 +66,16 @@ class Transformer {
     }
 
     
-    private transformObject(obj : object, name : string, level = 1, positionInLevel = 1 ) : void {
+    private transformObject(obj : object, name : string, level = 1, positionInLevel = 0, nodeNumber ) : number {
         let atomicTypes = ["string", "number", "boolean"];
         let edges : edge[] = [];
+        let children : Node[] = [];
         let numberChildren : number = 0;
         let className : string = obj.constructor.name;
+        let thisNodeNumber= nodeNumber;
         
         //add node
-        let nodeNumber = this.nodeNumber++;
+        // let nodeNumber = this.nodeNumber++;
         this.diagram += `<sde:Node id="node_${nodeNumber}" name="${name}" class="${className}">`;
         this.addLineBreakToDiagram();
 
@@ -81,6 +91,7 @@ class Transformer {
         //add object properties
         let keys = Object.keys(obj);
         let objectType = "";
+        let nodeNumberTarget;
         for (let i = 0; i < keys.length; i++)
         {
             objectType = typeof obj[keys[i]];
@@ -94,20 +105,31 @@ class Transformer {
             } else if (objectType === 'object') {
                 // other objects will be added to diagram xml and diagram interchange later
                 // it's an edge
-                numberChildren++;
-                let nodeNumberTarget = nodeNumber + numberChildren;
+
+                nodeNumberTarget = ++this.nodeNumber;
+                // let nodeNumberTarget = ++this.nodeNumber;
+                children.push({
+                    obj : obj[keys[i]],
+                    name : keys[i],
+                    level : level +1,
+                    positionInLevel : positionInLevel+numberChildren,
+                    nodeNumber : nodeNumberTarget
+                });
                 edges.push({
-                    sourceNode : `node_${nodeNumber}`,
+                    sourceNode : `node_${thisNodeNumber}`,
                     tragetNode : `node_${nodeNumberTarget}`,
                     sourceX : x+75, //+75 for center x
                     sourceY : y+100, //+100 for bottom
-                    targetX : (150 * (level+numberChildren) + 50 * (level+numberChildren)) - 125,
-                    targetY : (150 * (positionInLevel+1) + 50 * (positionInLevel+1)) - 100,
-                    nodeNumber : nodeNumber,
+                    targetX : (150 * (positionInLevel+(numberChildren+1)) + 50 * (positionInLevel+(numberChildren+1))) - 125,
+                    targetY : (100 * (level+1) + 50 * (level+1)),
+                    nodeNumber : thisNodeNumber,
                     nodeNumberTarget : nodeNumberTarget,
                     edgeid : ++this.edgeid
                 });
+
+                numberChildren++;
                 // let x = 150 * positionInLevel + 50 * positionInLevel;
+                // let y = 100 * level + 50 * level;
             }
         }
 
@@ -122,19 +144,26 @@ class Transformer {
         this.addLineBreakToDiagram();
 
         //add child objects to diagram
-        numberChildren = 0;
-        for (let i = 0; i < keys.length; i++)
-        {
-            if (typeof obj[keys[i]] === 'object') {
-                this.transformObject(obj[keys[i]], keys[i], level +1, positionInLevel+numberChildren);
-                numberChildren++;
-            }
-        }
-        
+        // numberChildren = 0;
+        // for (let i = 0; i < keys.length; i++)
+        // {
+        //     if (typeof obj[keys[i]] === 'object') {
+        //         this.transformObject(obj[keys[i]], keys[i], level +1, positionInLevel+numberChildren);
+        //         numberChildren++;
+        //     }
+        // }
+
+        // add children
+        children.forEach(child => {
+            this.transformObject(child.obj, child.name, child.level, child.positionInLevel, child.nodeNumber);
+        });
+
         //add edges to diagram and diagram interchange
         edges.forEach(edge => {
             this.addEdge(edge);
         });
+
+        return nodeNumber;
     }
 
     private addMemberToDiagram(options : Member) {
