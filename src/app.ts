@@ -96,6 +96,8 @@ function createNewDiagram(preventImport) {
 	});
 }
 
+let steps = ['step1', 'step2', 'step3'];
+
 $(document).ready(function () {
 	createNewDiagram(true);
 	const editorContainer = document.getElementById('editor');
@@ -105,6 +107,7 @@ $(document).ready(function () {
 				'// Press F4 to run your code!',
 				'window.onload = function() {',
 				'  const hw = document.createElement("div");',
+				'  hw.setAttribute("id", "hw");',
 				'  hw.innerText = "HelloWorld!";',
 				'  document.body.appendChild(hw)',
 				'  let Foo = function(){',
@@ -123,7 +126,30 @@ $(document).ready(function () {
 				'  let bar = new Bar()',
 				'  let foo = new Foo();',
 				'  this.rootModle = {foo : foo, bar : bar, a : "1", b : "2", c : {d: 42}, e : {f : 12} }',
-				'}'
+				'}',
+				'function doStep(sStepFunctionName) {',
+				'  if (window[sStepFunctionName] && typeof window[sStepFunctionName] === "function") {',
+				'    window[sStepFunctionName].call(this);',
+				'  }',
+				'}',
+				'function step1() {',
+				'	const hw = document.getElementById("hw");',
+				'	let hwText = hw.innerText;',
+				'	hwText += "\\nstep1";',
+				'	hw.innerText = hwText;',
+				'  }',
+				'function step2() {',
+				'	const hw = document.getElementById("hw");',
+				'	let hwText = hw.innerText;',
+				'	hwText += "\\nstep2";',
+				'	hw.innerText = hwText;',
+				'  }',
+				'function step3() {',
+				'	const hw = document.getElementById("hw");',
+				'	let hwText = hw.innerText;',
+				'	hwText += "\\nstep3";',
+				'	hw.innerText = hwText;',
+				'  }'
 			].join('\n'),
 			language: 'javascript',
 			theme : 'vs-dark'
@@ -141,9 +167,9 @@ $(document).ready(function () {
 
 function run() {
 	const prev = document.getElementById('preview');
-			if (prev) {
-				prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
-			}
+	if (prev) {
+		prev.setAttribute('srcdoc', `<script>${myEditor.getValue()}</script>`);
+	}
 }
 
 export function btnRun() {
@@ -163,4 +189,24 @@ export function getModel() {
 
 export function btnRunCode() {
 	run();
+}
+
+/**
+ * do the next step in application
+ * if no step is ava
+ */
+export function btnDoStep() {
+	let sFunctionName : string = steps.shift();
+	if (sFunctionName) {
+		const prev : any = document.getElementById('preview');
+		prev.contentWindow.doStep(sFunctionName);
+	} 
+
+	//was it the last step? disable button
+	if (steps.length === 0)
+	{
+		let btn : any = $('#btnStep')[0];
+		btn.disabled = true;
+	}
+
 }
