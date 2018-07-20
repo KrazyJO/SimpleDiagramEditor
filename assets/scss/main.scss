@@ -9,6 +9,15 @@ body, html {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.resizer {
+  height: 4px;
+  background-color: blue;
+}
+
+body>.djs-container {
+  display: none;
+}
+
 #js-canvas {
   height: 100%;
 }
