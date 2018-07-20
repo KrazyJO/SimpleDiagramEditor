@@ -96,7 +96,7 @@ function createNewDiagram(preventImport) {
 	});
 }
 
-let steps = ['step1', 'step2', 'step3'];
+let steps = [];
 
 $(document).ready(function () {
 	createNewDiagram(true);
@@ -187,7 +187,18 @@ export function getModel() {
 	modeler.getModdel();
 }
 
+function setDebuggerButtonsToDisabled(bDisabled : boolean) {
+	let btn : any = $('#btnStep')[0];
+	btn.disabled = bDisabled;
+
+	let btnRunAll : any = $('#btnRunAll')[0];
+	btnRunAll.disabled = bDisabled;
+}
+
+
 export function btnRunCode() {
+	steps = ['step1', 'step2', 'step3'];
+	setDebuggerButtonsToDisabled(false);
 	run();
 }
 
@@ -205,8 +216,19 @@ export function btnDoStep() {
 	//was it the last step? disable button
 	if (steps.length === 0)
 	{
-		let btn : any = $('#btnStep')[0];
-		btn.disabled = true;
+		setDebuggerButtonsToDisabled(true);
 	}
 
+}
+
+export function btnRunAll() {
+	const prev : any = document.getElementById('preview');
+	for (let i = 0; i < steps.length; i++)
+	{
+		prev.contentWindow.doStep(steps[i]);
+	}
+
+	setDebuggerButtonsToDisabled(true);
+
+	steps = [];
 }
