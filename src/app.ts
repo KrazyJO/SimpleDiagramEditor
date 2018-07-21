@@ -104,9 +104,12 @@ $(document).ready(function () {
 	createNew(true);
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
-		let demoCode = require('./demoCode/app.txt');
+		let demoCodeJs = require('./demoCode/app.txt');
+		let demoCodeHtml = require('./demoCode/html.txt');
+		editorJsContent.editorValue = demoCodeJs;
+		editorHtmlContent.editorValue = demoCodeHtml;
 		myEditor = monaco.editor.create(editorContainer, {
-			value : demoCode,
+			value : demoCodeJs,
 			language: 'javascript',
 			theme : 'vs-dark',
 			glyphMargin: true
@@ -120,6 +123,7 @@ $(document).ready(function () {
 			// here we can set or unset breakpoints
 			if (evt.target.toString().startsWith('GUTTER_GLYPH_MARGIN:'))
 			{
+				//https://microsoft.github.io/monaco-editor/playground.html#interacting-with-the-editor-rendering-glyphs-in-the-margin
 				let lineNumber = evt.target.range.startLineNumber;
 				let indexOfBreakPoint = breakpoints.indexOf(lineNumber);
 				let cssClass = "";
@@ -185,18 +189,6 @@ export function monacoJs() {
 	myEditor.setValue(editorJsContent.editorValue);
 	myEditor.setScrollTop(editorJsContent.editorScrollHeight);
 	monaco.editor.setModelLanguage(myEditor.getModel(), 'javascript');
-
-	//https://microsoft.github.io/monaco-editor/playground.html#interacting-with-the-editor-rendering-glyphs-in-the-margin
-	myEditor.deltaDecorations([], [
-		{
-			range: new monaco.Range(3,1,3,1),
-			options: {
-				isWholeLine: true,
-				className: 'myContentClass',
-				glyphMarginClassName: 'myGlyphMarginClass'
-			}
-		}
-	]);
 }
 
 export function update() {
@@ -214,7 +206,15 @@ export function getModel() {
 
 
 export function runCode() {
-	oDebugger.run(myEditor.getValue());
+	//update current editor code
+	if (activeTab === 'Html') {
+		editorHtmlContent.editorValue = myEditor.getValue();
+	} else if (activeTab === 'Js') {
+		editorJsContent.editorValue = myEditor.getValue();
+	}
+
+
+	oDebugger.run(editorJsContent.editorValue, editorHtmlContent.editorValue);
 	modeler.clear();
 }
 
@@ -237,7 +237,15 @@ export function btnRunAll() {
 }
 
 export function btnDebugCode() {
-	oDebugger.debug(myEditor.getValue());
+	// oDebugger.debug(myEditor.getValue());
+	if (activeTab === 'Html') {
+		editorHtmlContent.editorValue = myEditor.getValue();
+	} else if (activeTab === 'Js') {
+		editorJsContent.editorValue = myEditor.getValue();
+	}
+
+
+	oDebugger.debug(editorJsContent.editorValue, editorHtmlContent.editorValue);
 	if (oDebugger.isRunning()) {
 		update();
 	} else {
