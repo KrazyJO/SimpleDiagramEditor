@@ -97,6 +97,8 @@ function createNew(preventImport) {
 }
 
 // let steps = [];
+let breakpoints : number[] = [];
+let decorations : any = [];
 
 $(document).ready(function () {
 	createNew(true);
@@ -106,11 +108,46 @@ $(document).ready(function () {
 		myEditor = monaco.editor.create(editorContainer, {
 			value : demoCode,
 			language: 'javascript',
-			theme : 'vs-dark'
+			theme : 'vs-dark',
+			glyphMargin: true
 		});
 		myEditor.addCommand(monaco.KeyCode.F4, () => {
 			runCode();
 		}, '');
+
+		// add mouse event to register set or unset breakpoints
+		myEditor.onMouseDown((evt) => {
+			// here we can set or unset breakpoints
+			if (evt.target.toString().startsWith('GUTTER_GLYPH_MARGIN:'))
+			{
+				let lineNumber = evt.target.range.startLineNumber;
+				let indexOfBreakPoint = breakpoints.indexOf(lineNumber);
+				let cssClass = "";
+				if (indexOfBreakPoint >= 0) {
+					// remove breakpoint
+					breakpoints.splice(indexOfBreakPoint, 1);
+				} else {
+					// add new breakpoint
+					breakpoints.push(lineNumber);
+					cssClass = "myGlyphMarginClass"
+				}
+
+				// build new list of all decorations
+				let decorationList : any = [];
+				breakpoints.forEach((breakpoint) => {
+					decorationList.push({
+						range: new monaco.Range(breakpoint,1,breakpoint,1),
+						options: {
+							isWholeLine: false,
+							glyphMarginClassName: lineNumber === breakpoint ? cssClass : 'myGlyphMarginClass'
+						}
+					})
+				});
+				
+				// set the list to the editor
+				decorations = myEditor.deltaDecorations(decorations, decorationList);
+			}
+		});
 	}
 
 });
@@ -148,6 +185,18 @@ export function monacoJs() {
 	myEditor.setValue(editorJsContent.editorValue);
 	myEditor.setScrollTop(editorJsContent.editorScrollHeight);
 	monaco.editor.setModelLanguage(myEditor.getModel(), 'javascript');
+
+	//https://microsoft.github.io/monaco-editor/playground.html#interacting-with-the-editor-rendering-glyphs-in-the-margin
+	myEditor.deltaDecorations([], [
+		{
+			range: new monaco.Range(3,1,3,1),
+			options: {
+				isWholeLine: true,
+				className: 'myContentClass',
+				glyphMarginClassName: 'myGlyphMarginClass'
+			}
+		}
+	]);
 }
 
 export function update() {
