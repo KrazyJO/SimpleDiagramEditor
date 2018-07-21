@@ -4,13 +4,13 @@ class Debugger {
 
     /**
      * runs the whole application, no steps!
-     * @param sCode the code to run
+     * @param sJsCode the code to run
      */
-    public run(sCode : string) : void {
-        this.steps = [];
+    public run(sJsCode : string, sHtmlCode : string) : void {
+        this.steps = ['step1', 'step2', 'step3'];
         
         this.enableDebuggerButtons();
-        this.injectCode(sCode);
+        this.injectCode(sJsCode, sHtmlCode);
         setTimeout(function() {
             this.runAll();
         }.bind(this),500);
@@ -18,12 +18,12 @@ class Debugger {
 
     /**
      * debugs the application
-     * @param sCode the code to debug
+     * @param sJsCode the code to debug
      */
-    public debug(sCode : string) : void {
+    public debug(sJsCode : string, sHtmlCode : string) : void {
         this.steps = ['step1', 'step2', 'step3'];
         this.enableDebuggerButtons();
-        this.injectCode(sCode);
+        this.injectCode(sJsCode, sHtmlCode);
     }
 
     /**
@@ -32,8 +32,7 @@ class Debugger {
     public step() : void {
         let sFunctionName : string = this.steps.shift();
         if (sFunctionName) {
-            const prev : any = document.getElementById('preview');
-            prev.contentWindow.doStep(sFunctionName);
+            this.executeRemote(sFunctionName);
         } 
 
         //was it the last step? disable button
@@ -47,10 +46,9 @@ class Debugger {
      * do all steps
      */
     public runAll() : void {
-        const prev : any = document.getElementById('preview');
         for (let i = 0; i < this.steps.length; i++)
         {
-            prev.contentWindow.doStep(this.steps[i]);
+            this.executeRemote(this.steps[i]);
         }
     
         this.disableDebuggerButtons();
@@ -78,10 +76,37 @@ class Debugger {
         return this;
     }
 
-    private injectCode(sCode : string) {
-        const prev = document.getElementById('preview');
+    private executeRemote(sFunctionName : string) : void {
+        const prev : any = document.getElementById('preview');
+        if (prev.contentWindow[sFunctionName] && typeof prev.contentWindow[sFunctionName] === "function") {
+            prev.contentWindow[sFunctionName].call(prev.contentWindow);
+        }
+    }
+
+    /**
+     * injects html and js code to the iframe
+     * @param sJsCode code from js tab
+     * @param sHtmlCode code from html tab
+     */
+    private injectCode(sJsCode : string, sHtmlCode : string) : void {
+        const prev : any = document.getElementById('preview');
         if (prev) {
-            prev.setAttribute('srcdoc', `<script>${sCode}</script>`);
+            let indexOfString = sHtmlCode.indexOf('<head>');
+            let sSrcDoc = sHtmlCode;
+           
+            if (indexOfString >= 0) {
+                sSrcDoc = sSrcDoc.slice(0,indexOfString+6)+ `<script>${sJsCode}</script>`+sSrcDoc.slice(indexOfString+6);
+            } else {
+                //no head, test <html> tag
+                indexOfString = sHtmlCode.indexOf('<html>');
+                if (indexOfString >= 0) {
+                    sSrcDoc = sSrcDoc.slice(0,indexOfString+6)+ `<head><script>${sJsCode}</script></head>`+sSrcDoc.slice(indexOfString+6);
+                } else {
+                    sSrcDoc = `<script>${sJsCode}</script>`;
+                }
+            }
+            
+            prev.setAttribute('srcdoc', sSrcDoc);
         }
     }
 

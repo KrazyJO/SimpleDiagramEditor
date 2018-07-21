@@ -15,7 +15,7 @@ const XML: string =
 			<sde:Member id="member_2" name="prop2" propType="number" value="42"></sde:Member>
 	</sde:Node>
 	<sde:Edge id="edge_1" sourceNode="node_1" name="edge1" targetNode="node_2"></sde:Edge>
-	<sdedi:SimpleDebugEditorDiagram id="ed_1">
+	<sdedi:SimpleDebugEditor id="ed_1">
 		<sdedi:SimpleDebugEditorShape id="shape_1" simpleDebugEditorElement="node_1">
 			<dc:Bounds x="500" y="200" width="150" height="100" />
 		</sdedi:SimpleDebugEditorShape>
@@ -26,7 +26,7 @@ const XML: string =
 			<di:waypoint x="650" y="250" />
 			<di:waypoint x="800" y="250" />
 		</sdedi:SimpleDebugEditorEdge>
-	</sdedi:SimpleDebugEditorDiagram>
+	</sdedi:SimpleDebugEditor>
 </sde:SimpleDebugEditorGraph>
 `;
 
@@ -34,43 +34,43 @@ const XML: string =
  * Maybe this will work later...
  * @param init should it be used?
  */
-function initResizer(init) {
-	let resizer = $('.resizer');
-	let diagramContainer = $('#diagramContainer')[0];
-	let frameContainer = $('#frameContainer')[0];
-	if (!init) {
-		resizer[0].setAttribute('style', 'display: none;');
-		diagramContainer.setAttribute('style', 'height: 50%;');
-		frameContainer.setAttribute('style', 'height: 50%;');
-		return;
-	}
+// function initResizer(init) {
+// 	let resizer = $('.resizer');
+// 	let Container = $('#Container')[0];
+// 	let frameContainer = $('#frameContainer')[0];
+// 	if (!init) {
+// 		resizer[0].setAttribute('style', 'display: none;');
+// 		Container.setAttribute('style', 'height: 50%;');
+// 		frameContainer.setAttribute('style', 'height: 50%;');
+// 		return;
+// 	}
 
-	let mouseDown = false;
-	resizer.on('mousedown', () => {
-		// console.log("resizer mouse down");
-		mouseDown = true;
-	});
+// 	let mouseDown = false;
+// 	resizer.on('mousedown', () => {
+// 		// console.log("resizer mouse down");
+// 		mouseDown = true;
+// 	});
 
-	$(document).on('mouseup', () => {
-		console.log("resizer mouse up");
-		mouseDown = false;
-	});
+// 	$(document).on('mouseup', () => {
+// 		console.log("resizer mouse up");
+// 		mouseDown = false;
+// 	});
 
-	resizer.on('mousemove', (evt) => {
-		if (mouseDown)
-		{
-			console.log(evt);
-			let windowContainer = $('#windowContainer')[0];
-			let newFrameHeight = windowContainer.offsetHeight - evt.pageY;
-			let percentage = (newFrameHeight / windowContainer.offsetHeight) * 100;
-			diagramContainer.setAttribute('style', `height: calc(${percentage}% - 2px);`);
-			let percentage2 = 100 - percentage;
-			frameContainer.setAttribute('style', `height: calc(${percentage2}% - 2px);`);
-		}
-	});
-}
+// 	resizer.on('mousemove', (evt) => {
+// 		if (mouseDown)
+// 		{
+// 			console.log(evt);
+// 			let windowContainer = $('#windowContainer')[0];
+// 			let newFrameHeight = windowContainer.offsetHeight - evt.pageY;
+// 			let percentage = (newFrameHeight / windowContainer.offsetHeight) * 100;
+// 			Container.setAttribute('style', `height: calc(${percentage}% - 2px);`);
+// 			let percentage2 = 100 - percentage;
+// 			frameContainer.setAttribute('style', `height: calc(${percentage2}% - 2px);`);
+// 		}
+// 	});
+// }
 
-initResizer(false);
+// initResizer(false);
 
 //save the editor reference here for later use!
 let myEditor : monaco.editor.IStandaloneCodeEditor;
@@ -80,16 +80,16 @@ const modeler = new EA.Modeler({
 	propertiesPanel: { parent: '#js-properties-panel' }
 });
 
-function createNewDiagram(preventImport) {
+function createNew(preventImport) {
 	if (preventImport)
 	{
 		return;
 	}
-	// console.log('Start with creating the diagram!');
+	// console.log('Start with creating the !');
 	modeler.importXML(XML, function (err: any) {
 		if (!err) {
 			modeler.get('canvas').zoom('fit-viewport');
-			// console.log('Yay look at this beautiful Diagram :D');
+			// console.log('Yay look at this beautiful  :D');
 		} else {
 			console.log('There went something wrong: ', err);
 		}
@@ -97,25 +97,101 @@ function createNewDiagram(preventImport) {
 }
 
 // let steps = [];
+let breakpoints : number[] = [];
+let decorations : any = [];
 
 $(document).ready(function () {
-	createNewDiagram(true);
+	createNew(true);
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
-		let demoCode = require('./demoCode/app.txt');
+		let demoCodeJs = require('./demoCode/app.txt');
+		let demoCodeHtml = require('./demoCode/html.txt');
+		editorJsContent.editorValue = demoCodeJs;
+		editorHtmlContent.editorValue = demoCodeHtml;
 		myEditor = monaco.editor.create(editorContainer, {
-			value : demoCode,
+			value : demoCodeJs,
 			language: 'javascript',
-			theme : 'vs-dark'
+			theme : 'vs-dark',
+			glyphMargin: true
 		});
 		myEditor.addCommand(monaco.KeyCode.F4, () => {
 			runCode();
 		}, '');
+
+		// add mouse event to register set or unset breakpoints
+		myEditor.onMouseDown((evt) => {
+			// here we can set or unset breakpoints
+			if (evt.target.toString().startsWith('GUTTER_GLYPH_MARGIN:'))
+			{
+				//https://microsoft.github.io/monaco-editor/playground.html#interacting-with-the-editor-rendering-glyphs-in-the-margin
+				let lineNumber = evt.target.range.startLineNumber;
+				let indexOfBreakPoint = breakpoints.indexOf(lineNumber);
+				let cssClass = "";
+				if (indexOfBreakPoint >= 0) {
+					// remove breakpoint
+					breakpoints.splice(indexOfBreakPoint, 1);
+				} else {
+					// add new breakpoint
+					breakpoints.push(lineNumber);
+					cssClass = "myGlyphMarginClass"
+				}
+
+				// build new list of all decorations
+				let decorationList : any = [];
+				breakpoints.forEach((breakpoint) => {
+					decorationList.push({
+						range: new monaco.Range(breakpoint,1,breakpoint,1),
+						options: {
+							isWholeLine: false,
+							glyphMarginClassName: lineNumber === breakpoint ? cssClass : 'myGlyphMarginClass'
+						}
+					})
+				});
+				
+				// set the list to the editor
+				decorations = myEditor.deltaDecorations(decorations, decorationList);
+			}
+		});
 	}
 
 });
+let editorHtmlContent = {
+	editorValue : '',
+	editorScrollHeight : 0	
+};
+let editorJsContent = {
+	editorValue : '',
+	editorScrollHeight : 0	
+};
+let activeTab = 'Js';
+export function monacoHtml() {
+	if (activeTab === 'Html') {
+		return;
+	}
 
-export function updateDiagram() {
+	activeTab = 'Html';
+	editorJsContent.editorScrollHeight = myEditor.getScrollTop();
+	editorJsContent.editorValue = myEditor.getValue();
+	myEditor.setValue(editorHtmlContent.editorValue);
+	myEditor.setScrollTop(editorHtmlContent.editorScrollHeight);
+	monaco.editor.setModelLanguage(myEditor.getModel(), 'html');
+}
+
+export function monacoJs() {
+	if (activeTab === 'Js')
+	{
+		return;
+	}
+
+	activeTab = 'Js';
+	editorHtmlContent.editorScrollHeight = myEditor.getScrollTop();
+	editorHtmlContent.editorValue = myEditor.getValue();
+	myEditor.setValue(editorJsContent.editorValue);
+	myEditor.setScrollTop(editorJsContent.editorScrollHeight);
+	monaco.editor.setModelLanguage(myEditor.getModel(), 'javascript');
+}
+
+export function update() {
 	const prev = <HTMLIFrameElement>document.getElementById('preview');
 	let rootModle = prev.contentWindow["rootModle"];
 	if (rootModle)
@@ -130,7 +206,15 @@ export function getModel() {
 
 
 export function runCode() {
-	oDebugger.run(myEditor.getValue());
+	//update current editor code
+	if (activeTab === 'Html') {
+		editorHtmlContent.editorValue = myEditor.getValue();
+	} else if (activeTab === 'Js') {
+		editorJsContent.editorValue = myEditor.getValue();
+	}
+
+
+	oDebugger.run(editorJsContent.editorValue, editorHtmlContent.editorValue);
 	modeler.clear();
 }
 
@@ -141,7 +225,7 @@ export function runCode() {
 export function btnDoStep() {
 	oDebugger.step();
 	if (oDebugger.isRunning()) {
-		updateDiagram();
+		update();
 	} else {
 		modeler.clear();
 	}
@@ -153,9 +237,17 @@ export function btnRunAll() {
 }
 
 export function btnDebugCode() {
-	oDebugger.debug(myEditor.getValue());
+	// oDebugger.debug(myEditor.getValue());
+	if (activeTab === 'Html') {
+		editorHtmlContent.editorValue = myEditor.getValue();
+	} else if (activeTab === 'Js') {
+		editorJsContent.editorValue = myEditor.getValue();
+	}
+
+
+	oDebugger.debug(editorJsContent.editorValue, editorHtmlContent.editorValue);
 	if (oDebugger.isRunning()) {
-		updateDiagram();
+		update();
 	} else {
 		modeler.clear();
 	}
