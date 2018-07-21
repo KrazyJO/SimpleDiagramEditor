@@ -91,13 +91,19 @@ class Debugger {
     private injectCode(sJsCode : string, sHtmlCode : string) : void {
         const prev : any = document.getElementById('preview');
         if (prev) {
-            let indexOfHead = sHtmlCode.indexOf('<head>');
+            let indexOfString = sHtmlCode.indexOf('<head>');
             let sSrcDoc = sHtmlCode;
            
-            if (indexOfHead >= 0) {
-                sSrcDoc = sSrcDoc.slice(0,indexOfHead+6)+ `<script>${sJsCode}</script>`+sSrcDoc.slice(indexOfHead+6);
+            if (indexOfString >= 0) {
+                sSrcDoc = sSrcDoc.slice(0,indexOfString+6)+ `<script>${sJsCode}</script>`+sSrcDoc.slice(indexOfString+6);
             } else {
-                sSrcDoc = `<script>${sJsCode}</script>`;
+                //no head, test <html> tag
+                indexOfString = sHtmlCode.indexOf('<html>');
+                if (indexOfString >= 0) {
+                    sSrcDoc = sSrcDoc.slice(0,indexOfString+6)+ `<head><script>${sJsCode}</script></head>`+sSrcDoc.slice(indexOfString+6);
+                } else {
+                    sSrcDoc = `<script>${sJsCode}</script>`;
+                }
             }
             
             prev.setAttribute('srcdoc', sSrcDoc);
