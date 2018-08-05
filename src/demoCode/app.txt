@@ -22,17 +22,9 @@ let Foo = function () {
 };
 
 window.onload = function () {
-	const hw = document.createElement("div");
-	hw.setAttribute("id", "hw");
-	hw.innerText = "HelloWorld!";
-	document.body.appendChild(hw)
-	let Foo = function () {
-		let b = 24;
-		this.b = 42;
-	};
-	
+
 	// let bar = new Bar()
-	let foo = new Foo();
+	// let foo = new Foo();
 	// this.rootModle = { foo: foo, bar: bar, a: "1", b: "2", c: { d: 42 }, e: { f: 12 } }
 	// this.rootModle = {b: 12, a: "1"};
 	let c = {
@@ -47,28 +39,56 @@ window.onload = function () {
 }
 
 function step1() {
-	const hw = document.getElementById("hw");
-	let hwText = hw.innerText;
-	hwText += "\nstep1";
-	hwText += "\na: " + this.rootModle.a
-	hw.innerText = hwText;
-	// this.rootModle.a = "2";
+	this.setStep(1);
+
+	this.displayModle();
 }
 
 function step2() {
-	const hw = document.getElementById("hw");
-	let hwText = hw.innerText;
-	hwText += "\nstep2";
-	hwText += "\na: " + this.rootModle.a
-	hw.innerText = hwText;
-	// this.rootModle.a = "3";
+	this.setStep(2);
+
+	this.displayModle();
 }
 
 function step3() {
-	const hw = document.getElementById("hw");
-	let hwText = hw.innerText;
-	hwText += "\nstep3";
-	hwText += "\na: " + this.rootModle.a
-	hw.innerText = hwText;
-	// this.rootModle.a = "4";
+	this.setStep(3);
+
+	this.displayModle();
+}
+
+function displayModle() {
+	let modleString = this.printObject(this.rootModle);
+	const printedModle = document.getElementById('printedModle');
+	printedModle.innerText = modleString;
+}
+
+function printObject(obj) {
+	let modle = "{"
+
+	let keys = Object.keys(obj);
+	keys.forEach((key, index) => {
+		//need comma?
+		if (index !== 0) {
+			modle += ',';
+		}
+
+		//print obj
+		if (typeof obj[key] === "object") {
+			let innerObj = this.printObject(obj[key]);
+			modle += ` "${key}": ${innerObj}`;
+		} else {
+			let value = typeof obj[key] === "string" ? '"' + obj[key] + '"' : obj[key];
+			modle += ` "${key}": ${value}`;
+		}
+
+	});
+
+	modle += "}"
+
+	return modle;
+}
+
+function setStep(step) {
+	const currentStep = document.getElementById("currentStep");
+	currentStep.innerText = "step: " + step;
 }
