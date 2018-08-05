@@ -92,7 +92,15 @@ class Diagram2JsonTransformer {
         if (node.getAttribute("class") === 'Object') {
             obj.obj = {};
         } else {
-            //TODO: new Object from iframe content
+            // baaaad....
+            var prev = <any>document.getElementById('preview');
+            let createdObject = prev.contentWindow.eval('new ' + node.getAttribute("class"));
+            if (createdObject) {
+                obj.obj = createdObject;
+            } else {
+                throw 'constructor "'+ node.getAttribute("class") +'" could not be called inside preview :(';
+            }
+
         }
 
         // add properties to object
