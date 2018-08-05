@@ -20,7 +20,15 @@ window.onload = function () {
 	let bar = new Bar()
 	let foo = new Foo();
 	// this.rootModle = { foo: foo, bar: bar, a: "1", b: "2", c: { d: 42 }, e: { f: 12 } }
-	this.rootModle = {b: 12, a: "1"};
+	// this.rootModle = {b: 12, a: "1"};
+	let c = {
+		str : 'this is c'
+	};
+	let d = {
+		str : 'this is d',
+		obj : c
+	};
+	this.rootModle = {b: 12, a: "1", c : c, d : d};
 }
 
 function step1() {
