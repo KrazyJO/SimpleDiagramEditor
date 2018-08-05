@@ -58,7 +58,7 @@ export default class LabelEditingProvider {
     bbox.width = Math.max(bbox.width, MIN_BOUNDS.width);
     bbox.height = Math.max(bbox.height, MIN_BOUNDS.height);
     bbox.x = mid.x - bbox.width / 2;
-    if (target.businessObject.$instanceOf('ea:Edge')) {
+    if (target.businessObject.$instanceOf('sde:Edge')) {
       bbox.width = MIN_BOUNDS.width;
       bbox.height = MIN_BOUNDS.height;
       bbox.x = mid.x - bbox.width / 2;

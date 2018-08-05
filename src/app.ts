@@ -85,6 +85,10 @@ const modeler = new EA.Modeler({
 	propertiesPanel: { parent: '#js-properties-panel' }
 });
 
+export function getModeler() {
+	return modeler;
+}
+
 function createNew(preventImport) {
 	if (preventImport)
 	{

@@ -24,7 +24,7 @@ export function setLabel(element, text) {
 }
 
 export function hasExternalLabel(businessObject): boolean {
-  return is(businessObject, 'ea:Edge');
+  return is(businessObject, 'sde:Edge');
 }
 
 export function getWaypointsMid(waypoints) {
