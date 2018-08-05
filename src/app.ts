@@ -223,6 +223,10 @@ export function runCode() {
 	modeler.clear();
 }
 
+/**
+ * transforms current diagram moddle object and replaces it with 'rootModle' in application
+ * @param xml diagram xml string
+ */
 function injectModdleBackToApplication(xml: string) {
 	let rootObject = oDiagram2JsonTransformer.transform(xml);
 	if (rootObject) {

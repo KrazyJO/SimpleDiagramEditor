@@ -22,35 +22,39 @@ window.onload = function () {
 	// this.rootModle = { foo: foo, bar: bar, a: "1", b: "2", c: { d: 42 }, e: { f: 12 } }
 	// this.rootModle = {b: 12, a: "1"};
 	let c = {
-		str : 'this is c'
+		str : 'this is c',
+		str2 : 'this is c2'
 	};
 	let d = {
 		str : 'this is d',
 		obj : c
 	};
-	this.rootModle = {b: 12, a: "1", c : c, d : d};
+	this.rootModle = {b: 12, a: "1", c : c, d : d, e : "eeeee"};
 }
 
 function step1() {
 	const hw = document.getElementById("hw");
 	let hwText = hw.innerText;
 	hwText += "\nstep1";
+	hwText += "\na: " + this.rootModle.a
 	hw.innerText = hwText;
-	this.rootModle.a = "2";
+	// this.rootModle.a = "2";
 }
 
 function step2() {
 	const hw = document.getElementById("hw");
 	let hwText = hw.innerText;
 	hwText += "\nstep2";
+	hwText += "\na: " + this.rootModle.a
 	hw.innerText = hwText;
-	this.rootModle.a = "3";
+	// this.rootModle.a = "3";
 }
 
 function step3() {
 	const hw = document.getElementById("hw");
 	let hwText = hw.innerText;
 	hwText += "\nstep3";
+	hwText += "\na: " + this.rootModle.a
 	hw.innerText = hwText;
-	this.rootModle.a = "4";
+	// this.rootModle.a = "4";
 }
