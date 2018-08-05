@@ -1,5 +1,6 @@
 <html>
 	<head>
+        <!--> js code will be injected here <-->
 	</head>
 	<body>
 		<div>here we go again</div>

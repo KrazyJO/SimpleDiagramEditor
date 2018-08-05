@@ -52,7 +52,25 @@ export default class PropertiesPanel {
 		if (element.businessObject && element.businessObject.$type !== 'sdedi:SimpleDebugEditorDiagram') {
 			PropertiesPanel.addTitle(panel);
 			this.addProperties(element, panel);
+			this.addAddNewProperty(panel);
+			this.addButtonAddListener($('#addNewProperty'), element);
 		}
+	}
+
+	private addAddNewProperty(panel) : void {
+		let sNewProperty = 
+`<div>
+	<span>add new primitive property</span>
+	<input id="addNewPropertyName" placeholder="name"></input>
+	<select id="addNewPropertyType">
+		<option value="boolean">boolean</option>
+		<option value="number">number</option>
+		<option value="string">string</option>
+	</select>
+	<input placeholder="value" id="addNewPropertyValue"></input>
+	<button id="addNewProperty" type="button">add</button>
+</div>`;
+		panel.append(sNewProperty);
 	}
 
 	private addProperties(element: Base, container): void {
@@ -117,6 +135,20 @@ export default class PropertiesPanel {
 		(members).forEach(member => {
 			this.addMemberValListener($('#' + element.id+'-member'+member.id + '-value'), element, member);
 		});
+	}
+
+	private addButtonAddListener(node, element): void {
+		node.bind({
+			click : () => {
+				console.log(element);
+				let ePropName : any = document.getElementById('addNewPropertyName');
+				let ePropValue : any = document.getElementById('addNewPropertyValue');
+				let ePropType : any = document.getElementById('addNewPropertyType');
+				console.log("name: " + ePropName.value)
+				console.log("value: " + ePropValue.value);
+				console.log("type: " + ePropType.selectedOptions[0].value);
+			}
+		})
 	}
 	
 	private addMemberValListener(node, element, member) : void {
