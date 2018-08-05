@@ -49,7 +49,8 @@ module.exports = function(karma) {
       // 'test/spec/util/TextSpec.js',
       // 'test/spec/command/CommandInterceptorSpec.js',
       // 'test/spec/command/CommandStackSpec.js'
-      'test/spec/transformer/JsonToXmlSpec.js'
+      // 'test/spec/transformer/JsonToXmlSpec.js',
+      'test/spec/transformer/Diagram2JsonTransformerSpec.js'
     ],
 
     preprocessors: {

@@ -1,4 +1,26 @@
 // Press F4 to run your code!
+
+class f {
+	constructor() {
+		this.str = "f";
+	}
+}
+
+class Bar {
+	constructor(value) {
+		this.barValue = 4200;
+		this.newFoo = new Foo();
+		this.newFoo.newnewFoo = new Foo();
+		this.newFoo.newnewFoo.newnewnewFoo = new Foo();
+		this.newFoo.newnewFoo.newnewnewFoo.c = "c";
+	}
+}
+
+let Foo = function () {
+	let b = 24;
+	this.b = 42;
+};
+
 window.onload = function () {
 	const hw = document.createElement("div");
 	hw.setAttribute("id", "hw");
@@ -8,41 +30,45 @@ window.onload = function () {
 		let b = 24;
 		this.b = 42;
 	};
-	class Bar {
-		constructor(value) {
-			this.barValue = 4200;
-			this.newFoo = new Foo();
-			this.newFoo.newnewFoo = new Foo();
-			this.newFoo.newnewFoo.newnewnewFoo = new Foo();
-			this.newFoo.newnewFoo.newnewnewFoo.c = "c";
-		}
-	}
-	let bar = new Bar()
+	
+	// let bar = new Bar()
 	let foo = new Foo();
 	// this.rootModle = { foo: foo, bar: bar, a: "1", b: "2", c: { d: 42 }, e: { f: 12 } }
-	this.rootModle = {b: 12, a: "1"};
+	// this.rootModle = {b: 12, a: "1"};
+	let c = {
+		str : 'this is c',
+		str2 : 'this is c2'
+	};
+	let d = {
+		str : 'this is d',
+		obj : c
+	};
+	this.rootModle = {b: 12, a: "1", c : c, d : d, e : "eeeee", f : new f(), foo : new Foo()};
 }
 
 function step1() {
 	const hw = document.getElementById("hw");
 	let hwText = hw.innerText;
 	hwText += "\nstep1";
+	hwText += "\na: " + this.rootModle.a
 	hw.innerText = hwText;
-	this.rootModle.a = "2";
+	// this.rootModle.a = "2";
 }
 
 function step2() {
 	const hw = document.getElementById("hw");
 	let hwText = hw.innerText;
 	hwText += "\nstep2";
+	hwText += "\na: " + this.rootModle.a
 	hw.innerText = hwText;
-	this.rootModle.a = "3";
+	// this.rootModle.a = "3";
 }
 
 function step3() {
 	const hw = document.getElementById("hw");
 	let hwText = hw.innerText;
 	hwText += "\nstep3";
+	hwText += "\na: " + this.rootModle.a
 	hw.innerText = hwText;
-	this.rootModle.a = "4";
+	// this.rootModle.a = "4";
 }

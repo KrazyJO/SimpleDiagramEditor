@@ -1,8 +1,13 @@
 import * as monaco from 'monaco-editor';
 import Debugger from './Debugger';
+// import Transformer from './transformer/Transformer';
+import Diagram2JsonTransformer from './transformer/Diagram2JsonTransformer';
 
 const EA = (window as any).EasyJS;
 const oDebugger = new Debugger();
+
+// const oTransformer = new Transformer();
+const oDiagram2JsonTransformer = new Diagram2JsonTransformer();
 
 //now I understand :)
 const XML: string =
@@ -79,6 +84,10 @@ const modeler = new EA.Modeler({
 	container: '#js-canvas',
 	propertiesPanel: { parent: '#js-properties-panel' }
 });
+
+export function getModeler() {
+	return modeler;
+}
 
 function createNew(preventImport) {
 	if (preventImport)
@@ -219,10 +228,26 @@ export function runCode() {
 }
 
 /**
+ * transforms current diagram moddle object and replaces it with 'rootModle' in application
+ * @param xml diagram xml string
+ */
+function injectModdleBackToApplication(xml: string) {
+	let rootObject = oDiagram2JsonTransformer.transform(xml);
+	if (rootObject) {
+		const prev = <HTMLIFrameElement>document.getElementById('preview');
+		prev.contentWindow["rootModle"] = rootObject;
+	}
+}
+
+/**
  * do the next step in application
  * if no step is ava
  */
 export function btnDoStep() {
+	//update moddle from diagram changes...
+	// modeler.interactWithModdle(oDiagram2JsonTransformer);
+	modeler.interactWithModdle(injectModdleBackToApplication);
+
 	oDebugger.step();
 	if (oDebugger.isRunning()) {
 		update();

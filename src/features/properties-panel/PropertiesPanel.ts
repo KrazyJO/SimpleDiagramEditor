@@ -2,8 +2,11 @@
 import { forEach } from 'min-dash';
 import * as $ from 'jquery';
 import UpdatePropertiesHandler from './cmd/UpdatePropertiesHandler';
+import AddPropertyHandler from './cmd/AddPropertyHandler';
 import { is } from '@utils/ModelUtil';
 import { Base } from 'diagram-ts/model';
+
+
 
 //---------------------CLASS--------------------
 export default class PropertiesPanel {
@@ -16,6 +19,7 @@ export default class PropertiesPanel {
 	//---------------------METHODS---------------------
 	static getCmdHandlers(): any {
 		return {
+			'element.addProperty' : AddPropertyHandler,
 			'element.updateProperties': UpdatePropertiesHandler
 		};
 	}
@@ -52,7 +56,25 @@ export default class PropertiesPanel {
 		if (element.businessObject && element.businessObject.$type !== 'sdedi:SimpleDebugEditorDiagram') {
 			PropertiesPanel.addTitle(panel);
 			this.addProperties(element, panel);
+			this.addAddNewProperty(panel);
+			this.addButtonAddListener($('#addNewProperty'), element);
 		}
+	}
+
+	private addAddNewProperty(panel) : void {
+		let sNewProperty = 
+`<div>
+	<span>add new primitive property</span>
+	<input id="addNewPropertyName" placeholder="name"></input>
+	<select id="addNewPropertyType">
+		<option value="string">string</option>
+		<option value="number">number</option>
+		<option value="boolean">boolean</option>
+	</select>
+	<input placeholder="value" id="addNewPropertyValue"></input>
+	<button id="addNewProperty" type="button">add</button>
+</div>`;
+		panel.append(sNewProperty);
 	}
 
 	private addProperties(element: Base, container): void {
@@ -78,11 +100,10 @@ export default class PropertiesPanel {
 							<label for="${element.id}-member${member.id}-value" class="col-form-label-sm">${member.name}</label>
 						</div>
 						<div class="col-10">
-							<input type="text" class="form-control-sm" id="${element.id}-member${member.id}-value" value="${member.value}">
+							<input type="text" class="form-control-sm" id="${element.id}-member_${element.id}_${member.name}-value" value="${member.value}">
 						</div>
 					</div>  
 				  `
-				//   this.addMemberValListener($('#' + member.id + '-value'), member);
 			});
 			renderedMembers += '</div>';
 		}
@@ -115,8 +136,30 @@ export default class PropertiesPanel {
 		this.addIDListener($('#' + element.id + '-id'), element);
 		this.addNameListener($('#' + element.id + '-name'), element);
 		(members).forEach(member => {
-			this.addMemberValListener($('#' + element.id+'-member'+member.id + '-value'), element, member);
+			this.addMemberValListener($('#' + element.id+'-member'+'_'+element.id+'_'+member.name + '-value'), element, member);
 		});
+	}
+
+	private addButtonAddListener(node, element): void {
+		node.bind({
+			click : () => {
+				// grap informations from panel
+				let ePropName : any = document.getElementById('addNewPropertyName');
+				let ePropValue : any = document.getElementById('addNewPropertyValue');
+				let ePropType : any = document.getElementById('addNewPropertyType');
+				
+				// execute command to add new property
+				this.commandStack.execute('element.addProperty', {
+					node : node,
+					element : element,
+					property : {
+						name : ePropName.value,
+						type : ePropType.selectedOptions[0].value,
+						value : String(ePropValue.value)
+					}
+				});
+			}
+		})
 	}
 	
 	private addMemberValListener(node, element, member) : void {

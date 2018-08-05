@@ -34,9 +34,6 @@ class Transformer {
     private nodeNumber : number;
     private edgeid : number;
 
-    
-
-
     /**
      * transform the object of this class to an xml string
      */
@@ -200,8 +197,16 @@ class Transformer {
     //     return str += '\n';
     // }
 
+    /**
+     * obsolet
+     * @param str sdf
+     */
     public transformDiagramToJson(str : string) : object {
+        // convert str to xml document
+        let xml = (new DOMParser).parseFromString(str, "text/xml");
+        console.log(xml);
         return null;
+        
     }
 
 }
