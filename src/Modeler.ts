@@ -2,7 +2,7 @@
 import '../assets/scss/main.scss';
 import { Viewer } from './Viewer';
 import Transformer from './transformer/Transformer';
-import Diagram2JsonTransformer from 'transformer/Diagram2JsonTransformer';
+// import Diagram2JsonTransformer from 'transformer/Diagram2JsonTransformer';
 
 //---------------------CONSTANTS---------------------
 const DEFAULT_PRIORITY = 1000;
@@ -64,13 +64,13 @@ export class Modeler extends Viewer {
 		  }.bind(this));
 	}
 
-	public interactWithModdle(fn : Diagram2JsonTransformer) : any {
+	public interactWithModdle(fn : Function) : any {
 		this.saveXML({format: true, preable : true}, (error, xml) => {
 			if (!error)
 			{
 				if (fn)
 				{
-					fn.transform(xml);
+					fn(xml);
 				}
 			}
 			else

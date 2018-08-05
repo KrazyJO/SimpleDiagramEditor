@@ -223,13 +223,22 @@ export function runCode() {
 	modeler.clear();
 }
 
+function injectModdleBackToApplication(xml: string) {
+	let rootObject = oDiagram2JsonTransformer.transform(xml);
+	if (rootObject) {
+		const prev = <HTMLIFrameElement>document.getElementById('preview');
+		prev.contentWindow["rootModle"] = rootObject;
+	}
+}
+
 /**
  * do the next step in application
  * if no step is ava
  */
 export function btnDoStep() {
 	//update moddle from diagram changes...
-	modeler.interactWithModdle(oDiagram2JsonTransformer);
+	// modeler.interactWithModdle(oDiagram2JsonTransformer);
+	modeler.interactWithModdle(injectModdleBackToApplication);
 
 	oDebugger.step();
 	if (oDebugger.isRunning()) {
