@@ -8,7 +8,8 @@ interface debugComand {
 
 class Debugger {
 
-    private steps : debugComand[] =  [];
+    private steps : debugComand[] = [];
+    private currentSteps : debugComand[] =  [];
     private editor;
     private decorations;
 
@@ -21,7 +22,7 @@ class Debugger {
      * @param sJsCode the code to run
      */
     public run(sJsCode : string, sHtmlCode : string) : void {
-        this.steps = [];
+        this.currentSteps = [];
         this.disableDebuggerButtons();
         this.injectCode(sJsCode, sHtmlCode);
     }
@@ -62,7 +63,21 @@ class Debugger {
             var linesUntilStart = textBeforeFunctionToDebug.split(/\r\n|\r|\n/).length + 1;
             
             //post message to parent to activate the debugger ;)
-            var sPromise, i = 0, body = "parent.postMessage('debugger:activate', parent.location.origin);", debuggerSteps = [];
+            var sPromise, i = 0, debuggerSteps = [];
+            var activatePromises=
+            `
+            function activatePromises() {
+            `;
+            var body = `
+            
+            var promise = new Promise(function(resolve, reject) {
+                window['firstResponsePromiseResolve'] = resolve;
+            });
+            parent.postMessage('debugger:activate', parent.location.origin);
+            await promise;
+            `;
+            
+
 
             var lineCommands;
             lines.forEach( line => {
@@ -75,12 +90,15 @@ class Debugger {
                         sPromise += `
                         var promiseResolve${i};
                         var promiseReject${i};
-                        
-                        var promise${i} = new Promise(function(resolve, reject){
-                            promiseResolve${i} = resolve;
-                            promiseReject${i} = reject;
-                        });
+                        var promise${i};
                         `;
+                        activatePromises +=
+                        `
+                            promise${i} = new Promise(function(resolve, reject){
+                                promiseResolve${i} = resolve;
+                                promiseReject${i} = reject;
+                            });
+                        `
                         body += `
                         await promise${i};
                         ${command}
@@ -90,6 +108,9 @@ class Debugger {
                 });
             });
 
+            activatePromises += `
+            }
+            `;
             //make function inside application async to play with promises
             sSubstring = 'async function ' + matches[1] + '() {' + body + '}';
 
@@ -97,7 +118,7 @@ class Debugger {
             this.steps = debuggerSteps;
             
             //build together the whole code with debug function
-            sJsCode = sPromise + textBeforeFunctionToDebug + sSubstring + sJsCode.substr(iEnd);
+            sJsCode = sPromise + activatePromises + textBeforeFunctionToDebug + sSubstring + sJsCode.substr(iEnd);
         }
 
         this.injectCode(sJsCode, sHtmlCode);
@@ -105,8 +126,14 @@ class Debugger {
 
     public activate() : void {
         if (this.steps.length) {
+            Object.assign(this.currentSteps, this.steps);
             this.enableDebuggerButtons();
-            this.highlightLine(this.steps[0].line);
+            this.highlightLine(this.currentSteps[0].line);
+            const prev : any = document.getElementById('preview');
+            if (prev) {
+                prev.contentWindow['activatePromises'].call(prev.contentWindow);
+                prev.contentWindow['firstResponsePromiseResolve'].call(prev.contentWindow);
+            }
         }
     }
 
@@ -114,6 +141,9 @@ class Debugger {
      * @param line line number to highlight in editor
      */
     private highlightLine(line : number) {
+        if (line === 0) {
+            line = -1;
+        }
         this.decorations = this.editor.deltaDecorations(this.decorations, [
             { range: new monacoRange(line,1,line,1),
                 options: {
@@ -128,17 +158,17 @@ class Debugger {
      * do one debugger step
      */
     public step() : void {
-        let sFunctionName : debugComand = this.steps.shift();
+        let sFunctionName : debugComand = this.currentSteps.shift();
         if (sFunctionName) {
             this.executeRemote(sFunctionName.command);
-            if (this.steps.length > 0)
+            if (this.currentSteps.length > 0)
             {
-                this.highlightLine(this.steps[0].line);
+                this.highlightLine(this.currentSteps[0].line);
             }
         } 
 
         //was it the last step? disable button
-        if (this.steps.length === 0)
+        if (this.currentSteps.length === 0)
         {
             this.disableDebuggerButtons();
             this.highlightLine(0);
@@ -149,7 +179,7 @@ class Debugger {
      * do all steps
      */
     public runAll() : void {
-        while(this.steps.length) {
+        while(this.currentSteps.length) {
             this.step();
         }
     
@@ -157,14 +187,14 @@ class Debugger {
     }
 
     public isRunning() : boolean {
-        return this.steps.length > 0;
+        return this.currentSteps.length > 0;
     }
 
     /**
      * @param steps array of the steps
      */
     public setSteps(steps : debugComand[]) : void {
-        this.steps = steps;
+        this.currentSteps = steps;
     }
 
     /**
@@ -172,7 +202,7 @@ class Debugger {
      * @param step function name of the step
      */
     public addStep(step : debugComand) : Debugger {
-        this.steps.push(step);
+        this.currentSteps.push(step);
         return this;
     }
 

@@ -48,6 +48,13 @@ function debugFunction() {
 	this.setStep(2);
 	this.setStep(3);
 	this.displayModle();
+	this.afterDebug();
+}
+
+var count = 0;
+function afterDebug() {
+	count++;
+	alert("after: " + count);
 }
 
 function displayModle() {
