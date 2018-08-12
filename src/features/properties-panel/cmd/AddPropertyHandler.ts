@@ -42,7 +42,7 @@ export default class AddPropertyHandler {
 		let factory = new EasyFactory(this.moddle);
 		let member = factory.create('sde:Member', undefined);
 		member.$parent = node;
-		member.name = property.value;
+		member.name = property.name;
 		member.propType = property.type;
 		member.value = property.value;
 
