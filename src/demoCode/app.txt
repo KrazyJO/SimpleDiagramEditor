@@ -39,7 +39,7 @@ window.onload = function () {
 		obj : c
 	};
 	this.rootModle = {b: 12, a: "1", c : c, d : d, e : "eeeee", f : new f(), foo : new Foo()};
-	this.debugFunction()
+	// this.debugFunction()
 }
 
 //@debug

@@ -78,6 +78,15 @@ const XML: string =
 // initResizer(false);
 
 //save the editor reference here for later use!
+
+window.addEventListener('message', function(event) {
+	if (event.data === 'debugger:activate')
+	{
+		oDebugger.activate();
+		console.log(event.data);
+	}
+});
+
 let myEditor : monaco.editor.IStandaloneCodeEditor;
 
 const modeler = new EA.Modeler({

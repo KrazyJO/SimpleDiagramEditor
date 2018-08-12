@@ -62,8 +62,9 @@ class Debugger {
      * @param sJsCode the code to debug
      */
     public debug(sJsCode : string, sHtmlCode : string) : void {
-        this.steps = ['step1', 'step2', 'step3'];
-        this.enableDebuggerButtons();
+        // this.steps = ['step1', 'step2', 'step3'];
+        // this.enableDebuggerButtons();
+        this.disableDebuggerButtons();
 
         var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{([^\}]*]*)}/;
         var matches = regex.exec(sJsCode);
@@ -75,7 +76,7 @@ class Debugger {
             var codeToDebug = matches[2];
             var commands = codeToDebug.replace(/\s/g, '').split(';');
 
-            var sPromise, i = 0, body = "", debuggerSteps = [];
+            var sPromise, i = 0, body = "parent.postMessage('debugger:activate', parent.location.origin);", debuggerSteps = [];
             commands.forEach(command => {
                 if (command) {
                     i++;
@@ -108,6 +109,10 @@ class Debugger {
         }
 
         this.injectCode(sJsCode, sHtmlCode);
+    }
+
+    public activate() : void {
+        this.enableDebuggerButtons();
     }
 
     /**
