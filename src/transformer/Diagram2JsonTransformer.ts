@@ -17,7 +17,7 @@ class Diagram2JsonTransformer {
         this.allObjects = [];
         // convert str to xml document
         let xml = (new DOMParser()).parseFromString(str, "text/xml");
-        console.log(xml);
+        // console.log(xml);
 
         // yes, unessassary. But extendable...
         let node;
@@ -43,7 +43,7 @@ class Diagram2JsonTransformer {
             }
         }
 
-        console.log(this.allObjects);
+        // console.log(this.allObjects);
         //return 
         return this.findNodeWithName('root').obj || null;
     }

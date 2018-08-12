@@ -10,6 +10,47 @@ class Debugger {
         this.steps = ['step1', 'step2', 'step3'];
         
         this.enableDebuggerButtons();
+
+        // var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{([^\}]*]*)}/;
+        // var matches = regex.exec(sJsCode);
+        // if (matches) {
+        //     var iStart : number = sJsCode.indexOf(matches[0]);
+        //     var iEnd : number = iStart + matches[0].length;
+        //     var sSubstring : string = sJsCode.substr(iStart, matches[0].length);
+
+        //     sSubstring = 'function ' + matches[1] + '() {' + '/*new body*/' + '}';
+
+        //     var codeToDebug = matches[2];
+        //     var commands = codeToDebug.replace(/\s/g, '').split(';');
+
+        //     var sPromise, i = 0, body = "", debuggerSteps = [];
+        //     commands.forEach(command => {
+        //         i++;
+        //         sPromise += `
+        //         var promiseResolve${i};
+        //         var promiseReject${i};
+                
+        //         var promise${i} = new Promise(function(resolve, reject){
+        //             promiseResolve${i} = resolve;
+        //             promiseReject${i} = reject;
+        //         });
+        //     `;
+        //     body += `
+        //     await promise${i};
+        //     `
+        //     debuggerSteps.push(`promise${i}`);
+        //     });
+        //     this.steps = debuggerSteps;
+            
+
+        //     sJsCode = sPromise + sJsCode.substr(0, iStart) + sSubstring + sJsCode.substr(iEnd);
+
+            
+        //     console.log(commands);
+        // }
+
+        // console.log(regex);
+
         this.injectCode(sJsCode, sHtmlCode);
         setTimeout(function() {
             this.runAll();
@@ -23,6 +64,49 @@ class Debugger {
     public debug(sJsCode : string, sHtmlCode : string) : void {
         this.steps = ['step1', 'step2', 'step3'];
         this.enableDebuggerButtons();
+
+        var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{([^\}]*]*)}/;
+        var matches = regex.exec(sJsCode);
+        if (matches) {
+            var iStart : number = sJsCode.indexOf(matches[0]);
+            var iEnd : number = iStart + matches[0].length;
+            var sSubstring : string = sJsCode.substr(iStart, matches[0].length);
+
+            var codeToDebug = matches[2];
+            var commands = codeToDebug.replace(/\s/g, '').split(';');
+
+            var sPromise, i = 0, body = "", debuggerSteps = [];
+            commands.forEach(command => {
+                if (command) {
+                    i++;
+                    sPromise += `
+                    var promiseResolve${i};
+                    var promiseReject${i};
+                    
+                    var promise${i} = new Promise(function(resolve, reject){
+                        promiseResolve${i} = resolve;
+                        promiseReject${i} = reject;
+                    });
+                    `;
+                    body += `
+                    await promise${i};
+                    ${command}
+                    `
+                    debuggerSteps.push(`promiseResolve${i}`);
+                }
+            });
+
+            sSubstring = 'async function ' + matches[1] + '() {' + body + '}';
+
+            this.steps = debuggerSteps;
+            
+
+            sJsCode = sPromise + sJsCode.substr(0, iStart) + sSubstring + sJsCode.substr(iEnd);
+
+            
+            console.log(commands);
+        }
+
         this.injectCode(sJsCode, sHtmlCode);
     }
 
@@ -79,7 +163,7 @@ class Debugger {
     private executeRemote(sFunctionName : string) : void {
         const prev : any = document.getElementById('preview');
         if (prev.contentWindow[sFunctionName] && typeof prev.contentWindow[sFunctionName] === "function") {
-            prev.contentWindow[sFunctionName].call(prev.contentWindow);
+            prev.contentWindow[sFunctionName].call(prev.contentWindow[sFunctionName]);
         }
     }
 
