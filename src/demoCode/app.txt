@@ -1,5 +1,7 @@
 // Press F4 to run your code!
 
+
+// convention: classes has to be created here
 class f {
 	constructor() {
 		this.str = "f";
@@ -21,6 +23,7 @@ let Foo = function () {
 	this.b = 42;
 };
 
+// initialize application in window.onload
 window.onload = function () {
 
 	// let bar = new Bar()
@@ -36,24 +39,22 @@ window.onload = function () {
 		obj : c
 	};
 	this.rootModle = {b: 12, a: "1", c : c, d : d, e : "eeeee", f : new f(), foo : new Foo()};
+	// this.debugFunction()
 }
 
-function step1() {
-	this.setStep(1);
-
-	this.displayModle();
-}
-
-function step2() {
+//@debug
+function debugFunction() {
+	this.setStep(1);this.setStep(5);
 	this.setStep(2);
-
+	this.setStep(3);
 	this.displayModle();
+	this.afterDebug();
 }
 
-function step3() {
-	this.setStep(3);
-
-	this.displayModle();
+var count = 0;
+function afterDebug() {
+	count++;
+	alert("after: " + count);
 }
 
 function displayModle() {

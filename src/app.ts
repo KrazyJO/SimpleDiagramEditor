@@ -4,7 +4,7 @@ import Debugger from './Debugger';
 import Diagram2JsonTransformer from './transformer/Diagram2JsonTransformer';
 
 const EA = (window as any).EasyJS;
-const oDebugger = new Debugger();
+
 
 // const oTransformer = new Transformer();
 const oDiagram2JsonTransformer = new Diagram2JsonTransformer();
@@ -78,11 +78,23 @@ const XML: string =
 // initResizer(false);
 
 //save the editor reference here for later use!
+
 let myEditor : monaco.editor.IStandaloneCodeEditor;
+const oDebugger = new Debugger();
 
 const modeler = new EA.Modeler({
 	container: '#js-canvas',
 	propertiesPanel: { parent: '#js-properties-panel' }
+});
+
+
+//function to activate the debugger
+window.addEventListener('message', function(event) {
+	if (event.data === 'debugger:activate')
+	{
+		oDebugger.activate();
+		console.log(event.data);
+	}
 });
 
 export function getModeler() {
@@ -106,8 +118,8 @@ function createNew(preventImport) {
 }
 
 // let steps = [];
-let breakpoints : number[] = [];
-let decorations : any = [];
+// let breakpoints : number[] = [];
+// let decorations : any = [];
 
 $(document).ready(function () {
 	createNew(true);
@@ -127,40 +139,41 @@ $(document).ready(function () {
 			runCode();
 		}, '');
 
+		oDebugger.setEditor(myEditor);
 		// add mouse event to register set or unset breakpoints
-		myEditor.onMouseDown((evt) => {
-			// here we can set or unset breakpoints
-			if (evt.target.toString().startsWith('GUTTER_GLYPH_MARGIN:'))
-			{
-				//https://microsoft.github.io/monaco-editor/playground.html#interacting-with-the-editor-rendering-glyphs-in-the-margin
-				let lineNumber = evt.target.range.startLineNumber;
-				let indexOfBreakPoint = breakpoints.indexOf(lineNumber);
-				let cssClass = "";
-				if (indexOfBreakPoint >= 0) {
-					// remove breakpoint
-					breakpoints.splice(indexOfBreakPoint, 1);
-				} else {
-					// add new breakpoint
-					breakpoints.push(lineNumber);
-					cssClass = "myGlyphMarginClass"
-				}
+		// myEditor.onMouseDown((evt) => {
+		// 	// here we can set or unset breakpoints
+		// 	if (evt.target.toString().startsWith('GUTTER_GLYPH_MARGIN:'))
+		// 	{
+		// 		//https://microsoft.github.io/monaco-editor/playground.html#interacting-with-the-editor-rendering-glyphs-in-the-margin
+		// 		let lineNumber = evt.target.range.startLineNumber;
+		// 		let indexOfBreakPoint = breakpoints.indexOf(lineNumber);
+		// 		let cssClass = "";
+		// 		if (indexOfBreakPoint >= 0) {
+		// 			// remove breakpoint
+		// 			breakpoints.splice(indexOfBreakPoint, 1);
+		// 		} else {
+		// 			// add new breakpoint
+		// 			breakpoints.push(lineNumber);
+		// 			cssClass = "myGlyphMarginClass"
+		// 		}
 
-				// build new list of all decorations
-				let decorationList : any = [];
-				breakpoints.forEach((breakpoint) => {
-					decorationList.push({
-						range: new monaco.Range(breakpoint,1,breakpoint,1),
-						options: {
-							isWholeLine: false,
-							glyphMarginClassName: lineNumber === breakpoint ? cssClass : 'myGlyphMarginClass'
-						}
-					})
-				});
+		// 		// build new list of all decorations
+		// 		let decorationList : any = [];
+		// 		breakpoints.forEach((breakpoint) => {
+		// 			decorationList.push({
+		// 				range: new monaco.Range(breakpoint,1,breakpoint,1),
+		// 				options: {
+		// 					isWholeLine: false,
+		// 					glyphMarginClassName: lineNumber === breakpoint ? cssClass : 'myGlyphMarginClass'
+		// 				}
+		// 			})
+		// 		});
 				
-				// set the list to the editor
-				decorations = myEditor.deltaDecorations(decorations, decorationList);
-			}
-		});
+		// 		// set the list to the editor
+		// 		decorations = myEditor.deltaDecorations(decorations, decorationList);
+		// 	}
+		// });
 	}
 
 });

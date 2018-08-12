@@ -76,7 +76,7 @@ export class Modeler extends Viewer {
 			else
 			{
 				console.error("this xml was not good!");
-				console.log(error);
+				// console.log(error);
 			}
 		});
 	}
