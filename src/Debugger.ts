@@ -44,10 +44,12 @@ class Debugger {
         this.disableDebuggerButtons();
         this.decorations = [];
 
-        var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{\s*([^\}]*]*)}/;
+        //sJsCode.match(regex) would deliver all matches (more than one function)
+
+        var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{\s*([^\}]*]*)}/g;
         var matches = regex.exec(sJsCode);
         if (matches) {
-            var iStart : number = sJsCode.indexOf(matches[0]);
+            var iStart : number = matches.index;
             var iEnd : number = iStart + matches[0].length;
             var sSubstring : string = sJsCode.substr(iStart, matches[0].length);
 
