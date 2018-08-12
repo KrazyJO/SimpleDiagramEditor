@@ -7,76 +7,41 @@ class Debugger {
      * @param sJsCode the code to run
      */
     public run(sJsCode : string, sHtmlCode : string) : void {
-        this.steps = ['step1', 'step2', 'step3'];
-        
-        this.enableDebuggerButtons();
-
-        // var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{([^\}]*]*)}/;
-        // var matches = regex.exec(sJsCode);
-        // if (matches) {
-        //     var iStart : number = sJsCode.indexOf(matches[0]);
-        //     var iEnd : number = iStart + matches[0].length;
-        //     var sSubstring : string = sJsCode.substr(iStart, matches[0].length);
-
-        //     sSubstring = 'function ' + matches[1] + '() {' + '/*new body*/' + '}';
-
-        //     var codeToDebug = matches[2];
-        //     var commands = codeToDebug.replace(/\s/g, '').split(';');
-
-        //     var sPromise, i = 0, body = "", debuggerSteps = [];
-        //     commands.forEach(command => {
-        //         i++;
-        //         sPromise += `
-        //         var promiseResolve${i};
-        //         var promiseReject${i};
-                
-        //         var promise${i} = new Promise(function(resolve, reject){
-        //             promiseResolve${i} = resolve;
-        //             promiseReject${i} = reject;
-        //         });
-        //     `;
-        //     body += `
-        //     await promise${i};
-        //     `
-        //     debuggerSteps.push(`promise${i}`);
-        //     });
-        //     this.steps = debuggerSteps;
-            
-
-        //     sJsCode = sPromise + sJsCode.substr(0, iStart) + sSubstring + sJsCode.substr(iEnd);
-
-            
-        //     console.log(commands);
-        // }
-
-        // console.log(regex);
-
+        this.steps = [];
+        this.disableDebuggerButtons();
         this.injectCode(sJsCode, sHtmlCode);
-        setTimeout(function() {
-            this.runAll();
-        }.bind(this),500);
     }
 
     /**
      * debugs the application
-     * @param sJsCode the code to debug
+     * Functions can be debugged, the function itself will be async.
+     * Before each command, the application awaits a promise -> so we can
+     * stop inside the application. The body of the function to debug 
+     * will be replaced with this promise-stoped execution.
+     * LIMITATIONS:
+     * The Body of the function to debug may not contain '}'.
+     * Because of this, loops and other functions using this character are not allowed
+     * @param {string} sJsCode the code to debug
+     * @param {string} sHtmlCode the html code to inject
      */
     public debug(sJsCode : string, sHtmlCode : string) : void {
-        // this.steps = ['step1', 'step2', 'step3'];
-        // this.enableDebuggerButtons();
+        //button will be enabled when function to debug is called
         this.disableDebuggerButtons();
 
-        var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{([^\}]*]*)}/;
+        var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{\s*([^\}]*]*)}/;
         var matches = regex.exec(sJsCode);
         if (matches) {
             var iStart : number = sJsCode.indexOf(matches[0]);
             var iEnd : number = iStart + matches[0].length;
             var sSubstring : string = sJsCode.substr(iStart, matches[0].length);
 
+            //codeToDebug is the body of the function
             var codeToDebug = matches[2];
             var commands = codeToDebug.replace(/\s/g, '').split(';');
 
+            //post message to parent to activate the debugger ;)
             var sPromise, i = 0, body = "parent.postMessage('debugger:activate', parent.location.origin);", debuggerSteps = [];
+            //create one promise per command
             commands.forEach(command => {
                 if (command) {
                     i++;
@@ -97,15 +62,14 @@ class Debugger {
                 }
             });
 
+            //make function inside application async to play with promises
             sSubstring = 'async function ' + matches[1] + '() {' + body + '}';
 
+            //set the steps to execute to let code run
             this.steps = debuggerSteps;
             
-
+            //build together the whole code with debug function
             sJsCode = sPromise + sJsCode.substr(0, iStart) + sSubstring + sJsCode.substr(iEnd);
-
-            
-            console.log(commands);
         }
 
         this.injectCode(sJsCode, sHtmlCode);

@@ -44,7 +44,7 @@ window.onload = function () {
 
 //@debug
 function debugFunction() {
-	this.setStep(1);
+	this.setStep(1);this.setStep(5);
 	this.setStep(2);
 	this.setStep(3);
 	this.displayModle();
