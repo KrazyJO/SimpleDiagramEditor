@@ -89,12 +89,14 @@ class Diagram2JsonTransformer {
             name : node.getAttribute('name')
         };
 
-        if (node.getAttribute("class") === 'Object') {
+        let sClass = node.getAttribute("class")
+
+        if (sClass === 'Object' || sClass === null) {
             obj.obj = {};
         } else {
             // baaaad....
             var prev = <any>document.getElementById('preview');
-            let createdObject = prev.contentWindow.eval('new ' + node.getAttribute("class"));
+            let createdObject = prev.contentWindow.eval('new ' + sClass);
             if (createdObject) {
                 obj.obj = createdObject;
             } else {

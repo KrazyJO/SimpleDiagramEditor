@@ -76,8 +76,8 @@
     "mocha": "^5.2.0",
     "moddle": "4.1.0",
     "moddle-xml": "^7.2.3",
-    "monaco-editor": "^0.13.1",
-    "monaco-editor-webpack-plugin": "^1.2.1",
+    "monaco-editor": "^0.14.2",
+    "monaco-editor-webpack-plugin": "^1.5.1",
     "object-refs": "^0.1.1",
     "path-intersection": "1.0.2",
     "tiny-svg": "^2.0.0"

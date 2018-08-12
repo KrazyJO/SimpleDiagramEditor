@@ -36,6 +36,13 @@ export default class EasyModdle extends Moddle {
 	public toXML(element: any, options = {}, done: (event: any, result?: any) => void = () => {}): void {
 		const writer = new XMLWriter(options);
 		try {
+			element.myEdges.forEach((edge) => {
+				if (edge.src) {
+					edge.sourceNode = edge.src;
+					edge.targetNode = edge.tgt;
+				}
+
+			});
 			const result = writer.toXML(element);
 			done(null, result);
 			console.log(result);
