@@ -50,24 +50,6 @@ function debugFunction() {
 	this.displayModle();
 }
 
-// function step1() {
-// 	this.setStep(1);
-
-// 	this.displayModle();
-// }
-
-// function step2() {
-// 	this.setStep(2);
-
-// 	this.displayModle();
-// }
-
-// function step3() {
-// 	this.setStep(3);
-
-// 	this.displayModle();
-// }
-
 function displayModle() {
 	let modleString = this.printObject(this.rootModle);
 	const printedModle = document.getElementById('printedModle');

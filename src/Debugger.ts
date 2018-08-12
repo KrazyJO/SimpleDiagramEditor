@@ -1,7 +1,21 @@
+import {Range as monacoRange} from 'monaco-editor';
+
+
+interface debugComand {
+    line : number
+    command : string
+}
+
 class Debugger {
 
-    private steps : string[] =  [];
+    private steps : debugComand[] =  [];
+    private editor;
+    private decorations;
 
+
+    public setEditor(editor) {
+        this.editor = editor;
+    }
     /**
      * runs the whole application, no steps!
      * @param sJsCode the code to run
@@ -27,6 +41,7 @@ class Debugger {
     public debug(sJsCode : string, sHtmlCode : string) : void {
         //button will be enabled when function to debug is called
         this.disableDebuggerButtons();
+        this.decorations = [];
 
         var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{\s*([^\}]*]*)}/;
         var matches = regex.exec(sJsCode);
@@ -89,22 +104,44 @@ class Debugger {
     }
 
     public activate() : void {
-        this.enableDebuggerButtons();
+        if (this.steps.length) {
+            this.enableDebuggerButtons();
+            this.highlightLine(this.steps[0].line);
+        }
+    }
+
+    /**
+     * @param line line number to highlight in editor
+     */
+    private highlightLine(line : number) {
+        this.decorations = this.editor.deltaDecorations(this.decorations, [
+            { range: new monacoRange(line,1,line,1),
+                options: {
+                    isWholeLine: true,
+                    className: 'myContentClass'
+                }
+            }
+        ]);
     }
 
     /**
      * do one debugger step
      */
     public step() : void {
-        let sFunctionName : any = this.steps.shift();
+        let sFunctionName : debugComand = this.steps.shift();
         if (sFunctionName) {
             this.executeRemote(sFunctionName.command);
+            if (this.steps.length > 0)
+            {
+                this.highlightLine(this.steps[0].line);
+            }
         } 
 
         //was it the last step? disable button
         if (this.steps.length === 0)
         {
             this.disableDebuggerButtons();
+            this.highlightLine(0);
         }
     }
 
@@ -112,14 +149,11 @@ class Debugger {
      * do all steps
      */
     public runAll() : void {
-        for (let i = 0; i < this.steps.length; i++)
-        {
-            this.executeRemote(this.steps[i]);
+        while(this.steps.length) {
+            this.step();
         }
     
         this.disableDebuggerButtons();
-    
-        this.steps = [];
     }
 
     public isRunning() : boolean {
@@ -129,7 +163,7 @@ class Debugger {
     /**
      * @param steps array of the steps
      */
-    public setSteps(steps : string[]) : void {
+    public setSteps(steps : debugComand[]) : void {
         this.steps = steps;
     }
 
@@ -137,7 +171,7 @@ class Debugger {
      * adds one step on the step-stack
      * @param step function name of the step
      */
-    public addStep(step : string) : Debugger {
+    public addStep(step : debugComand) : Debugger {
         this.steps.push(step);
         return this;
     }
