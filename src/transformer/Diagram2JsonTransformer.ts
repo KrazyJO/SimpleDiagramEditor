@@ -53,9 +53,17 @@ class Diagram2JsonTransformer {
         let targetNodeId = node.getAttribute('targetNode');
         //find source
         let sourceNode = this.findNodeWithId(sourceNodeId);
+        if (!sourceNode) {
+            console.log("fehler hier");
+            return;
+        }
 
         //find target
         let targetNode = this.findNodeWithId(targetNodeId);
+        if (!targetNode) {
+            console.log("fehler hier");
+            return;
+        }
 
         //add targetNode as property in sourceNode with its name
         sourceNode.obj[targetNode.name] = targetNode.obj;
@@ -89,12 +97,14 @@ class Diagram2JsonTransformer {
             name : node.getAttribute('name')
         };
 
-        if (node.getAttribute("class") === 'Object') {
+        let sClass = node.getAttribute("class")
+
+        if (sClass === 'Object' || sClass === null) {
             obj.obj = {};
         } else {
             // baaaad....
             var prev = <any>document.getElementById('preview');
-            let createdObject = prev.contentWindow.eval('new ' + node.getAttribute("class"));
+            let createdObject = prev.contentWindow.eval('new ' + sClass);
             if (createdObject) {
                 obj.obj = createdObject;
             } else {

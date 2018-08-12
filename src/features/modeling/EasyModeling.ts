@@ -18,7 +18,10 @@ export default class EasyModeling extends Modeling {
 			attrs = this.easyRules.canConnect(source, target);
 		}
 		if (attrs) {
-			return super.createConnection(source, target, attrs, source.parent, hints);
+			var connection = super.createConnection(source, target, attrs, source.parent, hints);
+			// connection.setAttribute("sourceNode", source.businessObject.id);
+			// connection
+			return connection;
 		}
 		return;
 	}

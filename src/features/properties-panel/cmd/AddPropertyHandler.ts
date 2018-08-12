@@ -19,6 +19,11 @@ export default class AddPropertyHandler {
 		}
 		
 		let found = false;
+		// on new properties members array do not exist
+		if (!element.businessObject.members)
+		{
+			element.businessObject.members = [];
+		}
 		for (let i = 0; i < element.businessObject.members.length; i++) {
 			if (element.businessObject.members[i].name === property.name) {
 				found = true;
