@@ -35,31 +35,44 @@ class Debugger {
             var iEnd : number = iStart + matches[0].length;
             var sSubstring : string = sJsCode.substr(iStart, matches[0].length);
 
+            const textBeforeFunctionToDebug = sJsCode.substr(0, iStart);
+
             //codeToDebug is the body of the function
             var codeToDebug = matches[2];
-            var commands = codeToDebug.replace(/\s/g, '').split(';');
+            // var commands = codeToDebug.replace(/\s/g, '').split(';');
 
+            //we just want to split \n to get the lines for code highlighting
+            var lines = codeToDebug.replace(/\t/g, '').replace(/\r/g,'').split(/\n/);
+
+            var linesUntilStart = textBeforeFunctionToDebug.split(/\r\n|\r|\n/).length + 1;
+            
             //post message to parent to activate the debugger ;)
             var sPromise, i = 0, body = "parent.postMessage('debugger:activate', parent.location.origin);", debuggerSteps = [];
-            //create one promise per command
-            commands.forEach(command => {
-                if (command) {
-                    i++;
-                    sPromise += `
-                    var promiseResolve${i};
-                    var promiseReject${i};
-                    
-                    var promise${i} = new Promise(function(resolve, reject){
-                        promiseResolve${i} = resolve;
-                        promiseReject${i} = reject;
-                    });
-                    `;
-                    body += `
-                    await promise${i};
-                    ${command}
-                    `
-                    debuggerSteps.push(`promiseResolve${i}`);
-                }
+
+            var lineCommands;
+            lines.forEach( line => {
+                linesUntilStart++;
+                lineCommands = line.split(';');
+                //create one promise per command
+                lineCommands.forEach(command => {
+                    if (command) {
+                        i++;
+                        sPromise += `
+                        var promiseResolve${i};
+                        var promiseReject${i};
+                        
+                        var promise${i} = new Promise(function(resolve, reject){
+                            promiseResolve${i} = resolve;
+                            promiseReject${i} = reject;
+                        });
+                        `;
+                        body += `
+                        await promise${i};
+                        ${command}
+                        `
+                        debuggerSteps.push({line: linesUntilStart, command: `promiseResolve${i}`});
+                    }
+                });
             });
 
             //make function inside application async to play with promises
@@ -69,7 +82,7 @@ class Debugger {
             this.steps = debuggerSteps;
             
             //build together the whole code with debug function
-            sJsCode = sPromise + sJsCode.substr(0, iStart) + sSubstring + sJsCode.substr(iEnd);
+            sJsCode = sPromise + textBeforeFunctionToDebug + sSubstring + sJsCode.substr(iEnd);
         }
 
         this.injectCode(sJsCode, sHtmlCode);
@@ -83,9 +96,9 @@ class Debugger {
      * do one debugger step
      */
     public step() : void {
-        let sFunctionName : string = this.steps.shift();
+        let sFunctionName : any = this.steps.shift();
         if (sFunctionName) {
-            this.executeRemote(sFunctionName);
+            this.executeRemote(sFunctionName.command);
         } 
 
         //was it the last step? disable button
