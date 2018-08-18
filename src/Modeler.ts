@@ -98,4 +98,13 @@ export class Modeler extends Viewer {
 			}
 		});
 	}
+
+	public updateFromIframeModel() {
+        const prev = <HTMLIFrameElement>document.getElementById('preview');
+        let rootModle = prev.contentWindow["rootModle"];
+        if (rootModle)
+        {
+            this.importFromJsonObject(rootModle);
+        }
+    }
 }

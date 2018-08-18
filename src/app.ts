@@ -87,6 +87,7 @@ const modeler = new EA.Modeler({
 	propertiesPanel: { parent: '#js-properties-panel' }
 });
 
+oDebugger.setModeler(modeler);
 
 //function to activate the debugger
 window.addEventListener('message', function(event) {
@@ -177,15 +178,6 @@ export function monacoJs() {
 	monaco.editor.setModelLanguage(myEditor.getModel(), 'javascript');
 }
 
-export function update() {
-	const prev = <HTMLIFrameElement>document.getElementById('preview');
-	let rootModle = prev.contentWindow["rootModle"];
-	if (rootModle)
-	{
-		modeler.importFromJsonObject(rootModle);
-	}
-}
-
 export function getModel() {
 	modeler.getModdel();
 }
@@ -238,7 +230,7 @@ export async function btnDoStep() {
 		} else {
 			//update moddle from diagram changes...
 			oDebugger.enableDebuggerButtons();
-			update();
+			modeler.updateFromIframeModel();
 		
 		}
 	},100);
@@ -261,9 +253,7 @@ export function btnDebugCode() {
 
 
 	oDebugger.debug(editorJsContent.editorValue, editorHtmlContent.editorValue);
-	if (oDebugger.isRunning()) {
-		update();
-	} else {
+	if (!oDebugger.isRunning()) {
 		modeler.clear();
 	}
 }
