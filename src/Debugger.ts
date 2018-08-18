@@ -268,7 +268,7 @@ class Debugger {
         btnRunAll.disabled = true;
 
         let btnDownloadModel : any = $('#btnDownloadModel')[0];
-        btnDownloadModel.disabled = false;
+        btnDownloadModel.disabled = true;
     }
 
 
