@@ -8,6 +8,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
     mode : "development",
@@ -28,6 +29,18 @@ const config = {
         devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },
     devtool: 'inline-source-map',
+    optimization : {
+        minimize : false,
+        minimizer : [
+            new UglifyJsPlugin({
+                parallel: true,
+                uglifyOptions: {
+                    ie8: false,
+                    ecma: 8
+                }
+            })
+        ]
+    },
     module: {
         rules: [
             {
@@ -101,16 +114,9 @@ const config = {
 
 // Check if build is running in production mode, then change the sourcemap type
 if (process.env.NODE_ENV === 'production') {
-    // console.log('production mode run UglifyJsPlugin');
-    // config.mode = "production";
-    // config.devtool = ''; // No sourcemap for production
-    // config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    //     parallel: true,
-    //     uglifyOptions: {
-    //         ie8: false,
-    //         ecma: 8
-    //     }
-    // }));
+    config.mode = "production";
+    config.devtool = ''; // No sourcemap for production
+    config.optimization.minimize = true;
 }
 
 module.exports = config;

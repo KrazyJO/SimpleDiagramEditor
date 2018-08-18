@@ -10,7 +10,7 @@
     "webpack": "webpack --mode production",
     "obsolet-webpack:dev": "cross-env NODE_ENV=development --mode=development webpack-dev-server --progress --profile --port=9060",
     "webpack:dev": "webpack-dev-server --progress --profile --port=9060 --mode=development",
-    "webpack:prod": "webpack --mode=production",
+    "webpack:prod": "cross-env NODE_ENV=production webpack --mode=production",
     "test": "karma start"
   },
   "devDependencies": {
@@ -24,6 +24,7 @@
     "browser-sync-webpack-plugin": "^2.2.2",
     "chai": "^4.1.2",
     "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
