@@ -178,8 +178,15 @@ export function monacoJs() {
 	monaco.editor.setModelLanguage(myEditor.getModel(), 'javascript');
 }
 
-export function getModel() {
+export async function downloadModel() {
 	modeler.getModdel();
+	var anchor = document.createElement('a');
+	var xmlstring = await modeler.getModdel();
+	var content = "data:application/octet-stream;charset=utf-16le;base64,"+ btoa(xmlstring);
+	anchor.setAttribute("href", content);
+	document.body.appendChild(anchor);
+	anchor.click();
+	document.body.removeChild(anchor);
 }
 
 

@@ -255,6 +255,9 @@ class Debugger {
 
         let btnRunAll : any = $('#btnRunAll')[0];
         btnRunAll.disabled = false;
+
+        let btnDownloadModel : any = $('#btnDownloadModel')[0];
+        btnDownloadModel.disabled = false;
     }
 
     public disableDebuggerButtons() {
@@ -263,6 +266,9 @@ class Debugger {
 
         let btnRunAll : any = $('#btnRunAll')[0];
         btnRunAll.disabled = true;
+
+        let btnDownloadModel : any = $('#btnDownloadModel')[0];
+        btnDownloadModel.disabled = false;
     }
 
 

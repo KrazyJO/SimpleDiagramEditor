@@ -85,18 +85,23 @@ export class Modeler extends Viewer {
 		return p;
 	}
 
-	public getModdel() : any {
-		this.saveXML({format: true, preable : true}, (error, xml) => {
-			if (!error)
-			{
-				console.log(xml);
-			}
-			else
-			{
-				console.error("this xml was not good!");
-				console.log(error);
-			}
+	public async getModdel() {
+		var p = new Promise((resolve, reject) => {
+			this.saveXML({format: true, preable : true}, (error, xml) => {
+				if (!error)
+				{
+					resolve(xml);
+				}
+				else
+				{
+					console.error("this xml was not good!");
+					console.log(error);
+					reject();
+				}
+			});
 		});
+
+		return p;
 	}
 
 	public updateFromIframeModel() {
