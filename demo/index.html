@@ -20,8 +20,7 @@
         <div class="row" style="height: 50px;" id="buttonPane">
             <button type="button" class="sd-app-button btn btn-success" onclick="app.runCode()">runCode()</button>
             <button type="button" class="sd-app-button btn btn-danger" onclick="app.btnDebugCode()">debugCode()</button>
-            <button type="button" class="sd-app-button btn btn-primary" onclick="app.updateDiagram()">updateDiagram()</button>
-            <button type="button" class="sd-app-button btn btn-primary" onclick="app.getModel()">getModel()</button>
+            <button type="button" class="sd-app-button btn btn-primary" id="btnDownloadModel" onclick="app.downloadModel()" disabled="true">download model</button>
             <button type="button" class="sd-app-button btn btn-warning" id="btnStep" onclick="app.btnDoStep()" disabled="true">btnDoStep()</button>
             <button type="button" class="sd-app-button btn btn-warning" id="btnRunAll" onclick="app.btnRunAll()" disabled="true">runAll()</button>
             <button type="button" onclick="app.monacoHtml()">html</button>

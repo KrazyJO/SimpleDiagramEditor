@@ -12,11 +12,17 @@ class Debugger {
     private currentSteps : debugComand[] =  [];
     private editor;
     private decorations;
+    private modeler;
 
 
     public setEditor(editor) {
         this.editor = editor;
     }
+
+    public setModeler(modeler) {
+        this.modeler = modeler;
+    }
+
     /**
      * runs the whole application, no steps!
      * @param sJsCode the code to run
@@ -136,6 +142,7 @@ class Debugger {
                 prev.contentWindow['activatePromises'].call(prev.contentWindow);
                 prev.contentWindow['firstResponsePromiseResolve'].call(prev.contentWindow);
             }
+            this.modeler.updateFromIframeModel();
         }
     }
 
@@ -242,20 +249,26 @@ class Debugger {
         }
     }
 
-    private enableDebuggerButtons() {
+    public enableDebuggerButtons() {
         let btn : any = $('#btnStep')[0];
         btn.disabled = false;
 
         let btnRunAll : any = $('#btnRunAll')[0];
         btnRunAll.disabled = false;
+
+        let btnDownloadModel : any = $('#btnDownloadModel')[0];
+        btnDownloadModel.disabled = false;
     }
 
-    private disableDebuggerButtons() {
+    public disableDebuggerButtons() {
         let btn : any = $('#btnStep')[0];
         btn.disabled = true;
 
         let btnRunAll : any = $('#btnRunAll')[0];
         btnRunAll.disabled = true;
+
+        let btnDownloadModel : any = $('#btnDownloadModel')[0];
+        btnDownloadModel.disabled = false;
     }
 
 

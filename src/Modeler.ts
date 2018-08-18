@@ -64,34 +64,52 @@ export class Modeler extends Viewer {
 		  }.bind(this));
 	}
 
-	public interactWithModdle(fn : Function) : any {
-		this.saveXML({format: true, preable : true}, (error, xml) => {
-			if (!error)
-			{
-				if (fn)
+	public interactWithModdle(fn : Function)  {
+		var p = new Promise((resolve, reject) => {
+			this.saveXML({format: true, preable : true}, (error, xml) => {
+				if (!error)
 				{
-					fn(xml);
+					if (fn)
+					{
+						fn(xml);
+					}
 				}
-			}
-			else
-			{
-				console.error("this xml was not good!");
-				// console.log(error);
-			}
+				else
+				{
+					console.error("this xml was not good!");
+					// console.log(error);
+				}
+				resolve();
+			});
 		});
+		return p;
 	}
 
-	public getModdel() : any {
-		this.saveXML({format: true, preable : true}, (error, xml) => {
-			if (!error)
-			{
-				console.log(xml);
-			}
-			else
-			{
-				console.error("this xml was not good!");
-				console.log(error);
-			}
+	public async getModdel() {
+		var p = new Promise((resolve, reject) => {
+			this.saveXML({format: true, preable : true}, (error, xml) => {
+				if (!error)
+				{
+					resolve(xml);
+				}
+				else
+				{
+					console.error("this xml was not good!");
+					console.log(error);
+					reject();
+				}
+			});
 		});
+
+		return p;
 	}
+
+	public updateFromIframeModel() {
+        const prev = <HTMLIFrameElement>document.getElementById('preview');
+        let rootModle = prev.contentWindow["rootModle"];
+        if (rootModle)
+        {
+            this.importFromJsonObject(rootModle);
+        }
+    }
 }

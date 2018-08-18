@@ -87,6 +87,7 @@ const modeler = new EA.Modeler({
 	propertiesPanel: { parent: '#js-properties-panel' }
 });
 
+oDebugger.setModeler(modeler);
 
 //function to activate the debugger
 window.addEventListener('message', function(event) {
@@ -117,16 +118,14 @@ function createNew(preventImport) {
 	});
 }
 
-// let steps = [];
-// let breakpoints : number[] = [];
-// let decorations : any = [];
-
 $(document).ready(function () {
 	createNew(true);
 	const editorContainer = document.getElementById('editor');
 	if (editorContainer) {
-		let demoCodeJs = require('./demoCode/app.txt');
-		let demoCodeHtml = require('./demoCode/html.txt');
+		// let demoCodeJs = require('./demoCode/app.txt');
+		// let demoCodeHtml = require('./demoCode/html.txt');
+		let demoCodeJs = require('./demoCode/bbqapp.txt');
+		let demoCodeHtml = require('./demoCode/bbqhtml.txt');
 		editorJsContent.editorValue = demoCodeJs;
 		editorHtmlContent.editorValue = demoCodeHtml;
 		myEditor = monaco.editor.create(editorContainer, {
@@ -140,40 +139,6 @@ $(document).ready(function () {
 		}, '');
 
 		oDebugger.setEditor(myEditor);
-		// add mouse event to register set or unset breakpoints
-		// myEditor.onMouseDown((evt) => {
-		// 	// here we can set or unset breakpoints
-		// 	if (evt.target.toString().startsWith('GUTTER_GLYPH_MARGIN:'))
-		// 	{
-		// 		//https://microsoft.github.io/monaco-editor/playground.html#interacting-with-the-editor-rendering-glyphs-in-the-margin
-		// 		let lineNumber = evt.target.range.startLineNumber;
-		// 		let indexOfBreakPoint = breakpoints.indexOf(lineNumber);
-		// 		let cssClass = "";
-		// 		if (indexOfBreakPoint >= 0) {
-		// 			// remove breakpoint
-		// 			breakpoints.splice(indexOfBreakPoint, 1);
-		// 		} else {
-		// 			// add new breakpoint
-		// 			breakpoints.push(lineNumber);
-		// 			cssClass = "myGlyphMarginClass"
-		// 		}
-
-		// 		// build new list of all decorations
-		// 		let decorationList : any = [];
-		// 		breakpoints.forEach((breakpoint) => {
-		// 			decorationList.push({
-		// 				range: new monaco.Range(breakpoint,1,breakpoint,1),
-		// 				options: {
-		// 					isWholeLine: false,
-		// 					glyphMarginClassName: lineNumber === breakpoint ? cssClass : 'myGlyphMarginClass'
-		// 				}
-		// 			})
-		// 		});
-				
-		// 		// set the list to the editor
-		// 		decorations = myEditor.deltaDecorations(decorations, decorationList);
-		// 	}
-		// });
 	}
 
 });
@@ -213,17 +178,15 @@ export function monacoJs() {
 	monaco.editor.setModelLanguage(myEditor.getModel(), 'javascript');
 }
 
-export function update() {
-	const prev = <HTMLIFrameElement>document.getElementById('preview');
-	let rootModle = prev.contentWindow["rootModle"];
-	if (rootModle)
-	{
-		modeler.importFromJsonObject(rootModle);
-	}
-}
-
-export function getModel() {
+export async function downloadModel() {
 	modeler.getModdel();
+	var anchor = document.createElement('a');
+	var xmlstring = await modeler.getModdel();
+	var content = "data:application/octet-stream;charset=utf-16le;base64,"+ btoa(xmlstring);
+	anchor.setAttribute("href", content);
+	document.body.appendChild(anchor);
+	anchor.click();
+	document.body.removeChild(anchor);
 }
 
 
@@ -250,26 +213,39 @@ function injectModdleBackToApplication(xml: string) {
 		const prev = <HTMLIFrameElement>document.getElementById('preview');
 		prev.contentWindow["rootModle"] = rootObject;
 	}
+
 }
 
 /**
  * do the next step in application
  * if no step is ava
  */
-export function btnDoStep() {
-	//update moddle from diagram changes...
-	// modeler.interactWithModdle(oDiagram2JsonTransformer);
-	modeler.interactWithModdle(injectModdleBackToApplication);
-
+export async function btnDoStep() {
+	oDebugger.disableDebuggerButtons();
+	
+	//interact and step runs asyc :(
+	await modeler.interactWithModdle(injectModdleBackToApplication);
 	oDebugger.step();
-	if (oDebugger.isRunning()) {
-		update();
-	} else {
-		modeler.clear();
-	}
+
+	//cannot catch proise resolve from within iframe
+	//so this is an ugly solution, but it works :(
+	setTimeout(function() {
+
+		if (!oDebugger.isRunning()) {
+			//clear after all steps are done
+			modeler.clear();
+		} else {
+			//update moddle from diagram changes...
+			oDebugger.enableDebuggerButtons();
+			modeler.updateFromIframeModel();
+		
+		}
+	},100);
+	
 }
 
-export function btnRunAll() {
+export async function btnRunAll() {
+	await modeler.interactWithModdle(injectModdleBackToApplication);
 	oDebugger.runAll();
 	modeler.clear();
 }
@@ -284,9 +260,7 @@ export function btnDebugCode() {
 
 
 	oDebugger.debug(editorJsContent.editorValue, editorHtmlContent.editorValue);
-	if (oDebugger.isRunning()) {
-		update();
-	} else {
+	if (!oDebugger.isRunning()) {
 		modeler.clear();
 	}
 }
