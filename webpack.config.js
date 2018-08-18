@@ -31,15 +31,16 @@ const config = {
     devtool: 'inline-source-map',
     optimization : {
         minimize : false,
-        minimizer : [
+        minimizer: [
             new UglifyJsPlugin({
+              uglifyOptions: {
+                compress: {
+                  inline: false,
+                },
                 parallel: true,
-                uglifyOptions: {
-                    ie8: false,
-                    ecma: 8
-                }
-            })
-        ]
+              },
+            }),
+          ]
     },
     module: {
         rules: [
@@ -48,12 +49,6 @@ const config = {
                 loader: ['awesome-typescript-loader', 'tslint-loader'],
                 exclude: '/node_modules/'
             },
-            // {
-            //   test: /\.scss$/,
-            //   use: extractPlugin.extract({
-            //     use: ['css-loader', 'sass-loader']
-            //   })
-            // },
             {
                 test: /\.s?css$/,
                 use: [
@@ -114,8 +109,8 @@ const config = {
 
 // Check if build is running in production mode, then change the sourcemap type
 if (process.env.NODE_ENV === 'production') {
-    config.mode = "production";
-    config.devtool = ''; // No sourcemap for production
+    // config.mode = "production";
+    // config.devtool = ''; // No sourcemap for production
     config.optimization.minimize = true;
 }
 
