@@ -242,7 +242,7 @@ class Debugger {
         }
     }
 
-    private enableDebuggerButtons() {
+    public enableDebuggerButtons() {
         let btn : any = $('#btnStep')[0];
         btn.disabled = false;
 
@@ -250,7 +250,7 @@ class Debugger {
         btnRunAll.disabled = false;
     }
 
-    private disableDebuggerButtons() {
+    public disableDebuggerButtons() {
         let btn : any = $('#btnStep')[0];
         btn.disabled = true;
 

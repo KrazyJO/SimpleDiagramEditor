@@ -222,19 +222,27 @@ function injectModdleBackToApplication(xml: string) {
  * if no step is ava
  */
 export async function btnDoStep() {
-	//this all runs asyc :(
+	oDebugger.disableDebuggerButtons();
+	
+	//interact and step runs asyc :(
 	await modeler.interactWithModdle(injectModdleBackToApplication);
 	oDebugger.step();
-	
-	//clear after all steps are done
-	if (!oDebugger.isRunning()) {
-		modeler.clear();
-	} else {
-		setTimeout(function() {
+
+	//cannot catch proise resolve from within iframe
+	//so this is an ugly solution, but it works :(
+	setTimeout(function() {
+
+		if (!oDebugger.isRunning()) {
+			//clear after all steps are done
+			modeler.clear();
+		} else {
 			//update moddle from diagram changes...
+			oDebugger.enableDebuggerButtons();
 			update();
-		},100);
-	}
+		
+		}
+	},100);
+	
 }
 
 export async function btnRunAll() {
