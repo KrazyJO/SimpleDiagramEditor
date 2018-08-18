@@ -1,0 +1,115 @@
+//this is a port the awesome bbq applicaiton from programming methedologoies
+
+class Person {
+
+    constructor(name) {
+        this.name = name;
+        this.items = [];
+    }
+
+    addItem(name, price) {
+        console.log("add item")
+        let item = new Item(name, price);
+        this.items.push(item);
+    }
+}
+
+class Item {
+
+    constructor(name, price) {
+        this.name = name;
+        this.price = price;
+    }
+}
+
+class ViewWrapper {
+
+    addItem() {
+        //grap information from view
+    }
+}
+
+class Application {
+
+    //initialize with empty object
+    constructor() {
+        //initialize rootModle
+        window.rootModle = {
+            total : 42,
+            share : 21,
+            persons : {
+                "Bob" : new Person("Bob"),
+                "Alice" : new Person("Alice")
+            }
+        };
+    }
+
+    renderApplication() {
+        let application = document.getElementById('bbqapplication');
+        application.innerHTML = '';
+
+        let container = document.createElement('div');
+
+        //render persons
+        let keys = Object.keys(window.rootModle.persons), renderedPerson;
+        console.log("keys:" + keys);
+        keys.forEach((key) => {
+            renderedPerson = this.renderPerson(window.rootModle.persons[key]);
+            container.appendChild(renderedPerson);
+        });
+
+        container.appendChild(this.renderAddPersonArea());
+
+        application.appendChild(container);
+    }
+
+    renderAddPersonArea() {
+        let divAddPerson = document.createElement('div');
+        let inputAddPerson = document.createElement('input');
+        inputAddPerson.setAttribute('id', 'inputNewPerson');
+        inputAddPerson.setAttribute('placeholder', 'Name');
+
+        let buttonAddPerson = document.createElement('button');
+        buttonAddPerson.innerText = "Add Person";
+        buttonAddPerson.addEventListener('click', addPerson);
+
+        divAddPerson.appendChild(inputAddPerson);
+        divAddPerson.appendChild(buttonAddPerson);
+
+        return divAddPerson;
+    }
+
+    renderPerson(person) {
+        let p = document.createElement('div');
+        p.innerText = person.name;
+
+        return p;
+
+    }
+
+    renderItem() {
+
+    }
+}
+
+class Controller {
+    addPerson() {
+        console.log("add person pressed");
+    }
+}
+
+let controller = new Controller();
+let viewWrapper = new ViewWrapper();
+let application = new Application();
+
+window.onload = function() {
+    application.renderApplication();
+}; 
+
+//@debug
+function addPerson() {
+    let name = document.getElementById('inputNewPerson').value;
+    window.rootModle.persons[name] = new Person(name);
+    console.log("new persion: " + name);
+    application.renderApplication();
+}

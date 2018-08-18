@@ -64,21 +64,25 @@ export class Modeler extends Viewer {
 		  }.bind(this));
 	}
 
-	public interactWithModdle(fn : Function) : any {
-		this.saveXML({format: true, preable : true}, (error, xml) => {
-			if (!error)
-			{
-				if (fn)
+	public interactWithModdle(fn : Function)  {
+		var p = new Promise((resolve, reject) => {
+			this.saveXML({format: true, preable : true}, (error, xml) => {
+				if (!error)
 				{
-					fn(xml);
+					if (fn)
+					{
+						fn(xml);
+					}
 				}
-			}
-			else
-			{
-				console.error("this xml was not good!");
-				// console.log(error);
-			}
+				else
+				{
+					console.error("this xml was not good!");
+					// console.log(error);
+				}
+				resolve();
+			});
 		});
+		return p;
 	}
 
 	public getModdel() : any {
