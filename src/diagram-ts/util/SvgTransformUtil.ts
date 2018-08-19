@@ -14,7 +14,7 @@ import {
  * @param {Number} angle
  * @param {Number} amount
  */
-export function transform(gfx: SVGAElement, x: number, y: number, angle: number, amount: number): void {
+export function transform(gfx: SVGAElement, x: number, y: number, angle: number, amount?: number): void {
 	var translate = createTransform();
 	translate.setTranslate(x, y);
 
