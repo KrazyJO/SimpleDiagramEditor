@@ -1,7 +1,7 @@
-import * as monaco from 'monaco-editor';
+// import * as monaco from 'monaco-editor';
 import Debugger from './Debugger';
-// import Transformer from './transformer/Transformer';
 import Diagram2JsonTransformer from './transformer/Diagram2JsonTransformer';
+import EditorController from './EditorController';
 
 const EA = (window as any).EasyJS;
 
@@ -10,7 +10,8 @@ const EA = (window as any).EasyJS;
 const oDiagram2JsonTransformer = new Diagram2JsonTransformer();
 
 //save the editor reference here for later use!
-let myEditor : monaco.editor.IStandaloneCodeEditor;
+// let myEditor : monaco.editor.IStandaloneCodeEditor;
+const oEditorController = new EditorController();
 const oDebugger = new Debugger();
 
 const modeler = new EA.Modeler({
@@ -35,62 +36,23 @@ export function getModeler() {
 
 
 $(document).ready(function () {
-	const editorContainer = document.getElementById('editor');
-	if (editorContainer) {
-		// let demoCodeJs = require('./demoCode/app.txt');
-		// let demoCodeHtml = require('./demoCode/html.txt');
-		let demoCodeJs = require('./demoCode/bbqapp.txt');
-		let demoCodeHtml = require('./demoCode/bbqhtml.txt');
-		editorJsContent.editorValue = demoCodeJs;
-		editorHtmlContent.editorValue = demoCodeHtml;
-		myEditor = monaco.editor.create(editorContainer, {
-			value : demoCodeJs,
-			language: 'javascript',
-			theme : 'vs-dark',
-			glyphMargin: true
-		});
-		myEditor.addCommand(monaco.KeyCode.F4, () => {
-			runCode();
-		}, '');
-
-		oDebugger.setEditor(myEditor);
-	}
-
-});
-let editorHtmlContent = {
-	editorValue : '',
-	editorScrollHeight : 0	
-};
-let editorJsContent = {
-	editorValue : '',
-	editorScrollHeight : 0	
-};
-let activeTab = 'Js';
-export function monacoHtml() {
-	if (activeTab === 'Html') {
+	let myEditor = oEditorController.initializeEditor();
+	if (!myEditor) {
+		alert('editor could not be initialized :(');
 		return;
 	}
 
-	activeTab = 'Html';
-	editorJsContent.editorScrollHeight = myEditor.getScrollTop();
-	editorJsContent.editorValue = myEditor.getValue();
-	myEditor.setValue(editorHtmlContent.editorValue);
-	myEditor.setScrollTop(editorHtmlContent.editorScrollHeight);
-	monaco.editor.setModelLanguage(myEditor.getModel(), 'html');
+	// set references
+	oEditorController.setEditor(myEditor);
+	oDebugger.setEditor(myEditor);
+
+});
+export function monacoHtml() {
+	oEditorController.showHtml();
 }
 
 export function monacoJs() {
-	if (activeTab === 'Js')
-	{
-		return;
-	}
-
-	activeTab = 'Js';
-	editorHtmlContent.editorScrollHeight = myEditor.getScrollTop();
-	editorHtmlContent.editorValue = myEditor.getValue();
-	myEditor.setValue(editorJsContent.editorValue);
-	myEditor.setScrollTop(editorJsContent.editorScrollHeight);
-	monaco.editor.setModelLanguage(myEditor.getModel(), 'javascript');
+	oEditorController.showJs();
 }
 
 export async function downloadModel() {
@@ -107,14 +69,14 @@ export async function downloadModel() {
 
 export function runCode() {
 	//update current editor code
-	if (activeTab === 'Html') {
-		editorHtmlContent.editorValue = myEditor.getValue();
-	} else if (activeTab === 'Js') {
-		editorJsContent.editorValue = myEditor.getValue();
+	if (oEditorController.getActiveTab() === 'Html') {
+		oEditorController.setHtmlCode(oEditorController.getEditor().getValue());
+	} else if (oEditorController.getActiveTab() === 'Js') {
+		oEditorController.setJsCode(oEditorController.getEditor().getValue())
 	}
 
 
-	oDebugger.run(editorJsContent.editorValue, editorHtmlContent.editorValue);
+	oDebugger.run(oEditorController.getJsContent(), oEditorController.getHtmlContent());
 	modeler.clear();
 }
 
@@ -167,14 +129,13 @@ export async function btnRunAll() {
 
 export function btnDebugCode() {
 	// oDebugger.debug(myEditor.getValue());
-	if (activeTab === 'Html') {
-		editorHtmlContent.editorValue = myEditor.getValue();
-	} else if (activeTab === 'Js') {
-		editorJsContent.editorValue = myEditor.getValue();
+	if (oEditorController.getActiveTab() === 'Html') {
+		oEditorController.setHtmlCode(oEditorController.getEditor().getValue());
+	} else if (oEditorController.getActiveTab() === 'Js') {
+		oEditorController.setJsCode(oEditorController.getEditor().getValue())
 	}
 
-
-	oDebugger.debug(editorJsContent.editorValue, editorHtmlContent.editorValue);
+	oDebugger.debug(oEditorController.getJsContent(), oEditorController.getHtmlContent());
 	if (!oDebugger.isRunning()) {
 		modeler.clear();
 	}
