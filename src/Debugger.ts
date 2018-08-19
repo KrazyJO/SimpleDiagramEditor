@@ -1,5 +1,6 @@
 import EditorController from 'EditorController';
 import Diagram2JsonTransformer from './transformer/Diagram2JsonTransformer';
+import { Modeler } from 'Modeler';
 
 interface debugComand {
     line : number
@@ -10,7 +11,7 @@ class Debugger {
 
     private steps : debugComand[] = [];
     private currentSteps : debugComand[] =  [];
-    private modeler;
+    private modeler : Modeler;
     private editorController : EditorController;
 
     public setEditorController(editorController : EditorController) {
