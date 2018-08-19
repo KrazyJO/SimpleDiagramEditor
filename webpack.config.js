@@ -103,7 +103,9 @@ const config = {
         }),
 
         new CleanWebpackPlugin(['dist']),
-        new MonacoWebpackPlugin()
+        new MonacoWebpackPlugin({
+            languages : ['javascript', 'typescript', 'html']
+        })
     ]
 };
 

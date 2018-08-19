@@ -1,5 +1,6 @@
-import {Range as monacoRange} from 'monaco-editor';
-
+import EditorController from 'EditorController';
+import Diagram2JsonTransformer from './transformer/Diagram2JsonTransformer';
+import { Modeler } from 'Modeler';
 
 interface debugComand {
     line : number
@@ -10,13 +11,11 @@ class Debugger {
 
     private steps : debugComand[] = [];
     private currentSteps : debugComand[] =  [];
-    private editor;
-    private decorations;
-    private modeler;
+    private modeler : Modeler;
+    private editorController : EditorController;
 
-
-    public setEditor(editor) {
-        this.editor = editor;
+    public setEditorController(editorController : EditorController) {
+        this.editorController = editorController;
     }
 
     public setModeler(modeler) {
@@ -48,7 +47,8 @@ class Debugger {
     public debug(sJsCode : string, sHtmlCode : string) : void {
         //button will be enabled when function to debug is called
         this.disableDebuggerButtons();
-        this.decorations = [];
+        // this.decorations = [];
+        this.editorController.setDecorations([]);
 
         //sJsCode.match(regex) would deliver all matches (more than one function)
 
@@ -150,23 +150,37 @@ class Debugger {
      * @param line line number to highlight in editor
      */
     private highlightLine(line : number) {
-        if (line === 0) {
-            line = -1;
-        }
-        this.decorations = this.editor.deltaDecorations(this.decorations, [
-            { range: new monacoRange(line,1,line,1),
-                options: {
-                    isWholeLine: true,
-                    className: 'myContentClass'
-                }
+        this.editorController.highlightLine(line);
+    }
+
+    public async doStep() {
+        this.disableDebuggerButtons();
+        
+        //interact and step runs asyc :(
+        await this.modeler.interactWithModdle(this.injectModdleBackToApplication);
+        this.step();
+    
+        //cannot catch proise resolve from within iframe
+        //so this is an ugly solution, but it works :(
+        setTimeout(function() {
+    
+            if (!this.isRunning()) {
+                //clear after all steps are done
+                this.modeler.clear();
+            } else {
+                //update moddle from diagram changes...
+                this.enableDebuggerButtons();
+                this.modeler.updateFromIframeModel();
+            
             }
-        ]);
+        }.bind(this),100);
+        
     }
 
     /**
      * do one debugger step
      */
-    public step() : void {
+    private step() : void {
         let sFunctionName : debugComand = this.currentSteps.shift();
         if (sFunctionName) {
             this.executeRemote(sFunctionName.command);
@@ -185,14 +199,32 @@ class Debugger {
     }
 
     /**
+     * transforms current diagram moddle object and replaces it with 'rootModle' in application
+     * @param xml diagram xml string
+     */
+    private injectModdleBackToApplication(xml: string) {
+        let oDiagram2JsonTransformer = new Diagram2JsonTransformer();
+        let rootObject = oDiagram2JsonTransformer.transform(xml);
+        if (rootObject) {
+            const prev = <HTMLIFrameElement>document.getElementById('preview');
+            prev.contentWindow["rootModle"] = rootObject;
+        }
+    
+    }
+
+    /**
      * do all steps
      */
-    public runAll() : void {
+    public async runAll() {
+        await this.modeler.interactWithModdle(this.injectModdleBackToApplication);
+
         while(this.currentSteps.length) {
             this.step();
         }
     
         this.disableDebuggerButtons();
+
+        this.modeler.clear();
     }
 
     public isRunning() : boolean {
@@ -250,28 +282,61 @@ class Debugger {
     }
 
     public enableDebuggerButtons() {
-        let btn : any = $('#btnStep')[0];
-        btn.disabled = false;
-
-        let btnRunAll : any = $('#btnRunAll')[0];
-        btnRunAll.disabled = false;
-
-        let btnDownloadModel : any = $('#btnDownloadModel')[0];
-        btnDownloadModel.disabled = false;
+        this.seteButtonState(true);
     }
 
     public disableDebuggerButtons() {
-        let btn : any = $('#btnStep')[0];
-        btn.disabled = true;
-
-        let btnRunAll : any = $('#btnRunAll')[0];
-        btnRunAll.disabled = true;
-
-        let btnDownloadModel : any = $('#btnDownloadModel')[0];
-        btnDownloadModel.disabled = false;
+        this.seteButtonState(false);
     }
 
+    private seteButtonState(debugModeEnabled : boolean) {
+        let btn : any = document.getElementById('btnStep');
+        btn.disabled = !debugModeEnabled;
 
+        let btnRunAll : any = document.getElementById('btnRunAll');
+        btnRunAll.disabled = !debugModeEnabled;
+
+        let btnDownloadModel : any = document.getElementById('btnDownloadModel');
+        btnDownloadModel.disabled = !debugModeEnabled;
+
+        // when application is in debugging, button run and debug
+        // have to be disabled
+
+        let btnDebug : any = document.getElementById('btnDebug');
+        btnDebug.disabled = debugModeEnabled;
+
+        let btnRun : any = document.getElementById('btnRun');
+        btnRun.disabled = debugModeEnabled;
+    }
+
+    public runCode() {
+        let oEditorController = this.editorController;
+        //update current editor code
+        if (oEditorController.getActiveTab() === 'Html') {
+            oEditorController.setHtmlCode(oEditorController.getEditor().getValue());
+        } else if (oEditorController.getActiveTab() === 'Js') {
+            oEditorController.setJsCode(oEditorController.getEditor().getValue())
+        }
+    
+    
+        this.run(oEditorController.getJsContent(), oEditorController.getHtmlContent());
+        this.modeler.clear();
+    }
+
+    public debugCode() {
+        let oEditorController = this.editorController;
+        // oDebugger.debug(myEditor.getValue());
+        if (oEditorController.getActiveTab() === 'Html') {
+            oEditorController.setHtmlCode(oEditorController.getEditor().getValue());
+        } else if (oEditorController.getActiveTab() === 'Js') {
+            oEditorController.setJsCode(oEditorController.getEditor().getValue())
+        }
+    
+        this.debug(oEditorController.getJsContent(), oEditorController.getHtmlContent());
+        if (!this.isRunning()) {
+            this.modeler.clear();
+        }
+    }
 }
 
 export default Debugger;

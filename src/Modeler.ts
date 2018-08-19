@@ -111,5 +111,15 @@ export class Modeler extends Viewer {
         {
             this.importFromJsonObject(rootModle);
         }
-    }
+	}
+	
+	public async downloadModel() {
+		var anchor = document.createElement('a');
+		var xmlstring : any = await this.getModdel();
+		var content = "data:application/octet-stream;charset=utf-16le;base64,"+ btoa(xmlstring);
+		anchor.setAttribute("href", content);
+		document.body.appendChild(anchor);
+		anchor.click();
+		document.body.removeChild(anchor);
+	}
 }
