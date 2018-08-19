@@ -6,14 +6,12 @@ const EA = (window as any).EasyJS;
 
 //save the editor reference here for later use!
 const oEditorController = new EditorController();
-
-const oDebugger = new Debugger();
-
 const modeler = new EA.Modeler({
 	container: '#js-canvas',
 	propertiesPanel: { parent: '#js-properties-panel' }
 });
 
+const oDebugger = new Debugger();
 oDebugger.setModeler(modeler);
 
 //function to activate the debugger
@@ -37,6 +35,8 @@ $(document).ready(function () {
 	oDebugger.setEditorController(oEditorController);
 
 });
+
+// function wrapper
 export function monacoHtml() {
 	oEditorController.showHtml();
 }
@@ -46,16 +46,8 @@ export function monacoJs() {
 }
 
 export async function downloadModel() {
-	modeler.getModdel();
-	var anchor = document.createElement('a');
-	var xmlstring = await modeler.getModdel();
-	var content = "data:application/octet-stream;charset=utf-16le;base64,"+ btoa(xmlstring);
-	anchor.setAttribute("href", content);
-	document.body.appendChild(anchor);
-	anchor.click();
-	document.body.removeChild(anchor);
+	modeler.downloadModel();
 }
-
 
 export function runCode() {
 	oDebugger.runCode();
