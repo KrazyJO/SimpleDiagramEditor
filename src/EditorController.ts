@@ -1,3 +1,4 @@
+import {Range as monacoRange} from 'monaco-editor';
 import * as monaco from 'monaco-editor';
 
 interface editorContent {
@@ -12,6 +13,8 @@ class EditorController {
     private htmlContent : editorContent;
     private activeTab : string = 'Js';
 
+    private decorations;
+
     constructor() {
         this.htmlContent = {
             editorScrollHeight : 0,
@@ -21,6 +24,10 @@ class EditorController {
             editorScrollHeight : 0,
             editorValue : ""
         }
+    }
+
+    public setDecorations(decorations : any) {
+        this.decorations = decorations;
     }
 
     public initializeEditor() : monaco.editor.IStandaloneCodeEditor {
@@ -45,6 +52,20 @@ class EditorController {
         }
 
         return myEditor;
+    }
+
+    public highlightLine(line : number) {
+        if (line === 0) {
+            line = -1;
+        }
+        this.decorations = this.editor.deltaDecorations(this.decorations, [
+            { range: new monacoRange(line,1,line,1),
+                options: {
+                    isWholeLine: true,
+                    className: 'myContentClass'
+                }
+            }
+        ]);
     }
 
     public setEditor(editor) {
