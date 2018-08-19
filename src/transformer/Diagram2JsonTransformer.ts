@@ -53,9 +53,19 @@ class Diagram2JsonTransformer {
         let targetNodeId = node.getAttribute('targetNode');
         //find source
         let sourceNode = this.findNodeWithId(sourceNodeId);
+        if (!sourceNode)
+        {
+            //was removed from diagram
+            return;
+        }
 
         //find target
         let targetNode = this.findNodeWithId(targetNodeId);
+        if (!targetNode)
+        {
+            //was removed from diagram
+            return;
+        }
 
         //add targetNode as property in sourceNode with its name
         sourceNode.obj[targetNode.name] = targetNode.obj;

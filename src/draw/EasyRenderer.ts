@@ -14,6 +14,7 @@ import { classes as svgClasses } from 'tiny-svg';
 import EventBus from '../diagram-ts/core/EventBus';
 import Styles from '../diagram-ts/draw/Styles';
 import Canvas from '../diagram-ts/core/Canvas';
+import {transform} from '../diagram-ts/util/SvgTransformUtil';
 
 //---------------------CONSTANTS---------------------
 const LABEL_STYLE = {
@@ -72,7 +73,10 @@ export default class EasyRenderer extends BaseRenderer {
 			},
 			'sde:Edge': (visuals: any, element: any) => {
 				const line = this.drawEdge(visuals, element.waypoints, CONNECTION_STYLE, element);
-				// this.renderEmbeddedLabel(line, element, 'center-bottom');
+				let x1 = line.animatedPoints[0].x
+				let y1 = line.animatedPoints[0].y
+				let x2 = line.animatedPoints[1].x
+				this.renderLaneLabel(visuals, element.businessObject.name, element, x1, y1, x2);
 				return line;
 			}
 		};
@@ -169,7 +173,24 @@ export default class EasyRenderer extends BaseRenderer {
 		});
 		const line = createLine(waypoints, attrs);
 		svgAppend(p, line);
+
 		return line;
+	}
+
+	public renderLaneLabel(p, text, element, x1, y1, x2) {
+		var textBox = this.renderLabel(p, text, {
+			box: {
+			  height: 30,
+			  width: element.height
+			},
+			align: 'center-middle',
+			style: {
+			  fill: 'blue'
+			}
+		  });
+	  
+		let x = (x2-x1) / 2;
+		transform(textBox, x1+x, y1+1, 0);
 	}
 
 	public renderEmbeddedLabel(p, element, align) {

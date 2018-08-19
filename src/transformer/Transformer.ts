@@ -9,6 +9,7 @@ interface edge {
     nodeNumber : number
     nodeNumberTarget : number
     edgeid : number
+    name? : string
 }
 
 interface Member {
@@ -121,7 +122,8 @@ class Transformer {
                     targetY : (100 * (level+1) + 50 * (level+1)),
                     nodeNumber : thisNodeNumber,
                     nodeNumberTarget : nodeNumberTarget,
-                    edgeid : ++this.edgeid
+                    edgeid : ++this.edgeid,
+                    name : keys[i]
                 });
 
                 numberChildren++;
@@ -171,7 +173,7 @@ class Transformer {
     private addEdge(edge : edge) : void {
         //add to diagram
         // <sde:Edge id="edge_1" sourceNode="node_1" name="edge1" targetNode="node_2"></sde:Edge>
-        this.diagram += `<sde:Edge id="edge_${edge.edgeid}" sourceNode="${edge.sourceNode}" name="edge${edge.edgeid}" targetNode="${edge.tragetNode}"></sde:Edge>`;
+        this.diagram += `<sde:Edge id="edge_${edge.edgeid}" sourceNode="${edge.sourceNode}" name="${edge.name}" targetNode="${edge.tragetNode}"></sde:Edge>`;
         this.addLineBreakToDiagram();
         //add to diagram interchange
         this.diagramInterchange += `<sdedi:SimpleDebugEditorEdge id="conn_${edge.edgeid}" simpleDebugEditorElement="edge_${edge.edgeid}" sourceElement="shape_${edge.nodeNumber}" targetElement="shape_${edge.nodeNumberTarget}">
