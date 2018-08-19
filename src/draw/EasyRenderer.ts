@@ -73,12 +73,10 @@ export default class EasyRenderer extends BaseRenderer {
 			},
 			'sde:Edge': (visuals: any, element: any) => {
 				const line = this.drawEdge(visuals, element.waypoints, CONNECTION_STYLE, element);
-				// this.renderEmbeddedLabel(visuals, element, 'center-bottom');
-				let startX = line.animatedPoints[0].x
-				let startY = line.animatedPoints[0].y
-				let endX = line.animatedPoints[1].x
-				let endY = line.animatedPoints[1].y
-				this.renderLaneLabel(visuals, element.businessObject.name, element, startX, startY, endX, endY);
+				let x1 = line.animatedPoints[0].x
+				let y1 = line.animatedPoints[0].y
+				let x2 = line.animatedPoints[1].x
+				this.renderLaneLabel(visuals, element.businessObject.name, element, x1, y1, x2);
 				return line;
 			}
 		};
@@ -176,15 +174,10 @@ export default class EasyRenderer extends BaseRenderer {
 		const line = createLine(waypoints, attrs);
 		svgAppend(p, line);
 
-		// // name?
-		// const text = this.textUtil.createText('name edge', {});
-		// svgClasses(text).add('djs-label');
-		// svgAppend(p, text);
-
 		return line;
 	}
 
-	public renderLaneLabel(p, text, element, x1, y1, x2, y2) {
+	public renderLaneLabel(p, text, element, x1, y1, x2) {
 		var textBox = this.renderLabel(p, text, {
 			box: {
 			  height: 30,
@@ -196,11 +189,7 @@ export default class EasyRenderer extends BaseRenderer {
 			}
 		  });
 	  
-		//   var top = -1 * element.height;
-	  
-		//   transform(textBox, 0, -top, 270);
 		let x = (x2-x1) / 2;
-		// let y = (y2-y1) / 4;
 		transform(textBox, x1+x, y1+1, 0);
 	}
 
