@@ -250,25 +250,31 @@ class Debugger {
     }
 
     public enableDebuggerButtons() {
-        let btn : any = $('#btnStep')[0];
-        btn.disabled = false;
-
-        let btnRunAll : any = $('#btnRunAll')[0];
-        btnRunAll.disabled = false;
-
-        let btnDownloadModel : any = $('#btnDownloadModel')[0];
-        btnDownloadModel.disabled = false;
+        this.seteButtonState(true);
     }
 
     public disableDebuggerButtons() {
-        let btn : any = $('#btnStep')[0];
-        btn.disabled = true;
+        this.seteButtonState(false);
+    }
 
-        let btnRunAll : any = $('#btnRunAll')[0];
-        btnRunAll.disabled = true;
+    private seteButtonState(debugModeEnabled : boolean) {
+        let btn : any = document.getElementById('btnStep');
+        btn.disabled = !debugModeEnabled;
 
-        let btnDownloadModel : any = $('#btnDownloadModel')[0];
-        btnDownloadModel.disabled = true;
+        let btnRunAll : any = document.getElementById('btnRunAll');
+        btnRunAll.disabled = !debugModeEnabled;
+
+        let btnDownloadModel : any = document.getElementById('btnDownloadModel');
+        btnDownloadModel.disabled = !debugModeEnabled;
+
+        // when application is in debugging, button run and debug
+        // have to be disabled
+
+        let btnDebug : any = document.getElementById('btnDebug');
+        btnDebug.disabled = debugModeEnabled;
+
+        let btnRun : any = document.getElementById('btnRun');
+        btnRun.disabled = debugModeEnabled;
     }
 
 

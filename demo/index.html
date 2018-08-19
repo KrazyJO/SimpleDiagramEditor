@@ -14,19 +14,23 @@
     </style>
 </head>
 
-<body>
+<body style="height:100%; overflow: hidden;">
 
     <div class="container-fluid">
-        <div class="row" style="height: 50px;" id="buttonPane">
-            <button type="button" class="sd-app-button btn btn-success" onclick="app.runCode()">runCode()</button>
-            <button type="button" class="sd-app-button btn btn-danger" onclick="app.btnDebugCode()">debugCode()</button>
-            <button type="button" class="sd-app-button btn btn-primary" id="btnDownloadModel" onclick="app.downloadModel()" disabled="true">download model</button>
-            <button type="button" class="sd-app-button btn btn-warning" id="btnStep" onclick="app.btnDoStep()" disabled="true">btnDoStep()</button>
-            <button type="button" class="sd-app-button btn btn-warning" id="btnRunAll" onclick="app.btnRunAll()" disabled="true">runAll()</button>
-            <button type="button" onclick="app.monacoHtml()">html</button>
-            <button type="button" onclick="app.monacoJs()">JS</button>
+        <div class="row" style="height: 35px; background-color: #A1A1A1;" id="buttonPane">
+            <div class="editorControls" style="padding-right: 10px;">
+                <button type="button" class="sd-app-button btn btn-success" id="btnRun" onclick="app.runCode()">run</button>
+                <button type="button" class="sd-app-button btn btn-danger"  id="btnDebug" onclick="app.btnDebugCode()">debug</button>
+                <button type="button" class="sd-app-button btn btn-info" onclick="app.monacoHtml()" style="float: right;">html</button>
+                <button type="button" class="sd-app-button btn btn-info" onclick="app.monacoJs()" style="float: right; margin-right: 2px;" >JS</button>
+            </div>
+            <div id="debugControls" >
+                <button type="button" class="sd-app-button btn btn-primary" id="btnDownloadModel" onclick="app.downloadModel()" disabled="true">download model</button>
+                <button type="button" class="sd-app-button btn btn-warning" id="btnStep" onclick="app.btnDoStep()" disabled="true">do Step</button>
+                <button type="button" class="sd-app-button btn btn-warning" id="btnRunAll" onclick="app.btnRunAll()" disabled="true">run all</button>
+            </div>
         </div>
-        <div id="windowContainer" class="row" style="height: calc(100% - 50px);">
+        <div id="windowContainer" class="row" style="height: calc(100% - 35px);">
             <div class="col-md-6" style="padding-left: 0;">
                 <div id="editor" style="height: 100%"></div>
             </div>

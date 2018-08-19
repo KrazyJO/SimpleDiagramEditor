@@ -9,6 +9,17 @@ body, html {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.debugControls {
+  width: 50%;
+  float: right;
+  padding-right: 30px;
+}
+
+.editorControls {
+  width: 50%;
+  float: left;
+}
+
 .myGlyphMarginClass {
   background: red;
   border-radius: 100%;
@@ -30,8 +41,11 @@ body, html {
 .sd-app-button {
   height: 30px;
   position: relative;
-  bottom: -20px;
-  margin-right: 5px;
+  bottom: -5px;
+  margin-right: -2px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0px;
+
 }
 
 body>.djs-container {
