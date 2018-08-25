@@ -57,7 +57,7 @@ export default class PropertiesPanel {
 			PropertiesPanel.addTitle(panel);
 			this.addProperties(element, panel);
 			this.addAddNewProperty(panel);
-			this.addButtonAddListener($('#addNewProperty'), element);
+			this.addButtonAddListener($('#addNewProperty'), element, panel);
 		}
 	}
 
@@ -70,6 +70,7 @@ export default class PropertiesPanel {
 		<option value="string">string</option>
 		<option value="number">number</option>
 		<option value="boolean">boolean</option>
+		<option value="Array">Array</option>
 	</select>
 	<input placeholder="value" id="addNewPropertyValue"></input>
 	<button id="addNewProperty" type="button">add</button>
@@ -88,19 +89,26 @@ export default class PropertiesPanel {
 
 	private addElementDefaults(element, container) {
 		let members : any[] = element.businessObject.members || [];
-		let renderedMembers : string = '';
+		let renderedMembers : string = '', disabled : string, value : string;
 
 		if (members.length > 0 )
 		{
 			renderedMembers = '<div class="form-group row">';
 			(members).forEach(member => {
+				if (member.propType === 'Array') {
+					disabled = 'disabled="disabled"';
+					value = '[]';
+				} else {
+					disabled = '';
+					value = member.value
+				}
 				renderedMembers += `
 					<div class="row">
 						<div class="col-2">
 							<label for="${element.id}-member${member.id}-value" class="col-form-label-sm">${member.name}</label>
 						</div>
 						<div class="col-10">
-							<input type="text" class="form-control-sm" id="${element.id}-member_${element.id}_${member.name}-value" value="${member.value}">
+							<input type="text" ${disabled} class="form-control-sm" id="${element.id}-member_${element.id}_${member.name}-value" value="${value}">
 						</div>
 					</div>  
 				  `
@@ -140,7 +148,7 @@ export default class PropertiesPanel {
 		});
 	}
 
-	private addButtonAddListener(node, element): void {
+	private addButtonAddListener(node, element, panel): void {
 		node.bind({
 			click : () => {
 				// grap informations from panel
@@ -158,8 +166,10 @@ export default class PropertiesPanel {
 						value : String(ePropValue.value)
 					}
 				});
+				this.refreshPropertiePannel(panel, element);
 			}
-		})
+		});
+		
 	}
 	
 	private addMemberValListener(node, element, member) : void {
