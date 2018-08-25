@@ -54,6 +54,13 @@ export default class EasyRenderer extends BaseRenderer {
 				// return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				const rect = this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				this.renderEmbeddedLabel(visuals, element, 'center-top');
+				
+				//render the line under class name
+				let waypoints = [
+					{x : 0, y : 25},
+					{x : element.width, y : 25}
+				]
+				this.drawEdge(visuals.parentElement, waypoints, CONNECTION_STYLE, undefined);
 
 				let addToY = 25;
 				(element.businessObject.members || []).forEach(member => {
