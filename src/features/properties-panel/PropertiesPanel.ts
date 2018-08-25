@@ -3,6 +3,7 @@ import { forEach } from 'min-dash';
 import * as $ from 'jquery';
 import UpdatePropertiesHandler from './cmd/UpdatePropertiesHandler';
 import AddPropertyHandler from './cmd/AddPropertyHandler';
+import UpdateConnectionHandler from './cmd/UpdateConnectionHandler';
 import { is } from '@utils/ModelUtil';
 import { Base } from 'diagram-ts/model';
 
@@ -20,7 +21,8 @@ export default class PropertiesPanel {
 	static getCmdHandlers(): any {
 		return {
 			'element.addProperty' : AddPropertyHandler,
-			'element.updateProperties': UpdatePropertiesHandler
+			'element.updateProperties': UpdatePropertiesHandler,
+			'element.updateConnection' : UpdateConnectionHandler
 		};
 	}
 
@@ -56,7 +58,12 @@ export default class PropertiesPanel {
 		if (element.businessObject && element.businessObject.$type !== 'sdedi:SimpleDebugEditorDiagram') {
 			PropertiesPanel.addTitle(panel);
 			this.addProperties(element, panel);
-			this.addAddNewProperty(panel);
+
+			//only Nodes can get new properties
+			if (element.type === 'sde:Node') {
+				this.addAddNewProperty(panel);
+			}
+
 			this.addButtonAddListener($('#addNewProperty'), element, panel);
 		}
 	}
@@ -88,33 +95,37 @@ export default class PropertiesPanel {
 	}
 
 	private addElementDefaults(element, container) {
-		let members : any[] = element.businessObject.members || [];
 		let renderedMembers : string = '', disabled : string, value : string;
-
-		if (members.length > 0 )
-		{
-			renderedMembers = '<div class="form-group row">';
-			(members).forEach(member => {
-				if (member.propType === 'Array') {
-					disabled = 'disabled="disabled"';
-					value = '[]';
-				} else {
-					disabled = '';
-					value = member.value
-				}
-				renderedMembers += `
-					<div class="row">
-						<div class="col-2">
-							<label for="${element.id}-member${member.id}-value" class="col-form-label-sm">${member.name}</label>
-						</div>
-						<div class="col-10">
-							<input type="text" ${disabled} class="form-control-sm" id="${element.id}-member_${element.id}_${member.name}-value" value="${value}">
-						</div>
-					</div>  
-				  `
-			});
-			renderedMembers += '</div>';
+		let members : any[] = element.businessObject.members || [];
+		
+		if (element.type === 'sde:Node') {
+			if (members.length > 0 ) {
+	
+				renderedMembers = '<div class="form-group row">';
+				(members).forEach(member => {
+					if (member.propType === 'Array') {
+						disabled = 'disabled="disabled"';
+						value = '[]';
+					} else {
+						disabled = '';
+						value = member.value
+					}
+					renderedMembers += `
+						<div class="row">
+							<div class="col-2">
+								<label for="${element.id}-member${member.id}-value" class="col-form-label-sm">${member.name}</label>
+							</div>
+							<div class="col-10">
+								<input type="text" ${disabled} class="form-control-sm" id="${element.id}-member_${element.id}_${member.name}-value" value="${value}">
+							</div>
+						</div>  
+					  `
+				});
+				renderedMembers += '</div>';
+			}
 		}
+
+
 
 		const idHTML =
 			`
@@ -130,10 +141,10 @@ export default class PropertiesPanel {
 				</div>
 				<br/>
 				<div class="form-group row">
-					<div class="col-2">
-					<label for="${element.id}-name" class="col-form-label-sm">Name</label>
+					<div class="col-4">
+					<label for="${element.id}-name" class="col-form-label-sm">Connection</label>
 					</div>
-					<div class="col-10">
+					<div class="col-6">
 					<input type="text" class="form-control-sm" id="${element.id}-name" value="${element.businessObject.name}">
 					</div>
 				</div>
@@ -142,10 +153,14 @@ export default class PropertiesPanel {
 			`;
 		container.append(idHTML);
 		this.addIDListener($('#' + element.id + '-id'), element);
-		this.addNameListener($('#' + element.id + '-name'), element);
-		(members).forEach(member => {
-			this.addMemberValListener($('#' + element.id+'-member'+'_'+element.id+'_'+member.name + '-value'), element, member);
-		});
+		// this.addNameListener($('#' + element.id + '-name'), element);
+		this.addConnectionListener($('#' + element.id + '-name'), element);
+
+		if (element.type === 'sde:Node') {
+			(members).forEach(member => {
+				this.addMemberValListener($('#' + element.id+'-member'+'_'+element.id+'_'+member.name + '-value'), element, member);
+			});
+		}
 	}
 
 	private addButtonAddListener(node, element, panel): void {
@@ -195,10 +210,21 @@ export default class PropertiesPanel {
 		});
 	}
 
-	private addNameListener(node, element): void {
+	// private addNameListener(node, element): void {
+	// 	node.bind({
+	// 		input: () => {
+	// 			this.commandStack.execute('element.updateLabel', {
+	// 				element: element,
+	// 				newLabel: node.val()
+	// 			});
+	// 		}
+	// 	});
+	// }
+
+	private addConnectionListener(node, element): void {
 		node.bind({
 			input: () => {
-				this.commandStack.execute('element.updateLabel', {
+				this.commandStack.execute('element.updateConnection', {
 					element: element,
 					newLabel: node.val()
 				});
