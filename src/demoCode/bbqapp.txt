@@ -48,7 +48,7 @@ class Application {
         };
         
         
-        window.rootModle.persons["Bob"] = bob;
+        // window.rootModle.persons["Bob"] = bob;
 
 
 
@@ -123,10 +123,11 @@ window.onload = function() {
     application.renderApplication();
 }; 
 
+//window.rootModle.persons[name] = new Person(name);
 //@debug
 function addPerson() {
     let name = document.getElementById('inputNewPerson').value;
-    window.rootModle.persons[name] = new Person(name);
+    window.rootModle.persons.push(new Person(name));
     console.log("new persion: " + name);
     application.renderApplication();
 }

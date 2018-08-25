@@ -57,14 +57,16 @@ export default class EasyRenderer extends BaseRenderer {
 
 				let addToY = 25;
 				(element.businessObject.members || []).forEach(member => {
-					let text = member.name + ': ' + member.propType + ' = ';
-					if (member.propType === "string") {
-						text += `"${member.value}"`;
-					} else {
-						text += member.value;
+					if (member.propType !== 'Array') {
+						let text = member.name + ': ' + member.propType + ' = ';
+						if (member.propType === "string") {
+							text += `"${member.value}"`;
+						} else {
+							text += member.value;
+						}
+						this.renderLabel(visuals, text, { box: element, align: 'left', padding: 5, addToY : addToY });
+						addToY += 15;
 					}
-					this.renderLabel(visuals, text, { box: element, align: 'left', padding: 5, addToY : addToY });
-					addToY += 15;
 				});
 				return rect;
 			},

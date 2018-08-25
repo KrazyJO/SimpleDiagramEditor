@@ -15,7 +15,7 @@ interface edge {
 interface Member {
     name : string
     propType : string
-    value : any
+    value? : any
 }
 
 interface Node {
@@ -111,13 +111,16 @@ class Transformer {
                 });
             } else if (objectType === 'array') {
                 console.log("wir haben ein array");
+                this.addMemberToDiagram({
+                    name : currentKey,
+                    propType : 'Array'
+                });
                 let arrayObject, arrayKey;
                 for (let j = 0; j < currentObject.length; j++) {
                     arrayObject = currentObject[j];
                     arrayKey = currentKey + `[${j}]`;
 
                     nodeNumberTarget = ++this.nodeNumber;
-                    // let nodeNumberTarget = ++this.nodeNumber;
                     children.push({
                         obj : arrayObject,
                         name : currentKey,
@@ -142,10 +145,7 @@ class Transformer {
                 }
             } else if (objectType === 'object') {
                 // other objects will be added to diagram xml and diagram interchange later
-                // it's an edge
-
                 nodeNumberTarget = ++this.nodeNumber;
-                // let nodeNumberTarget = ++this.nodeNumber;
                 children.push({
                     obj : currentObject,
                     name : currentKey,
@@ -167,8 +167,6 @@ class Transformer {
                 });
 
                 numberChildren++;
-                // let x = 150 * positionInLevel + 50 * positionInLevel;
-                // let y = 100 * level + 50 * level;
             }
         }
 
@@ -181,16 +179,6 @@ class Transformer {
 
 
         this.addLineBreakToDiagram();
-
-        //add child objects to diagram
-        // numberChildren = 0;
-        // for (let i = 0; i < keys.length; i++)
-        // {
-        //     if (typeof obj[keys[i]] === 'object') {
-        //         this.transformObject(obj[keys[i]], keys[i], level +1, positionInLevel+numberChildren);
-        //         numberChildren++;
-        //     }
-        // }
 
         // add children
         children.forEach(child => {
