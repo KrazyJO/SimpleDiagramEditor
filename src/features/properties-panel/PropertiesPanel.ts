@@ -148,12 +148,20 @@ export default class PropertiesPanel {
 					<input type="text" class="form-control-sm" id="${element.id}-name" value="${element.businessObject.name}">
 					</div>
 				</div>
+				<div class="form-group row">
+					<div class="col-4">
+					<label for="${element.id}-class" class="col-form-label-sm">Class</label>
+					</div>
+					<div class="col-6">
+					<input type="text" class="form-control-sm" id="${element.id}-class" value="${element.businessObject.class}">
+					</div>
+				</div>
 				${renderedMembers}
 				</fieldset>
 			`;
 		container.append(idHTML);
 		this.addIDListener($('#' + element.id + '-id'), element);
-		// this.addNameListener($('#' + element.id + '-name'), element);
+		this.addNameListener($('#' + element.id + '-class'), element);
 		this.addConnectionListener($('#' + element.id + '-name'), element);
 
 		if (element.type === 'sde:Node') {
@@ -210,16 +218,16 @@ export default class PropertiesPanel {
 		});
 	}
 
-	// private addNameListener(node, element): void {
-	// 	node.bind({
-	// 		input: () => {
-	// 			this.commandStack.execute('element.updateLabel', {
-	// 				element: element,
-	// 				newLabel: node.val()
-	// 			});
-	// 		}
-	// 	});
-	// }
+	private addNameListener(node, element): void {
+		node.bind({
+			input: () => {
+				this.commandStack.execute('element.updateLabel', {
+					element: element,
+					newLabel: node.val()
+				});
+			}
+		});
+	}
 
 	private addConnectionListener(node, element): void {
 		node.bind({
