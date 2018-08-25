@@ -27,7 +27,7 @@ export default class PropertiesPanel {
 	}
 
 	private static addTitle(container): void {
-		const titleHtml = '<div><h3 class="text-center">Properties</h3></div><hr>'; 
+		const titleHtml = '<div><h4 class="text-center">Properties</h3></div><hr>'; 
 		container.append(titleHtml);
 	}
 
@@ -55,7 +55,8 @@ export default class PropertiesPanel {
 
 	private refreshPropertiePannel(panel, element): void {
 		panel.empty();
-		if (element.businessObject && element.businessObject.$type !== 'sdedi:SimpleDebugEditorDiagram') {
+		// if (element.businessObject && element.businessObject.$type !== 'sdedi:SimpleDebugEditorDiagram') {
+		if (element.type && element.type === 'sde:Node') {
 			PropertiesPanel.addTitle(panel);
 			this.addProperties(element, panel);
 
@@ -128,39 +129,30 @@ export default class PropertiesPanel {
 
 
 		const idHTML =
-			`
-				<fieldset class="well">
-				<legend class="well-legend">${is(element, 'sde:Node') ? 'Node' : 'Edge'}</legend>
-				<div class="form-group row">
-					<div class="col-2">
-					<label for="${element.id}-id" class="col-form-label-sm">ID</label>
-					</div>
-					<div class="col-10">
-					<input type="text" class="form-control-sm" id="${element.id}-id" value="${element.businessObject.id}" disabled>
-					</div>
+		`
+			<fieldset class="well">
+			<div class="row">
+				<div class="col-2">
+				<label for="${element.id}-name" class="col-form-label-sm">Connection</label>
 				</div>
-				<br/>
-				<div class="form-group row">
-					<div class="col-4">
-					<label for="${element.id}-name" class="col-form-label-sm">Connection</label>
-					</div>
-					<div class="col-6">
-					<input type="text" class="form-control-sm" id="${element.id}-name" value="${element.businessObject.name}">
-					</div>
+				<div class="col-10">
+				<input type="text" class="form-control-sm" id="${element.id}-name" value="${element.businessObject.name}">
 				</div>
-				<div class="form-group row">
-					<div class="col-4">
-					<label for="${element.id}-class" class="col-form-label-sm">Class</label>
-					</div>
-					<div class="col-6">
-					<input type="text" class="form-control-sm" id="${element.id}-class" value="${element.businessObject.class}">
-					</div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+				<label for="${element.id}-class" class="col-form-label-sm">Class</label>
 				</div>
-				${renderedMembers}
-				</fieldset>
-			`;
+				<div class="col-10">
+				<input type="text" class="form-control-sm" id="${element.id}-class" value="${element.businessObject.class}">
+				</div>
+			</div>
+			${renderedMembers}
+			</fieldset>
+		`;
+		
 		container.append(idHTML);
-		this.addIDListener($('#' + element.id + '-id'), element);
+		// this.addIDListener($('#' + element.id + '-id'), element);
 		this.addNameListener($('#' + element.id + '-class'), element);
 		this.addConnectionListener($('#' + element.id + '-name'), element);
 
@@ -207,16 +199,16 @@ export default class PropertiesPanel {
 		});
 	}
 
-	private addIDListener(node, element): void {
-		node.bind({
-			input: () => {
-				this.commandStack.execute('element.updateProperties', {
-					element: element,
-					properties: { id: node.val() }
-				});
-			}
-		});
-	}
+	// private addIDListener(node, element): void {
+	// 	node.bind({
+	// 		input: () => {
+	// 			this.commandStack.execute('element.updateProperties', {
+	// 				element: element,
+	// 				properties: { id: node.val() }
+	// 			});
+	// 		}
+	// 	});
+	// }
 
 	private addNameListener(node, element): void {
 		node.bind({
