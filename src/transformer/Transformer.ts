@@ -90,16 +90,56 @@ class Transformer {
         let keys = Object.keys(obj);
         let objectType = "";
         let nodeNumberTarget;
+        let currentObject, currentKey;
         for (let i = 0; i < keys.length; i++)
         {
-            objectType = typeof obj[keys[i]];
+            currentObject = obj[keys[i]];
+            currentKey = keys[i];
+            if (Array.isArray(currentObject)) {
+                objectType = 'array';
+            }
+            else {
+                objectType = typeof currentObject;
+            }
+            
             //add atomic types as <sde:Member> to xml
             if ( atomicTypes.indexOf(objectType) > -1) {
                 this.addMemberToDiagram({
-                    name : keys[i],
+                    name : currentKey,
                     propType : objectType,
-                    value : obj[keys[i]]
+                    value : currentObject
                 });
+            } else if (objectType === 'array') {
+                console.log("wir haben ein array");
+                let arrayObject, arrayKey;
+                for (let j = 0; j < currentObject.length; j++) {
+                    arrayObject = currentObject[j];
+                    arrayKey = currentKey + `[${j}]`;
+
+                    nodeNumberTarget = ++this.nodeNumber;
+                    // let nodeNumberTarget = ++this.nodeNumber;
+                    children.push({
+                        obj : arrayObject,
+                        name : currentKey,
+                        level : level +1,
+                        positionInLevel : positionInLevel+numberChildren,
+                        nodeNumber : nodeNumberTarget
+                    });
+                    edges.push({
+                        sourceNode : `node_${thisNodeNumber}`,
+                        tragetNode : `node_${nodeNumberTarget}`,
+                        sourceX : x+75, //+75 for center x
+                        sourceY : y+100, //+100 for bottom
+                        targetX : (150 * (positionInLevel+(numberChildren+1)) + 50 * (positionInLevel+(numberChildren+1))) - 125,
+                        targetY : (100 * (level+1) + 50 * (level+1)),
+                        nodeNumber : thisNodeNumber,
+                        nodeNumberTarget : nodeNumberTarget,
+                        edgeid : ++this.edgeid,
+                        name : arrayKey
+                    });
+
+                    numberChildren++;
+                }
             } else if (objectType === 'object') {
                 // other objects will be added to diagram xml and diagram interchange later
                 // it's an edge
@@ -107,8 +147,8 @@ class Transformer {
                 nodeNumberTarget = ++this.nodeNumber;
                 // let nodeNumberTarget = ++this.nodeNumber;
                 children.push({
-                    obj : obj[keys[i]],
-                    name : keys[i],
+                    obj : currentObject,
+                    name : currentKey,
                     level : level +1,
                     positionInLevel : positionInLevel+numberChildren,
                     nodeNumber : nodeNumberTarget
@@ -123,7 +163,7 @@ class Transformer {
                     nodeNumber : thisNodeNumber,
                     nodeNumberTarget : nodeNumberTarget,
                     edgeid : ++this.edgeid,
-                    name : keys[i]
+                    name : currentKey
                 });
 
                 numberChildren++;
