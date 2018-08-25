@@ -54,17 +54,27 @@ export default class EasyRenderer extends BaseRenderer {
 				// return this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				const rect = this.drawRect(visuals, element.width || 0, element.height || 0, STYLE);
 				this.renderEmbeddedLabel(visuals, element, 'center-top');
+				
+				//render the line under class name
+				let waypoints = [
+					{x : 0, y : 25},
+					{x : element.width, y : 25}
+				]
+				this.drawEdge(visuals.parentElement, waypoints, CONNECTION_STYLE, undefined);
 
 				let addToY = 25;
 				(element.businessObject.members || []).forEach(member => {
-					let text = member.name + ': ' + member.propType + ' = ';
-					if (member.propType === "string") {
-						text += `"${member.value}"`;
-					} else {
-						text += member.value;
-					}
-					this.renderLabel(visuals, text, { box: element, align: 'left', padding: 5, addToY : addToY });
-					addToY += 15;
+						let text = member.name + ': ' + member.propType + ' = ';
+						if (member.propType === "string") {
+							text += `"${member.value}"`;
+						} else if (member.propType === "Array") {
+							//do nothing
+							text = member.name + ' : ' + member.propType;
+						} else {
+							text += member.value;
+						}
+						this.renderLabel(visuals, text, { box: element, align: 'left', padding: 5, addToY : addToY });
+						addToY += 15;
 				});
 				return rect;
 			},
@@ -194,7 +204,8 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public renderEmbeddedLabel(p, element, align) {
-		return this.renderLabel(p, element.businessObject.name + ':' + element.businessObject.class, { box: element, align: align, padding: 5 });
+		// return this.renderLabel(p, element.businessObject.name + ':' + element.businessObject.class, { box: element, align: align, padding: 5 });
+		return this.renderLabel(p, element.businessObject.class, { box: element, align: align, padding: 5 });
 	}
 
 	public renderLabel(p, label, options) {

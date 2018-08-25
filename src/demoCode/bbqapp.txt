@@ -34,14 +34,26 @@ class Application {
     //initialize with empty object
     constructor() {
         //initialize rootModle
+        let bob = new Person("Bob");
+        bob.addItem('beer', 10);
+        bob.addItem('crackers', 15);
+
         window.rootModle = {
             total : 42,
             share : 21,
-            persons : {
-                "Bob" : new Person("Bob"),
-                "Alice" : new Person("Alice")
-            }
+            persons : [
+                bob,
+                new Person("Alice")
+            ]
         };
+        
+        
+        // window.rootModle.persons["Bob"] = bob;
+
+
+
+        // let alice = new Person("Alice");
+        // window.rootModle.persons["Alice"] = alice;
     }
 
     renderApplication() {
@@ -51,12 +63,17 @@ class Application {
         let container = document.createElement('div');
 
         //render persons
-        let keys = Object.keys(window.rootModle.persons), renderedPerson;
-        console.log("keys:" + keys);
-        keys.forEach((key) => {
-            renderedPerson = this.renderPerson(window.rootModle.persons[key]);
+        // let keys = Object.keys(window.rootModle.persons), renderedPerson;
+        // console.log("keys:" + keys);
+        // keys.forEach((key) => {
+        //     renderedPerson = this.renderPerson(window.rootModle.persons[key]);
+        //     container.appendChild(renderedPerson);
+        // });
+        let renderedPerson;
+        for (let i = 0; i < window.rootModle.persons.length; i++) {
+            renderedPerson = this.renderPerson(window.rootModle.persons[i]);
             container.appendChild(renderedPerson);
-        });
+        }
 
         container.appendChild(this.renderAddPersonArea());
 
@@ -106,10 +123,11 @@ window.onload = function() {
     application.renderApplication();
 }; 
 
+//window.rootModle.persons[name] = new Person(name);
 //@debug
 function addPerson() {
     let name = document.getElementById('inputNewPerson').value;
-    window.rootModle.persons[name] = new Person(name);
+    window.rootModle.persons.push(new Person(name));
     console.log("new persion: " + name);
     application.renderApplication();
 }

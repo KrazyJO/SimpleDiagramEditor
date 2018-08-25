@@ -12,12 +12,14 @@ export const DEFAULT_LABEL_SIZE = {
 //---------------------METHODS---------------------
 export function getLabel(element) {
   const businessObject = element.businessObject;
-  return businessObject.name;
+  // return businessObject.name;
+  return businessObject.class;
 }
 
 export function setLabel(element, text) {
   const businessObject = element.businessObject;
-  businessObject.name = text;
+  // businessObject.name = text;
+  businessObject.class = text;
   const label = element.label || element;
   label.hidden = false;
   return label;

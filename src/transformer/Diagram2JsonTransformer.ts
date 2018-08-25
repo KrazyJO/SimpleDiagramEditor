@@ -53,22 +53,25 @@ class Diagram2JsonTransformer {
         let targetNodeId = node.getAttribute('targetNode');
         //find source
         let sourceNode = this.findNodeWithId(sourceNodeId);
-        if (!sourceNode)
-        {
+        if (!sourceNode) {
             //was removed from diagram
             return;
         }
 
         //find target
         let targetNode = this.findNodeWithId(targetNodeId);
-        if (!targetNode)
-        {
+        if (!targetNode) {
             //was removed from diagram
             return;
         }
 
         //add targetNode as property in sourceNode with its name
-        sourceNode.obj[targetNode.name] = targetNode.obj;
+        let source = sourceNode.obj[targetNode.name];
+        if (Array.isArray(source)) {
+            source.push(targetNode.obj);
+        } else {
+            source = targetNode.obj;
+        }
     }
 
     private findNodeWithId(id : string) : objNode {
@@ -142,6 +145,9 @@ class Diagram2JsonTransformer {
                     break;
                 case "string": 
                     obj.obj[propName] = value;
+                    break;
+                case "Array":
+                    obj.obj[propName] = [];
                     break;
                 default:
                     console.error("this propType is not implemented: " + propType);

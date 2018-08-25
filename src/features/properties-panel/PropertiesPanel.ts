@@ -3,6 +3,7 @@ import { forEach } from 'min-dash';
 import * as $ from 'jquery';
 import UpdatePropertiesHandler from './cmd/UpdatePropertiesHandler';
 import AddPropertyHandler from './cmd/AddPropertyHandler';
+import UpdateConnectionHandler from './cmd/UpdateConnectionHandler';
 import { is } from '@utils/ModelUtil';
 import { Base } from 'diagram-ts/model';
 
@@ -20,12 +21,13 @@ export default class PropertiesPanel {
 	static getCmdHandlers(): any {
 		return {
 			'element.addProperty' : AddPropertyHandler,
-			'element.updateProperties': UpdatePropertiesHandler
+			'element.updateProperties': UpdatePropertiesHandler,
+			'element.updateConnection' : UpdateConnectionHandler
 		};
 	}
 
 	private static addTitle(container): void {
-		const titleHtml = '<div><h3 class="text-center">Properties</h3></div><hr>'; 
+		const titleHtml = '<div><h4 class="text-center">Properties</h3></div><hr>'; 
 		container.append(titleHtml);
 	}
 
@@ -53,11 +55,17 @@ export default class PropertiesPanel {
 
 	private refreshPropertiePannel(panel, element): void {
 		panel.empty();
-		if (element.businessObject && element.businessObject.$type !== 'sdedi:SimpleDebugEditorDiagram') {
+		// if (element.businessObject && element.businessObject.$type !== 'sdedi:SimpleDebugEditorDiagram') {
+		if (element.type && element.type === 'sde:Node') {
 			PropertiesPanel.addTitle(panel);
 			this.addProperties(element, panel);
-			this.addAddNewProperty(panel);
-			this.addButtonAddListener($('#addNewProperty'), element);
+
+			//only Nodes can get new properties
+			if (element.type === 'sde:Node') {
+				this.addAddNewProperty(panel);
+			}
+
+			this.addButtonAddListener($('#addNewProperty'), element, panel);
 		}
 	}
 
@@ -70,6 +78,7 @@ export default class PropertiesPanel {
 		<option value="string">string</option>
 		<option value="number">number</option>
 		<option value="boolean">boolean</option>
+		<option value="Array">Array</option>
 	</select>
 	<input placeholder="value" id="addNewPropertyValue"></input>
 	<button id="addNewProperty" type="button">add</button>
@@ -87,60 +96,74 @@ export default class PropertiesPanel {
 	}
 
 	private addElementDefaults(element, container) {
+		let renderedMembers : string = '', disabled : string, value : string;
 		let members : any[] = element.businessObject.members || [];
-		let renderedMembers : string = '';
-
-		if (members.length > 0 )
-		{
-			renderedMembers = '<div class="form-group row">';
-			(members).forEach(member => {
-				renderedMembers += `
-					<div class="row">
-						<div class="col-2">
-							<label for="${element.id}-member${member.id}-value" class="col-form-label-sm">${member.name}</label>
-						</div>
-						<div class="col-10">
-							<input type="text" class="form-control-sm" id="${element.id}-member_${element.id}_${member.name}-value" value="${member.value}">
-						</div>
-					</div>  
-				  `
-			});
-			renderedMembers += '</div>';
+		
+		if (element.type === 'sde:Node') {
+			if (members.length > 0 ) {
+	
+				renderedMembers = '<div class="form-group row">';
+				(members).forEach(member => {
+					if (member.propType === 'Array') {
+						disabled = 'disabled="disabled"';
+						value = '[]';
+					} else {
+						disabled = '';
+						value = member.value
+					}
+					renderedMembers += `
+						<div class="row">
+							<div class="col-2">
+								<label for="${element.id}-member${member.id}-value" class="col-form-label-sm">${member.name}</label>
+							</div>
+							<div class="col-10">
+								<input type="text" ${disabled} class="form-control-sm" id="${element.id}-member_${element.id}_${member.name}-value" value="${value}">
+							</div>
+						</div>  
+					  `
+				});
+				renderedMembers += '</div>';
+			}
 		}
 
+
+
 		const idHTML =
-			`
-				<fieldset class="well">
-				<legend class="well-legend">${is(element, 'sde:Node') ? 'Node' : 'Edge'}</legend>
-				<div class="form-group row">
-					<div class="col-2">
-					<label for="${element.id}-id" class="col-form-label-sm">ID</label>
-					</div>
-					<div class="col-10">
-					<input type="text" class="form-control-sm" id="${element.id}-id" value="${element.businessObject.id}" disabled>
-					</div>
+		`
+			<fieldset class="well">
+			<div class="row">
+				<div class="col-2">
+				<label for="${element.id}-name" class="col-form-label-sm">Connection</label>
 				</div>
-				<br/>
-				<div class="form-group row">
-					<div class="col-2">
-					<label for="${element.id}-name" class="col-form-label-sm">Name</label>
-					</div>
-					<div class="col-10">
-					<input type="text" class="form-control-sm" id="${element.id}-name" value="${element.businessObject.name}">
-					</div>
+				<div class="col-10">
+				<input type="text" class="form-control-sm" id="${element.id}-name" value="${element.businessObject.name}">
 				</div>
-				${renderedMembers}
-				</fieldset>
-			`;
+			</div>
+			<div class="row">
+				<div class="col-2">
+				<label for="${element.id}-class" class="col-form-label-sm">Class</label>
+				</div>
+				<div class="col-10">
+				<input type="text" class="form-control-sm" id="${element.id}-class" value="${element.businessObject.class}">
+				</div>
+			</div>
+			${renderedMembers}
+			</fieldset>
+		`;
+		
 		container.append(idHTML);
-		this.addIDListener($('#' + element.id + '-id'), element);
-		this.addNameListener($('#' + element.id + '-name'), element);
-		(members).forEach(member => {
-			this.addMemberValListener($('#' + element.id+'-member'+'_'+element.id+'_'+member.name + '-value'), element, member);
-		});
+		// this.addIDListener($('#' + element.id + '-id'), element);
+		this.addNameListener($('#' + element.id + '-class'), element);
+		this.addConnectionListener($('#' + element.id + '-name'), element);
+
+		if (element.type === 'sde:Node') {
+			(members).forEach(member => {
+				this.addMemberValListener($('#' + element.id+'-member'+'_'+element.id+'_'+member.name + '-value'), element, member);
+			});
+		}
 	}
 
-	private addButtonAddListener(node, element): void {
+	private addButtonAddListener(node, element, panel): void {
 		node.bind({
 			click : () => {
 				// grap informations from panel
@@ -158,8 +181,10 @@ export default class PropertiesPanel {
 						value : String(ePropValue.value)
 					}
 				});
+				this.refreshPropertiePannel(panel, element);
 			}
-		})
+		});
+		
 	}
 	
 	private addMemberValListener(node, element, member) : void {
@@ -174,21 +199,32 @@ export default class PropertiesPanel {
 		});
 	}
 
-	private addIDListener(node, element): void {
-		node.bind({
-			input: () => {
-				this.commandStack.execute('element.updateProperties', {
-					element: element,
-					properties: { id: node.val() }
-				});
-			}
-		});
-	}
+	// private addIDListener(node, element): void {
+	// 	node.bind({
+	// 		input: () => {
+	// 			this.commandStack.execute('element.updateProperties', {
+	// 				element: element,
+	// 				properties: { id: node.val() }
+	// 			});
+	// 		}
+	// 	});
+	// }
 
 	private addNameListener(node, element): void {
 		node.bind({
 			input: () => {
 				this.commandStack.execute('element.updateLabel', {
+					element: element,
+					newLabel: node.val()
+				});
+			}
+		});
+	}
+
+	private addConnectionListener(node, element): void {
+		node.bind({
+			input: () => {
+				this.commandStack.execute('element.updateConnection', {
 					element: element,
 					newLabel: node.val()
 				});
