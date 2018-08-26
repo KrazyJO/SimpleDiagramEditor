@@ -22,7 +22,7 @@ class Person {
     getPersonTotal() {
         let total = 0;
         this.items.forEach(item => {
-            total += item.price;
+            total += parseInt(item.price);
         });
         return total;
     }
@@ -68,7 +68,7 @@ class Application {
     calculateTotal() {
         let total = 0;
         window.rootModle.persons.forEach(person => {
-            total += person.getPersonTotal();
+            total += parseInt(person.getPersonTotal());
         });
         return total;
     }
@@ -201,19 +201,19 @@ function addPerson() {
     console.log("just to show");
 }
 
+//@debug
 function addItem(event) {
-    let parent = event.target.parentElement;
-    let price = parent.getElementsByClassName('bbq-addItem-price')[0].value;
-    let name = parent.getElementsByClassName('bbq-addItem-name')[0].value;
-    let ID = parent.parentElement.getAttribute('data-id');
+    let parentElement = event.target.parentElement;
+    let price = parentElement.getElementsByClassName('bbq-addItem-price')[0].value;
+    let name = parentElement.getElementsByClassName('bbq-addItem-name')[0].value;
+    let ID = parentElement.parentElement.getAttribute('data-id');
     console.log(ID);
     application.addItemToPersonWithID(ID, name, price);
     application.renderApplication();
 }
 
-//@debug
+
 function setNewTotal() {
-    debugger;
     let newTotal = application.calculateTotal();
     rootModle.total = newTotal;
     console.log("just to show");

@@ -52,9 +52,14 @@ class Debugger {
 
         //sJsCode.match(regex) would deliver all matches (more than one function)
 
-        var regex = /\/\/@debug\s*function\s(.*)\s*\(\)\s*{\s*([^\}]*]*)}/g;
+        var regex = /\/\/@debug\s*function\s(.*)\s*\(([a-zA-Z,]*)\)\s*{\s*([^\}]*]*)}/g;
         var matches = regex.exec(sJsCode);
+        // matches[0] => whole function
+        // matches[1] => function name
+        // matches[2] => function arguments
+        // matches[3] => function body
         if (matches) {
+            let fnArguments = matches[2];
             var iStart : number = matches.index;
             var iEnd : number = iStart + matches[0].length;
             var sSubstring : string = sJsCode.substr(iStart, matches[0].length);
@@ -62,7 +67,7 @@ class Debugger {
             const textBeforeFunctionToDebug = sJsCode.substr(0, iStart);
 
             //codeToDebug is the body of the function
-            var codeToDebug = matches[2];
+            var codeToDebug = matches[3];
             // var commands = codeToDebug.replace(/\s/g, '').split(';');
 
             //we just want to split \n to get the lines for code highlighting
@@ -120,7 +125,7 @@ class Debugger {
             }
             `;
             //make function inside application async to play with promises
-            sSubstring = 'async function ' + matches[1] + '() {' + body + '}';
+            sSubstring = 'async function ' + matches[1] + '('+fnArguments+') {' + body + '}';
 
             //set the steps to execute to let code run
             this.steps = debuggerSteps;
