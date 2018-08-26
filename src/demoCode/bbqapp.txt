@@ -22,13 +22,6 @@ class Item {
     }
 }
 
-class ViewWrapper {
-
-    addItem() {
-        //grap information from view
-    }
-}
-
 class Application {
 
     //initialize with empty object
@@ -46,14 +39,6 @@ class Application {
                 new Person("Alice")
             ]
         };
-        
-        
-        // window.rootModle.persons["Bob"] = bob;
-
-
-
-        // let alice = new Person("Alice");
-        // window.rootModle.persons["Alice"] = alice;
     }
 
     renderApplication() {
@@ -63,12 +48,6 @@ class Application {
         let container = document.createElement('div');
 
         //render persons
-        // let keys = Object.keys(window.rootModle.persons), renderedPerson;
-        // console.log("keys:" + keys);
-        // keys.forEach((key) => {
-        //     renderedPerson = this.renderPerson(window.rootModle.persons[key]);
-        //     container.appendChild(renderedPerson);
-        // });
         let renderedPerson;
         for (let i = 0; i < window.rootModle.persons.length; i++) {
             renderedPerson = this.renderPerson(window.rootModle.persons[i]);
@@ -82,6 +61,8 @@ class Application {
 
     renderAddPersonArea() {
         let divAddPerson = document.createElement('div');
+        divAddPerson.setAttribute('class', 'bbq-addPerson');
+
         let inputAddPerson = document.createElement('input');
         inputAddPerson.setAttribute('id', 'inputNewPerson');
         inputAddPerson.setAttribute('placeholder', 'Name');
@@ -97,15 +78,70 @@ class Application {
     }
 
     renderPerson(person) {
-        let p = document.createElement('div');
-        p.innerText = person.name;
+        let element = document.createElement('div');
+        element.setAttribute('class', 'bbq-person');
+        let name = document.createElement('div');
+        name.setAttribute('class', 'bbq-person-name');
 
-        return p;
+        element.appendChild(name);
+        element.innerText = person.name;
+
+        person.items.forEach((item) => {
+            element.appendChild(this.renderItem(item));
+        });
+
+        this.renderAddItem(element, person);
+
+        return element;
 
     }
 
-    renderItem() {
+    addItemListener(button, person) {
+        button.addEventListener('click', function(evt) {
+            addItem(person, evt);
+        }.bind(this));
+    }
 
+    renderItem(item) {
+        let element = document.createElement('div');
+        element.setAttribute('class', 'bbq-item');
+        
+        let itemName = document.createElement('div');
+        itemName.setAttribute('class', 'bbq-itemName');
+        itemName.innerText = item.name;
+
+        let itemPrice = document.createElement('div');
+        itemPrice.setAttribute('class', 'bbq-itemPrice');
+        itemPrice.innerText = item.price;
+
+        element.appendChild(itemName);
+        element.appendChild(itemPrice);
+
+        return element;
+
+    }
+
+    renderAddItem(element, person) {
+        let container = document.createElement('div');
+        let firstLine = document.createElement('div');
+        let name = document.createElement('input');
+        name.setAttribute('placeholder', 'item name');
+        name.setAttribute('class', 'bbq-addItem-name');
+        let price = document.createElement('input');
+        price.setAttribute('placeholder', 'price');
+        price.setAttribute('class', 'bbq-addItem-price');
+        firstLine.appendChild(name);
+        firstLine.appendChild(price);
+
+        let btn = document.createElement('button');
+        btn.setAttribute('class', 'addItem');
+        btn.innerText = 'add item';
+        this.addItemListener(btn, person);
+
+        container.appendChild(firstLine);
+        container.appendChild(btn);
+
+        element.appendChild(container);
     }
 }
 
@@ -116,18 +152,24 @@ class Controller {
 }
 
 let controller = new Controller();
-let viewWrapper = new ViewWrapper();
 let application = new Application();
 
 window.onload = function() {
     application.renderApplication();
 }; 
 
-//window.rootModle.persons[name] = new Person(name);
-//@debug
 function addPerson() {
     let name = document.getElementById('inputNewPerson').value;
     window.rootModle.persons.push(new Person(name));
-    console.log("new persion: " + name);
+    application.renderApplication();
+}
+
+//@debug
+function addItem(person, event) {
+    let parent = event.target.parentElement;
+    let price = parent.getElementsByClassName('bbq-addItem-price')[0].value;
+    let name = parent.getElementsByClassName('bbq-addItem-name')[0].value;
+    let item = new Item(name, price);
+    person.items.push(item);
     application.renderApplication();
 }
