@@ -11,6 +11,7 @@ class Person {
         this.name = name;
         this.items = [];
         this.ID = newRandomID();
+        this.saldo = 0;
     }
 
     addItem(name, price) {
@@ -25,6 +26,10 @@ class Person {
             total += parseInt(item.price);
         });
         return total;
+    }
+
+    calculateOwnSaldoWithShare(share) {
+        this.saldo = share - this.getPersonTotal();
     }
 }
 
@@ -55,6 +60,8 @@ class Application {
         };
     }
 
+    
+
     addItemToPersonWithID(ID, name, price) {
         let persons = window.rootModle.persons;
         for (let i = 0; i < persons.length; i++) {
@@ -73,6 +80,14 @@ class Application {
         return total;
     }
 
+    calculateSaldoForEveryone() {
+        let persons = window.rootModle.persons;
+        let share = window.rootModle.share;
+        persons.forEach(person => {
+            person.calculateOwnSaldoWithShare(share);
+        }); 
+    }
+
     renderApplication() {
         //call a global function to recalculate total
         setNewTotal();
@@ -83,7 +98,7 @@ class Application {
 
         let total = document.createElement('div');
         total.setAttribute('class', 'bbq-total');
-        total.innerText = 'total: ' + window.rootModle.total;
+        total.innerText = 'total: ' + window.rootModle.total + ', share: '+ window.rootModle.share;
         application.appendChild(total);
 
         let container = document.createElement('div');
@@ -122,11 +137,21 @@ class Application {
         let element = document.createElement('div');
         element.setAttribute('data-id', person.ID);
         element.setAttribute('class', 'bbq-person');
+        
+        let firstLine = document.createElement('div');
+        firstLine.setAttribute('class', 'bbq-person-firstline');
+
         let name = document.createElement('div');
         name.setAttribute('class', 'bbq-person-name');
+        name.innerText = person.name;
 
-        element.appendChild(name);
-        element.innerText = person.name;
+        let saldo = document.createElement('div');
+        saldo.setAttribute('class', 'bbq-person-saldo');
+        saldo.innerText = 'saldo: ' + person.saldo;
+
+        firstLine.appendChild(name);
+        firstLine.appendChild(saldo);
+        element.appendChild(firstLine);
 
         person.items.forEach((item) => {
             element.appendChild(this.renderItem(item));
@@ -216,5 +241,7 @@ function addItem(event) {
 function setNewTotal() {
     let newTotal = application.calculateTotal();
     rootModle.total = newTotal;
+    rootModle.share = newTotal / window.rootModle.persons.length;
+    application.calculateSaldoForEveryone();
     console.log("just to show");
 }

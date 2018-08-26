@@ -11,6 +11,7 @@
 			.bbq-person {
 				margin-bottom: 15px;
 				background-color: lightyellow;
+				clear: both;
 			}
 			.bbq-addItem {
 				padding-top: 5px;
