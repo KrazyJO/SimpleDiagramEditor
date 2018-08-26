@@ -52,7 +52,7 @@ class Debugger {
 
         //sJsCode.match(regex) would deliver all matches (more than one function)
 
-        var regex = /\/\/@debug\s*function\s(.*)\s*\(([a-zA-Z,]*)\)\s*{\s*([^\}]*]*)}/g;
+        var regex = /\/\/@debug\s*function\s(.*)\s*\(([a-zA-Z\,\s]*)\)\s*{\s*([^\}]*]*)}/g;
         var matches = regex.exec(sJsCode);
         // matches[0] => whole function
         // matches[1] => function name
