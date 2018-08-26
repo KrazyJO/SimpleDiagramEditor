@@ -29,7 +29,7 @@ class Person {
     }
 
     calculateOwnSaldoWithShare(share) {
-        this.saldo = share - this.getPersonTotal();
+        this.saldo = parseFloat(share - this.getPersonTotal()).toFixed(2);
     }
 }
 
@@ -98,7 +98,7 @@ class Application {
 
         let total = document.createElement('div');
         total.setAttribute('class', 'bbq-total');
-        total.innerText = 'total: ' + window.rootModle.total + ', share: '+ window.rootModle.share;
+        total.innerText = 'total: ' + parseFloat(window.rootModle.total).toFixed(2) + ', share: '+ parseFloat(window.rootModle.share).toFixed(2);
         application.appendChild(total);
 
         let container = document.createElement('div');
@@ -147,7 +147,7 @@ class Application {
 
         let saldo = document.createElement('div');
         saldo.setAttribute('class', 'bbq-person-saldo');
-        saldo.innerText = 'saldo: ' + person.saldo;
+        saldo.innerText = 'saldo: ' + parseFloat(person.saldo).toFixed(2);
 
         firstLine.appendChild(name);
         firstLine.appendChild(saldo);
