@@ -5,6 +5,9 @@
 				width: 400px;
 				border: 2px solid grey;
 			}
+			.bbq-total {
+				float: right;
+			}
 			.bbq-person {
 				margin-bottom: 15px;
 				background-color: lightyellow;

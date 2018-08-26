@@ -110,7 +110,6 @@ class Transformer {
                     value : currentObject
                 });
             } else if (objectType === 'array') {
-                console.log("wir haben ein array");
                 this.addMemberToDiagram({
                     name : currentKey,
                     propType : 'Array'

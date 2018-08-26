@@ -1,16 +1,30 @@
 //this is a port the awesome bbq applicaiton from programming methedologoies
 
+function newRandomID() {
+    // https://gist.github.com/gordonbrander/2230317
+    return Math.random().toString(36).substr(2, 9);
+}
+
 class Person {
 
     constructor(name) {
         this.name = name;
         this.items = [];
+        this.ID = newRandomID();
     }
 
     addItem(name, price) {
         console.log("add item")
         let item = new Item(name, price);
         this.items.push(item);
+    }
+
+    getPersonTotal() {
+        let total = 0;
+        this.items.forEach(item => {
+            total += item.price;
+        });
+        return total;
     }
 }
 
@@ -41,9 +55,36 @@ class Application {
         };
     }
 
+    addItemToPersonWithID(ID, name, price) {
+        let persons = window.rootModle.persons;
+        for (let i = 0; i < persons.length; i++) {
+            console.log("found " + persons.ID)
+            if (persons[i].ID === ID) {
+                persons[i].addItem(name, price);
+            }
+        }
+    }
+
+    calculateTotal() {
+        let total = 0;
+        window.rootModle.persons.forEach(person => {
+            total += person.getPersonTotal();
+        });
+        return total;
+    }
+
     renderApplication() {
+        //call a global function to recalculate total
+        setNewTotal();
+
+        //render now the application
         let application = document.getElementById('bbqapplication');
         application.innerHTML = '';
+
+        let total = document.createElement('div');
+        total.setAttribute('class', 'bbq-total');
+        total.innerText = 'total: ' + window.rootModle.total;
+        application.appendChild(total);
 
         let container = document.createElement('div');
 
@@ -79,6 +120,7 @@ class Application {
 
     renderPerson(person) {
         let element = document.createElement('div');
+        element.setAttribute('data-id', person.ID);
         element.setAttribute('class', 'bbq-person');
         let name = document.createElement('div');
         name.setAttribute('class', 'bbq-person-name');
@@ -90,15 +132,15 @@ class Application {
             element.appendChild(this.renderItem(item));
         });
 
-        this.renderAddItem(element, person);
+        this.renderAddItem(element);
 
         return element;
 
     }
 
-    addItemListener(button, person) {
+    addItemListener(button) {
         button.addEventListener('click', function(evt) {
-            addItem(person, evt);
+            addItem(evt);
         }.bind(this));
     }
 
@@ -146,31 +188,33 @@ class Application {
     }
 }
 
-class Controller {
-    addPerson() {
-        console.log("add person pressed");
-    }
-}
-
-let controller = new Controller();
 let application = new Application();
-
 window.onload = function() {
     application.renderApplication();
 }; 
 
-//@debug
+
 function addPerson() {
     let name = document.getElementById('inputNewPerson').value;
     window.rootModle.persons.push(new Person(name));
     application.renderApplication();
+    console.log("just to show");
 }
 
-function addItem(person, event) {
+function addItem(event) {
     let parent = event.target.parentElement;
     let price = parent.getElementsByClassName('bbq-addItem-price')[0].value;
     let name = parent.getElementsByClassName('bbq-addItem-name')[0].value;
-    let item = new Item(name, price);
-    person.items.push(item);
+    let ID = parent.parentElement.getAttribute('data-id');
+    console.log(ID);
+    application.addItemToPersonWithID(ID, name, price);
     application.renderApplication();
+}
+
+//@debug
+function setNewTotal() {
+    debugger;
+    let newTotal = application.calculateTotal();
+    rootModle.total = newTotal;
+    console.log("just to show");
 }
