@@ -123,6 +123,7 @@ class Application {
 
     renderAddItem(element, person) {
         let container = document.createElement('div');
+        container.setAttribute('class', 'bbq-addItem');
         let firstLine = document.createElement('div');
         let name = document.createElement('input');
         name.setAttribute('placeholder', 'item name');
@@ -134,7 +135,7 @@ class Application {
         firstLine.appendChild(price);
 
         let btn = document.createElement('button');
-        btn.setAttribute('class', 'addItem');
+        btn.setAttribute('class', 'bbq-addItem-btn');
         btn.innerText = 'add item';
         this.addItemListener(btn, person);
 
@@ -158,13 +159,13 @@ window.onload = function() {
     application.renderApplication();
 }; 
 
+//@debug
 function addPerson() {
     let name = document.getElementById('inputNewPerson').value;
     window.rootModle.persons.push(new Person(name));
     application.renderApplication();
 }
 
-//@debug
 function addItem(person, event) {
     let parent = event.target.parentElement;
     let price = parent.getElementsByClassName('bbq-addItem-price')[0].value;

@@ -1,7 +1,41 @@
 <html>
 	<head>
+		<style>
+			.bbq-application {
+				width: 400px;
+				border: 2px solid grey;
+			}
+			.bbq-person {
+				margin-bottom: 15px;
+				background-color: lightyellow;
+			}
+			.bbq-addItem {
+				padding-top: 5px;
+				padding-bottom: 5px;
+				background-color: lightgreen;
+			}
+			.bbq-item {
+				margin-left: 10px;
+				border: 1px solid grey;
+				overflow: hidden;
+			}
+			.bbq-itemName {
+				float: left;
+				padding-right: 15px;
+				clear: left
+			}
+			.bbq-itemPrice {
+				float: right;
+			}
+			.bbq-addPerson {
+				margin-top: 15px;
+				background-color: lightsteelblue;
+				border-top: 1px solid black;
+                padding-top: 5px;
+			}
+		</style>
 	</head>
 	<body>
-		<div id="bbqapplication">
+		<div id="bbqapplication" class="bbq-application">
 	</body>
 </html>
