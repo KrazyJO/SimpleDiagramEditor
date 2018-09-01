@@ -1,5 +1,8 @@
-import EventBus from 'lib/core/EventBus';
-
+import EventBus from '@diagram-ts/core/EventBus';
+import { expect } from "chai";
+const sinon = require('sinon');
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 /* global sinon */
 
@@ -473,7 +476,7 @@ describe('core/EventBus', function() {
       expect(listener).to.have.been.called;
 
       // Should not be fired
-      listener.reset(); // Reset the count
+      listener.resetHistory(); // Reset the count
       eventBus.fire('onceEvent');
       expect(listener).to.not.have.been.called;
 

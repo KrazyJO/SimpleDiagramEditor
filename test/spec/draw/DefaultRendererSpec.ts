@@ -1,9 +1,13 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from '@test/TestHelper';
 
-import drawModule from 'lib/draw';
+import drawModule from '@diagram-ts/draw';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('draw - DefaultRenderer', function() {

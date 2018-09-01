@@ -1,10 +1,14 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from '@test/TestHelper';
 
 
-import EventBus from 'lib/core/EventBus';
+import EventBus from '@diagram-ts/core/EventBus';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('environment/Mocking', function() {

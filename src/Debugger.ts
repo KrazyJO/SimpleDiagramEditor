@@ -1,6 +1,6 @@
-import EditorController from 'EditorController';
+import EditorController from './EditorController';
 import Diagram2JsonTransformer from './transformer/Diagram2JsonTransformer';
-import { Modeler } from 'Modeler';
+import { Modeler } from './Modeler';
 
 interface debugComand {
     line : number

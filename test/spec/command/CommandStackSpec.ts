@@ -6,7 +6,12 @@ import {
 } from '../../TestHelper';
 
 
-import cmdModule from '../../../src/diagram-ts/command';
+import cmdModule from '@diagram-ts/command';
+
+import { expect } from "chai";
+const sinon = require('sinon');
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 // example commands
 
@@ -108,7 +113,7 @@ describe('command/CommandStack', function() {
       // given
       commandStack.registerHandler('heho', Handler);
 
-      var context = {};
+      var context : any = {};
 
       // when
       commandStack.execute('heho', context);
@@ -195,7 +200,7 @@ describe('command/CommandStack', function() {
           }
         });
 
-        var context = { };
+        var context : any = { };
 
         // when
         var canExecute = commandStack.canExecute('command', context);
@@ -233,7 +238,7 @@ describe('command/CommandStack', function() {
           }
         });
 
-        var context = { };
+        var context : any = { };
 
         // when
         var canExecute = commandStack.canExecute('command', context);
@@ -258,7 +263,7 @@ describe('command/CommandStack', function() {
           }
         });
 
-        var context = { };
+        var context : any = { };
 
         // when
         var canExecute = commandStack.canExecute('command', context);
@@ -283,7 +288,7 @@ describe('command/CommandStack', function() {
           }
         });
 
-        var context = { };
+        var context : any = { };
 
         // when
         var canExecute = commandStack.canExecute('command', context);

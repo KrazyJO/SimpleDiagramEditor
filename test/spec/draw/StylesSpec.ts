@@ -1,5 +1,8 @@
-import Styles from 'lib/draw/Styles';
+import Styles from '@diagram-ts/draw/Styles';
 
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 describe('draw/Styles', function() {
 

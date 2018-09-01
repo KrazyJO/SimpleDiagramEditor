@@ -4,9 +4,10 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from '@test/TestHelper';
 
-import TestContainer from 'mocha-test-container-support';
+import * as TestContainer from 'mocha-test-container-support';
+// const TestContainer = require('mocha-test-container-support').TestContainer;
 
 import { merge } from 'min-dash';
 
@@ -20,7 +21,12 @@ import {
   classes as svgClasses
 } from 'tiny-svg';
 
-import { getChildren as getChildrenGfx } from 'lib/util/GraphicsUtil';
+import { getChildren as getChildrenGfx } from '@diagram-ts/util/GraphicsUtil';
+
+import { expect } from "chai";
+const sinon = require('sinon');
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('Canvas', function() {
@@ -30,7 +36,7 @@ describe('Canvas', function() {
   /**
    * Create a diagram with the given options
    */
-  function createDiagram(options) {
+  function createDiagram(options?) {
     return bootstrapDiagram(function() {
       return merge({
         canvas: {

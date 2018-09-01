@@ -14,11 +14,13 @@
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "baseUrl": "src",
+    "baseUrl": "./",
     "paths": {
-      "@utils/*": ["Util/*"],
-      "@diagram-ts/*": ["diagram-ts/*"]
-    } 
+      "@utils/*": ["src/Util/*"],
+      "@diagram-ts/*": ["src/diagram-ts/*"],
+      "@test/*" : ["test/*"]
+    },
+    "types" : ["mocha", "sinon-chai", "expect"]
   },
   "exclude": [
     "assets",
@@ -28,7 +30,6 @@
     "scripts",
     "karma.config.js",
     "index.js",
-    "dist",
-    "test"
+    "dist"
   ]
 }

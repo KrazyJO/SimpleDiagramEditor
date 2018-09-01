@@ -18,7 +18,7 @@ import {
 import { Bounds, Point, hints } from '../../interfaces';
 
 var INTERSECTION_THRESHOLD = 20,
-	ORIENTATION_THRESHOLD = {
+	ORIENTATION_THRESHOLD : any = {
 		'h:h': 20,
 		'v:v': 20,
 		'h:v': -10,

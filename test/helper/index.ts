@@ -6,8 +6,9 @@ import {
 
 import TestContainer from 'mocha-test-container-support';
 
-import Diagram from '../../src/diagram-ts/Diagram';
-import { event as domEvent } from 'min-dom';
+import Diagram from '@diagram-ts/Diagram';
+// import { event as domEvent } from 'min-dom';
+var domEvent = require('min-dom').event;
 
 var OPTIONS, DIAGRAM_JS;
 
@@ -35,7 +36,7 @@ var OPTIONS, DIAGRAM_JS;
  * @param  {Object|Function} locals  the local overrides to be used by the diagram or a function that produces them
  * @return {Function}         a function to be passed to beforeEach
  */
-export function bootstrapDiagram(options, locals) {
+export function bootstrapDiagram(options?, locals?) {
 
   return function() {
 
@@ -121,10 +122,11 @@ export function bootstrapDiagram(options, locals) {
 export function inject(fn) {
   return function() {
 
-    if (!DIAGRAM_JS) {
+    if (!DIAGRAM_JS) { 
       throw new Error('no bootstraped diagram, ensure you created it via #bootstrapDiagram');
     }
-    return DIAGRAM_JS.invoke(fn);
+    var inv = DIAGRAM_JS.invoke(fn);
+    return inv;
   };
 }
 
@@ -143,7 +145,7 @@ export function insertCSS(name, css) {
   }
 
   var head = document.head || document.getElementsByTagName('head')[0],
-      style = document.createElement('style');
+      style : any = document.createElement('style');
   style.setAttribute('data-css-file', name);
 
   style.type = 'text/css';
@@ -172,7 +174,7 @@ function DomEventTracker() {
       return domEvent.__bind(el, type, fn, capture);
     };
 
-    domEvent.unbind = function(el, type, fn, capture) {
+    domEvent.unbind = function(el:any, type, fn, capture) {
       el.$$listenerCount = (el.$$listenerCount || 0) -1;
       return domEvent.__unbind(el, type, fn, capture);
     };

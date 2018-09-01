@@ -1,31 +1,11 @@
 'use strict';
 
-var path = require('path');
-
-var absoluteBasePath = path.resolve(__dirname);
+process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 /* global process */
 
-// configures browsers to run test against
-// any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
-// var browsers =
-//   (process.env.TEST_BROWSERS || 'PhantomJS')
-//     .replace(/^\s+|\s+$/, '')
-//     .split(/\s*,\s*/g)
-//     .map(function(browser) {
-//       if (browser === 'ChromeHeadless') {
-//         process.env.CHROME_BIN = require('puppeteer').executablePath();
-
-//         // workaround https://github.com/GoogleChrome/puppeteer/issues/290
-//         if (process.platform === 'linux') {
-//           return 'ChromeHeadless_Linux';
-//         }
-//       }
-
-//       return browser;
-//     });
-
-var browsers = ['Chrome']
+// var browsers = ['ChromeDebugging'];
+var browsers = ['ChromeHeadlessDebugging'];
 
 var webpackCongig = require('./webpack.config');
 
@@ -38,7 +18,7 @@ module.exports = function(karma) {
     ],
 
     files: [
-      // 'test/spec/DiagramSpec.js',
+      'test/spec/DiagramSpec.js',
       // 'test/spec/util/AttachUtilSpec.js',
       // 'test/spec/util/CopyPasteUtil.js',
       // 'test/spec/util/ElementIntegrationSpec.js',
@@ -47,14 +27,18 @@ module.exports = function(karma) {
       // 'test/spec/util/IdGeneratorSpec.js',
       // 'test/spec/util/LineIntersectionSpec.js',
       // 'test/spec/util/TextSpec.js',
-      // 'test/spec/command/CommandInterceptorSpec.js',
-      // 'test/spec/command/CommandStackSpec.js'
       // 'test/spec/transformer/JsonToXmlSpec.js',
-      'test/spec/transformer/Diagram2JsonTransformerSpec.js'
+      // 'test/spec/transformer/Diagram2JsonTransformerSpec.js'
+      'test/spec/core/*Spec.ts'
+      // ,
+      // 'test/spec/command/*Spec.ts',
+      // 'test/spec/draw/*Spec.ts',
+      // 'test/spec/environment/*Spec.ts'
     ],
 
     preprocessors: {
-      'test/**/*.*': [ 'webpack', 'sourcemap' ]
+      'test/**/*.js': [ 'webpack', 'sourcemap' ],
+      'test/**/*.ts': [ 'webpack', 'sourcemap' ]
     },
 
     webpack : {
@@ -64,6 +48,9 @@ module.exports = function(karma) {
       node: {
         fs: 'empty'
       }
+    },
+    mime: {
+      'text/x-typescript': ['ts']
     },
 
     reporters: [ 'spec' ],
@@ -77,12 +64,17 @@ module.exports = function(karma) {
         base: 'ChromeHeadless',
         flags: [
           '--no-sandbox',
-          '--disable-setuid-sandbox'
+          '--disable-setuid-sandbox',
+          '--remote-debugging-port=9333'
         ],
         debug: true
       },
       ChromeDebugging: {
         base: 'Chrome',
+        flags: [ '--remote-debugging-port=9333' ]
+      },
+      ChromeHeadlessDebugging: {
+        base: 'ChromeHeadless',
         flags: [ '--remote-debugging-port=9333' ]
       }
     },

@@ -1,8 +1,11 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from '@test/TestHelper';
 
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 describe('ElementRegistry', function() {
 

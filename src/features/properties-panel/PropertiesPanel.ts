@@ -5,7 +5,7 @@ import UpdatePropertiesHandler from './cmd/UpdatePropertiesHandler';
 import AddPropertyHandler from './cmd/AddPropertyHandler';
 import UpdateConnectionHandler from './cmd/UpdateConnectionHandler';
 import { is } from '@utils/ModelUtil';
-import { Base } from 'diagram-ts/model';
+import { Base } from 'src/diagram-ts/model';
 
 
 

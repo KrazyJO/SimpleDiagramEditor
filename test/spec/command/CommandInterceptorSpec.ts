@@ -1,14 +1,18 @@
 import {
   bootstrapDiagram,
   inject
-} from '../../TestHelper';
+} from '@test/TestHelper';
 
 import inherits from 'inherits';
 
-import cmdModule from '../../../src/diagram-ts/command';
+import cmdModule from '@diagram-ts/command';
 // var cmdModule = require('../../../src/diagram-ts/command').default;
 
-import CommandInterceptor from '../../../src/diagram-ts/command/CommandInterceptor';
+import CommandInterceptor from '@diagram-ts/command/CommandInterceptor';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 // example commands
@@ -50,7 +54,7 @@ function TestInterceptor(eventBus) {
   CommandInterceptor.call(this, eventBus);
 }
 
-TestInterceptor.$inject = [ 'eventBus' ];
+(TestInterceptor as any).$inject = [ 'eventBus' ];
 
 inherits(TestInterceptor, CommandInterceptor);
 
@@ -80,7 +84,7 @@ describe('command/CommandInterceptor', function() {
   }));
 
   function traceCommand(e) {
-    expect(e).to.exist;
+    expect(e).to.exist;  
 
     e.context.element.trace.push(e.command);
   }

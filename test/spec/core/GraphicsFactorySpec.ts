@@ -1,7 +1,9 @@
+import 'mocha';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from '@test/TestHelper';
 
 import { merge } from 'min-dash';
 
@@ -10,7 +12,7 @@ describe('GraphicsFactory', function() {
 
   var container;
 
-  function createDiagram(self, options) {
+  function createDiagram(self, options?) {
 
     return bootstrapDiagram(function() {
       container = self.tests[0].__testcontainer__;
