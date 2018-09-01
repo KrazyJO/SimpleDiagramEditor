@@ -10,7 +10,11 @@ import {
   create as svgCreate
 } from 'tiny-svg';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+import CroppingConnectionDocking from '@diagram-ts/layout/CroppingConnectionDocking';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]

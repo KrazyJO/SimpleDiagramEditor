@@ -98,7 +98,7 @@ export function getBendpoints(a: Point, b: Point, directions: string): Point[] {
  *
  * @return {Array<Point>}
  */
-export function connectPoints(a: Point, b: Point, directions: string): Point[] {
+export function connectPoints(a: Point, b: Point, directions?: string): Point[] {
 
 	var points: Point[] = [];
 
@@ -129,7 +129,7 @@ export function connectPoints(a: Point, b: Point, directions: string): Point[] {
  *
  * @return {Array<Point>} connection points
  */
-export function connectRectangles(source: Bounds, target: Bounds, start: Point, end: Point, hints: any): Point[] {
+export function connectRectangles(source: Bounds, target: Bounds, start?: Point, end?: Point, hints?: any): Point[] {
 
 	var preferredLayouts = hints && hints.preferredLayouts || [];
 

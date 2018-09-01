@@ -74,7 +74,7 @@ export function asBounds(trbl : any) : Bounds {
  *
  * @return {Point}
  */
-export function getMid(bounds : Bounds) : Point {
+export function getMid(bounds : any) : Point {
 	return roundPoint({
 		x: bounds.x + (bounds.width || 0) / 2,
 		y: bounds.y + (bounds.height || 0) / 2

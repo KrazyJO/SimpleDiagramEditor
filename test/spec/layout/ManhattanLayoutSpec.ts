@@ -2,7 +2,11 @@ import {
   connectRectangles,
   connectPoints,
   repairConnection
-} from 'lib/layout/ManhattanLayout';
+} from '@diagram-ts/layout/ManhattanLayout';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 function point(x, y) {
@@ -328,11 +332,11 @@ describe('layout/ManhattanLayout', function() {
       };
     }
 
-    function connect(start, end, a, b) {
+    function connect(start, end, a?, b?) {
       return connectRectangles(start, end, a, b);
     }
 
-    function repair(start, end, a, b, waypoints, hints) {
+    function repair(start, end, a, b?, waypoints?, hints?) {
       return repairConnection(start, end, a, b, waypoints, hints);
     }
 

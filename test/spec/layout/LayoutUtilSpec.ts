@@ -1,8 +1,11 @@
 import {
   getOrientation,
   getMid
-} from 'lib/layout/LayoutUtil';
+} from '@diagram-ts/layout/LayoutUtil';
 
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 function rect(x, y, width, height) {
   return { x: x, y: y, width: width, height: height };
