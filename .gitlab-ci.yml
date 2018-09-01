@@ -18,6 +18,8 @@ build:
     - npm run webpack
   artifacts:
     untracked: true
+  only:
+    - master
 
 test:
   stage: test
