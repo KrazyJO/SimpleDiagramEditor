@@ -18,26 +18,10 @@ module.exports = function(karma) {
     ],
 
     files: [
-      'test/spec/DiagramSpec.js',
-      // 'test/spec/util/AttachUtilSpec.js',
-      // 'test/spec/util/CopyPasteUtil.js',
-      // 'test/spec/util/ElementIntegrationSpec.js',
-      // 'test/spec/util/ElementsSpec.js',
-      // 'test/spec/util/GeometrySpec.js',
-      // 'test/spec/util/IdGeneratorSpec.js',
-      // 'test/spec/util/LineIntersectionSpec.js',
-      // 'test/spec/util/TextSpec.js',
-      // 'test/spec/transformer/JsonToXmlSpec.js',
-      // 'test/spec/transformer/Diagram2JsonTransformerSpec.js'
-      'test/spec/core/*Spec.ts'
-      // ,
-      // 'test/spec/command/*Spec.ts',
-      // 'test/spec/draw/*Spec.ts',
-      // 'test/spec/environment/*Spec.ts'
+      'test/spec/**/*Spec.ts'
     ],
 
     preprocessors: {
-      'test/**/*.js': [ 'webpack', 'sourcemap' ],
       'test/**/*.ts': [ 'webpack', 'sourcemap' ]
     },
 
@@ -80,7 +64,7 @@ module.exports = function(karma) {
     },
 
     autoWatch: true,
-    // singleRun: true,
+    singleRun: true
 
   });
 };

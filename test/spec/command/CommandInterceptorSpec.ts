@@ -1,13 +1,10 @@
 import {
   bootstrapDiagram,
   inject
-} from '@test/TestHelper';
+} from 'test/TestHelper';
 
-import inherits from 'inherits';
-
+// import inherits from 'inherits';
 import cmdModule from '@diagram-ts/command';
-// var cmdModule = require('../../../src/diagram-ts/command').default;
-
 import CommandInterceptor from '@diagram-ts/command/CommandInterceptor';
 
 import { expect } from "chai";
@@ -50,14 +47,20 @@ function PostCommand() {
 /**
  * A command interceptor used for testing
  */
-function TestInterceptor(eventBus) {
-  CommandInterceptor.call(this, eventBus);
+// function TestInterceptor(eventBus) {
+//   CommandInterceptor.call(this, eventBus);
+// }
+
+
+// inherits(TestInterceptor, CommandInterceptor);
+
+class TestInterceptor extends CommandInterceptor {
+  constructor(eventBus) {
+    super(eventBus);
+  }
 }
 
 (TestInterceptor as any).$inject = [ 'eventBus' ];
-
-inherits(TestInterceptor, CommandInterceptor);
-
 
 describe('command/CommandInterceptor', function() {
 
@@ -104,7 +107,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register global', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.preExecute(traceCommand);
 
@@ -121,7 +124,7 @@ describe('command/CommandInterceptor', function() {
 
 
       it('should register global / unwrap', inject(function(commandStack, eventBus) {
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.preExecute(traceUnwrappedCommand, true);
 
@@ -140,7 +143,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any= new TestInterceptor(eventBus);
 
         interceptor.preExecute('simple-command', traceCommand);
 
@@ -156,7 +159,7 @@ describe('command/CommandInterceptor', function() {
 
 
       it('should register scoped / unwrap', inject(function(commandStack, eventBus) {
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.preExecute('simple-command', traceUnwrappedCommand, true);
 
@@ -178,7 +181,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.preExecuted('simple-command', traceCommand);
 
@@ -199,7 +202,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.postExecute('simple-command', traceCommand);
 
@@ -220,7 +223,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.postExecuted('simple-command', traceCommand);
 
@@ -241,7 +244,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.canExecute('simple-command', traceCommand);
 
@@ -262,7 +265,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.execute('simple-command', traceCommand);
 
@@ -283,7 +286,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.executed('simple-command', traceCommand);
 
@@ -304,7 +307,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.executed('simple-command', traceCommand);
 
@@ -328,7 +331,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register scoped', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.executed('simple-command', traceCommand);
 
@@ -351,7 +354,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register global preExecute', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.on('preExecute', traceCommand);
 
@@ -367,7 +370,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register global preExecute / unwrap', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.on('preExecute', traceUnwrappedCommand, true);
 
@@ -398,7 +401,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register globally', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.preExecute(500, trace('low'));
         interceptor.preExecute(trace('default'));
@@ -418,7 +421,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register locally', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.preExecute('simple-command', 500, trace('low'));
         interceptor.preExecute('simple-command', trace('default'));
@@ -442,7 +445,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.on('preExecute', 500, trace('global-low'));
         interceptor.on([ 'simple-command.preExecute' ], trace('local-default'));
@@ -466,7 +469,7 @@ describe('command/CommandInterceptor', function() {
 
       it('should register mixed', inject(function(commandStack, eventBus) {
 
-        var interceptor = new TestInterceptor(eventBus);
+        var interceptor : any = new TestInterceptor(eventBus);
 
         interceptor.on([ 'simple-command.preExecute', 'preExecute'], 500, trace('raw-multiple-low'));
 
@@ -514,7 +517,7 @@ describe('command/CommandInterceptor', function() {
     }));
 
     it('should pass context -> WITHOUT unwrap', inject(function(commandStack, eventBus) {
-      var interceptor = new TestInterceptor(eventBus);
+      var interceptor : any = new TestInterceptor(eventBus);
 
       // given
       Dog.prototype.bindListener = function() {
@@ -536,7 +539,7 @@ describe('command/CommandInterceptor', function() {
 
 
     it('should pass context -> WITH unwrap', inject(function(commandStack, eventBus) {
-      var interceptor = new TestInterceptor(eventBus);
+      var interceptor : any = new TestInterceptor(eventBus);
 
       // given
       Dog.prototype.bindListener = function() {
@@ -558,7 +561,7 @@ describe('command/CommandInterceptor', function() {
 
 
     it('should pass context -> WITH everything', inject(function(commandStack, eventBus) {
-      var interceptor = new TestInterceptor(eventBus);
+      var interceptor : any = new TestInterceptor(eventBus);
 
       // given
       Dog.prototype.bindListener = function() {
