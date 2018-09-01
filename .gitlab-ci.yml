@@ -27,6 +27,12 @@ build:
   artifacts:
     untracked: true
 
+test:
+  stage: test
+  script:
+    - yarn install
+    - yarn run test
+
 pages:
   stage: deploy
   script:
