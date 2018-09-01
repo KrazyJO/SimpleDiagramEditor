@@ -2,8 +2,11 @@ import {
   create,
   Connection,
   Shape
-} from 'lib/model';
+} from '@diagram-ts/model';
 
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 describe('model', function() {
 
