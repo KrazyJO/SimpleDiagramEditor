@@ -18,7 +18,8 @@ module.exports = function(karma) {
     ],
 
     files: [
-      'test/spec/**/*Spec.ts'
+      // 'test/spec/**/*Spec.ts'
+      'test/spec/DebuggerSpec.ts'
     ],
 
     preprocessors: {

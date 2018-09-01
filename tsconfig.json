@@ -19,7 +19,8 @@
       "@utils/*": ["src/Util/*"],
       "@diagram-ts/*": ["src/diagram-ts/*"],
       "@lib/*" : ["src/diagram-ts/*"],
-      "@test/*" : ["test/*"]
+      "@test/*" : ["test/*"],
+      "@src/*" : ["src/*"]
     },
     "types" : ["mocha", "sinon-chai", "expect"]
   },
