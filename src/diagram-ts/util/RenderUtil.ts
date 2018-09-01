@@ -23,7 +23,7 @@ export function toSVGPoints(points: Point[]) {
 	return result;
 }
 
-export function createLine(points: Point[], attrs: any) {
+export function createLine(points: Point[], attrs?: any) {
 
 	var line = create('polyline');
 	attr(line, { points: toSVGPoints(points) });

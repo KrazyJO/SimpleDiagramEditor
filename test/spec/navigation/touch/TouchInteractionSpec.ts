@@ -3,10 +3,12 @@ import {
   inject
 } from 'test/TestHelper';
 
-import touchModule from 'lib/navigation/touch';
-import contextPadModule from 'lib/features/context-pad';
-import paletteModule from 'lib/features/palette';
+import touchModule from '@lib/navigation/touch';
+import contextPadModule from '@lib/features/context-pad';
+import paletteModule from '@lib/features/palette';
 
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 describe('navigation/touch', function() {
 

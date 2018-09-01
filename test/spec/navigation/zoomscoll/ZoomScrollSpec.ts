@@ -14,7 +14,13 @@ import {
   domify
 } from 'min-dom';
 
-import zoomScrollModule from 'lib/navigation/zoomscroll';
+import zoomScrollModule from '@lib/navigation/zoomscroll';
+
+import { expect } from "chai";
+const sinon = require('sinon');
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
+
 
 
 describe('navigation/zoomscroll', function() {

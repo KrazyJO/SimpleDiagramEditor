@@ -3,8 +3,12 @@ import {
   inject
 } from 'test/TestHelper';
 
-import moveCanvasModule from 'lib/navigation/movecanvas';
-import interactionEventsModule from 'lib/features/interaction-events';
+import moveCanvasModule from '@lib/navigation/movecanvas';
+import interactionEventsModule from '@lib/features/interaction-events';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('navigation/movecanvas', function() {

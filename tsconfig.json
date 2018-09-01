@@ -18,6 +18,7 @@
     "paths": {
       "@utils/*": ["src/Util/*"],
       "@diagram-ts/*": ["src/diagram-ts/*"],
+      "@lib/*" : ["src/diagram-ts/*"],
       "@test/*" : ["test/*"]
     },
     "types" : ["mocha", "sinon-chai", "expect"]
