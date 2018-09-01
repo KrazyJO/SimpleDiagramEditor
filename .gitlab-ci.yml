@@ -26,7 +26,6 @@ test:
   script:
     - yarn install
     - yarn run tslint
-    - yarn run test
   artifacts:
     untracked: true
 

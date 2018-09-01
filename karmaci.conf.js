@@ -5,7 +5,8 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 /* global process */
 
 // var browsers = ['ChromeDebugging'];
-var browsers = ['ChromeHeadlessDebugging'];
+// var browsers = ['ChromeHeadlessDebugging'];
+var browsers = ['Chrome'];
 
 var webpackCongig = require('./webpack.config');
 
