@@ -35,6 +35,8 @@ class Diagram2JsonTransformer {
                         case 'sde:Edge':
                             this.handleEdge(node);
                             break;
+                        case 'sdedi:SimpleDebugEditorDiagram':
+                            break;
                         default:
                             console.log("not implemented yet: " + node.tagName);
                             break;
@@ -59,7 +61,7 @@ class Diagram2JsonTransformer {
         }
 
         //find target
-        let targetNode = this.findNodeWithId(targetNodeId);
+        let targetNode = this.findNodeWithId(targetNodeId); 
         if (!targetNode) {
             //was removed from diagram
             return;
@@ -70,7 +72,7 @@ class Diagram2JsonTransformer {
         if (Array.isArray(source)) {
             source.push(targetNode.obj);
         } else {
-            source = targetNode.obj;
+            sourceNode.obj[targetNode.name] = targetNode.obj;
         }
     }
 

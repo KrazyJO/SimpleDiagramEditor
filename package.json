@@ -6,12 +6,11 @@
     "tslint": "tslint -c tslint.json 'src/**/*.ts' --exclude 'src/typings/**'",
     "dev": "yarn run webpack:dev",
     "build": "yarn run webpack:prod",
-    "obsolet-test": "karma start",
     "webpack": "webpack --mode development",
-    "obsolet-webpack:dev": "cross-env NODE_ENV=development --mode=development webpack-dev-server --progress --profile --port=9060",
     "webpack:dev": "webpack-dev-server --progress --profile --port=9060 --mode=development",
     "webpack:prod": "cross-env NODE_ENV=production webpack --mode=production",
-    "test": "karma start"
+    "test": "karma start karmaci.conf.js",
+    "testdev": "karma start"
   },
   "devDependencies": {
     "@types/expect": "^1.20.3",

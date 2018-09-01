@@ -4,8 +4,8 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 /* global process */
 
-var browsers = ['ChromeDebugging'];
-// var browsers = ['ChromeHeadlessDebugging'];
+// var browsers = ['ChromeDebugging'];
+var browsers = ['ChromeHeadlessDebugging'];
 
 var webpackCongig = require('./webpack.config');
 
@@ -64,7 +64,7 @@ module.exports = function(karma) {
     },
 
     autoWatch: true,
-    singleRun: false
+    singleRun: true
 
   });
 };
