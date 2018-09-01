@@ -14,7 +14,7 @@ export default class IdGenerator {
 	private _counter : number;
 	private _prefix : string;
 
-	constructor(prefix: string) {
+	constructor(prefix?: string) {
 		this._counter = 0;
 		this._prefix = (prefix ? prefix + '-' : '') + Math.floor(Math.random() * 1000000000) + '-';
 	}

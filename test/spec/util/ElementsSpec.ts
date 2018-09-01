@@ -3,7 +3,11 @@ import {
   selfAndAllChildren,
   getBBox,
   getClosure
-} from '../../../src/diagram-ts/util/Elements';
+} from '@diagram-ts/util/Elements';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('util/Elements', function() {
@@ -25,7 +29,7 @@ describe('util/Elements', function() {
     ]
   };
 
-  var shapeB = {
+  var shapeB : any = {
     id: 'b'
   };
 
@@ -54,7 +58,7 @@ describe('util/Elements', function() {
     ]
   };
 
-  var shapeE = {
+  var shapeE : any = {
     id: 'e',
     children: [
       shapeC
@@ -82,7 +86,7 @@ describe('util/Elements', function() {
     it('should return self + children', function() {
 
       // given
-      var a = shapeA;
+      var a : any = shapeA;
 
       // when
       var result = selfAndDirectChildren([shapeA]);
@@ -105,7 +109,7 @@ describe('util/Elements', function() {
     it('should return unique elements', function() {
 
       // given
-      var a = shapeA,
+      var a : any = shapeA,
           child = shapeA.children[1];
 
       // when

@@ -1,6 +1,10 @@
 import {
   pointsOnLine
-} from '../../../src/diagram-ts/util/Geometry';
+} from '@diagram-ts/util/Geometry';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('util/Geometry', function() {

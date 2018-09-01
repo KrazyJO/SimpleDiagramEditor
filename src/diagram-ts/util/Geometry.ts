@@ -30,7 +30,7 @@ export function pointDistance(a: Point, b: Point) {
  *
  * @return {Boolean}
  */
-export function pointsOnLine(p: Point, q: Point, r: Point, accuracy: number) {
+export function pointsOnLine(p: Point, q: Point, r: Point, accuracy?: number) {
 
 	if (typeof accuracy === 'undefined') {
 		accuracy = 5;

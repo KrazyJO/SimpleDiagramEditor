@@ -1,4 +1,8 @@
-import IdGenerator from '../../../src/diagram-ts/util/IdGenerator';
+import IdGenerator from '@diagram-ts/util/IdGenerator';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('util/IdGenerator', function() {
@@ -19,7 +23,7 @@ describe('util/IdGenerator', function() {
   it('should configure without prefix', function() {
 
     // when
-    var foos = new IdGenerator();
+    var foos : any = new IdGenerator();
 
     // then
     expect(foos._prefix).to.exist;

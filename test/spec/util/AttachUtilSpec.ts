@@ -1,6 +1,10 @@
 import {
   getNewAttachPoint
-} from '../../../src/diagram-ts/util/AttachUtil';
+} from '@diagram-ts/util/AttachUtil';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('AttachUtil', function() {

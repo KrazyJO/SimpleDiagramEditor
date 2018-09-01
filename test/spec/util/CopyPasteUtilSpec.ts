@@ -1,4 +1,8 @@
-import * as CopyPasteUtil from '../../../src/diagram-ts/util/CopyPasteUtil';
+import * as CopyPasteUtil from '@diagram-ts/util/CopyPasteUtil';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('util/CopyPasteUtil', function() {
@@ -12,7 +16,7 @@ describe('util/CopyPasteUtil', function() {
         sD = { id: 'd', parent: { id: 'b' } },
         sF = { id: 'f', parent: { id: 'e' } },
         sG = { id: 'g', parent: { id: 'f' } },
-        sX = { id: 'x', parent: { id: 'y' } };
+        sX : any = { id: 'x', parent: { id: 'y' } };
 
 
     it('should only get the top level', function() {
@@ -21,7 +25,7 @@ describe('util/CopyPasteUtil', function() {
 
       // then
       expect(topLevel).to.contain(sA, sX);
-      expect(topLevel.length).to.equal(4);
+      expect(topLevel.length).to.equal(2);
     });
 
   });

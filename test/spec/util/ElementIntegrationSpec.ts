@@ -6,14 +6,13 @@ import {
 
 import {
   getEnclosedElements
-} from '@src/diagram-ts/util/Elements';
+} from '@diagram-ts/util/Elements';
 
 import modelingModule from '@diagram-ts/features/modeling';
 
 import { expect } from "chai";
 var chai = require('chai');
 chai.use(require('sinon-chai')); 
-
 
 describe('util/Elements', function() {
 
