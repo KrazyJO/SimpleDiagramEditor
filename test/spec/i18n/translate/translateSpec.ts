@@ -3,8 +3,12 @@ import {
   inject
 } from 'test/TestHelper';
 
-import translateModule from 'lib/i18n/translate';
+import translateModule from '@diagram-ts/i18n/translate';
 import customTranslateModule from './custom-translate';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 
 describe('i18n - translate', function() {

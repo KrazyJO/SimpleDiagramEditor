@@ -1,4 +1,4 @@
-import translate from 'lib/i18n/translate/translate';
+import translate from '@diagram-ts/i18n/translate/translate';
 
 export default function customTranslate(template, replacements) {
   if (template === 'Remove') {

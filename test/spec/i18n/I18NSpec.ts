@@ -5,8 +5,13 @@ import {
   inject
 } from 'test/TestHelper';
 
-import paletteModule from 'lib/features/palette';
-import i18nModule from 'lib/i18n';
+import paletteModule from '@diagram-ts/features/palette';
+import i18nModule from '@diagram-ts/i18n';
+
+import { expect } from "chai";
+const sinon = require('sinon');
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 var spy = sinon.spy;
 
