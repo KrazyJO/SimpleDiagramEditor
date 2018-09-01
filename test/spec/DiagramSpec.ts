@@ -1,4 +1,8 @@
-import Diagram from '../../src/diagram-ts/Diagram';
+import Diagram from '@diagram-ts/Diagram';
+
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 describe('diagram', function() {
 
