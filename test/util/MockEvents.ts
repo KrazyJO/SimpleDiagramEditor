@@ -15,7 +15,7 @@ import {
  *
  * @return {Event} event, scoped to the given canvas
  */
-export function createCanvasEvent(position, data) {
+export function createCanvasEvent(position, data?) {
 
   return getDiagramJS().invoke(function(canvas) {
 

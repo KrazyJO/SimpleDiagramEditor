@@ -15,8 +15,6 @@ import {
 
 import { getNewAttachShapeDelta } from '../../util/AttachUtil';
 
-import inherits from 'inherits';
-
 var LOW_PRIORITY = 251,
     HIGH_PRIORITY = 1401;
 
@@ -37,9 +35,11 @@ import CommandInterceptor from '../../command/CommandInterceptor';
  * @param {Rules} rules
  * @param {Modeling} modeling
  */
-export default function AttachSupport(injector, eventBus, rules, modeling) {
+export default class AttachSupport extends CommandInterceptor {
 
-  CommandInterceptor.call(this, eventBus);
+  constructor(injector, eventBus, rules, modeling) {
+    // CommandInterceptor.call(this, eventBus);
+    super(eventBus);
 
   var movePreview = injector.get('movePreview', false);
 
@@ -75,7 +75,7 @@ export default function AttachSupport(injector, eventBus, rules, modeling) {
 
 
   // move all attachments after the other shapes are done moving
-  this.postExecuted('elements.move', function(event) {
+  (this as any).postExecuted('elements.move', function(event) {
 
     var context = event.context,
         delta = context.delta,
@@ -98,7 +98,7 @@ export default function AttachSupport(injector, eventBus, rules, modeling) {
   });
 
   // perform the attaching after shapes are done moving
-  this.postExecuted('elements.move', function(e) {
+  (this as any).postExecuted('elements.move', function(e) {
 
     var context = e.context,
         shapes = context.shapes,
@@ -126,7 +126,7 @@ export default function AttachSupport(injector, eventBus, rules, modeling) {
   });
 
   // ensure invalid attachment connections are removed
-  this.postExecuted('elements.move', function(e) {
+  (this as any).postExecuted('elements.move', function(e) {
 
     var shapes = e.context.shapes;
 
@@ -163,7 +163,7 @@ export default function AttachSupport(injector, eventBus, rules, modeling) {
     });
   });
 
-  this.postExecute('shape.create', function(e) {
+  (this as any).postExecute('shape.create', function(e) {
     var context = e.context,
         shape = context.shape,
         host = context.host;
@@ -174,7 +174,7 @@ export default function AttachSupport(injector, eventBus, rules, modeling) {
   });
 
   // update attachments if the host is replaced
-  this.postExecute('shape.replace', function(e) {
+  (this as any).postExecute('shape.replace', function(e) {
 
     var context = e.context,
         oldShape = context.oldShape,
@@ -206,7 +206,7 @@ export default function AttachSupport(injector, eventBus, rules, modeling) {
   });
 
   // move shape on host resize
-  this.postExecute('shape.resize', function(event) {
+  (this as any).postExecute('shape.resize', function(event) {
     var context = event.context,
         shape = context.shape,
         oldBounds = context.oldBounds,
@@ -229,7 +229,7 @@ export default function AttachSupport(injector, eventBus, rules, modeling) {
   });
 
   // remove attachments
-  this.preExecute('shape.delete', function(event) {
+  (this as any).preExecute('shape.delete', function(event) {
 
     var shape = event.context.shape;
 
@@ -275,11 +275,14 @@ export default function AttachSupport(injector, eventBus, rules, modeling) {
 
     context.attachSupportInitialized = true;
   });
+  }
+
+  
 }
 
-inherits(AttachSupport, CommandInterceptor);
+// inherits(AttachSupport, CommandInterceptor);
 
-AttachSupport.$inject = [
+(AttachSupport as any).$inject = [
   'injector',
   'eventBus',
   'rules',

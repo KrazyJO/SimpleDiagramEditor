@@ -1,5 +1,8 @@
-import SnapContext from 'lib/features/snapping/SnapContext';
+import SnapContext from '@lib/features/snapping/SnapContext';
 
+import { expect } from "chai";
+var chai = require('chai');
+chai.use(require('sinon-chai')); 
 
 describe('snapping - SnapContext', function() {
 
