@@ -1,4 +1,4 @@
-image: popcornpool/chrome-node-yarn:latest
+image: atlassianlabs/docker-node-jdk-chrome-firefox:latest
 
 stages:
   - test

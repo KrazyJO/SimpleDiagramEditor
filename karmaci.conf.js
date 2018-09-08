@@ -3,11 +3,7 @@
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 /* global process */
-
-// var browsers = ['ChromeDebugging'];
-// var browsers = ['ChromeHeadlessDebugging'];
 var browsers = ['ChromeHeadless_Linux'];
-
 var webpackCongig = require('./webpack.config');
 
 module.exports = function(karma) {
@@ -34,6 +30,11 @@ module.exports = function(karma) {
         fs: 'empty'
       }
     },
+    webpackMiddleware: {
+      // webpack-dev-middleware configuration
+      // i. e.
+      stats: 'errors-only'
+    },
     mime: {
       'text/x-typescript': ['ts']
     },
@@ -49,18 +50,8 @@ module.exports = function(karma) {
         base: 'ChromeHeadless',
         flags: [
           '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--remote-debugging-port=9333'
-        ],
-        debug: true
-      },
-      ChromeDebugging: {
-        base: 'Chrome',
-        flags: [ '--remote-debugging-port=9333' ]
-      },
-      ChromeHeadlessDebugging: {
-        base: 'ChromeHeadless',
-        flags: [ '--remote-debugging-port=9333' ]
+          '--disable-setuid-sandbox'
+        ]
       }
     },
 
