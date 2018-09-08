@@ -50,7 +50,8 @@ module.exports = function(karma) {
         base: 'ChromeHeadless',
         flags: [
           '--no-sandbox',
-          '--disable-setuid-sandbox'
+          '--disable-setuid-sandbox',
+          '--disable-gpu'
         ]
       }
     },
