@@ -1,6 +1,6 @@
-import EditorController from 'EditorController';
+import EditorController from './EditorController';
 import Diagram2JsonTransformer from './transformer/Diagram2JsonTransformer';
-import { Modeler } from 'Modeler';
+import { Modeler } from './Modeler';
 
 interface debugComand {
     line : number
@@ -44,7 +44,7 @@ class Debugger {
      * @param {string} sJsCode the code to debug
      * @param {string} sHtmlCode the html code to inject
      */
-    public debug(sJsCode : string, sHtmlCode : string) : void {
+    public debug(sJsCode : string, sHtmlCode : string) : string {
         //button will be enabled when function to debug is called
         this.disableDebuggerButtons();
         // this.decorations = [];
@@ -134,7 +134,7 @@ class Debugger {
             sJsCode = sPromise + activatePromises + textBeforeFunctionToDebug + sSubstring + sJsCode.substr(iEnd);
         }
 
-        this.injectCode(sJsCode, sHtmlCode);
+        return this.injectCode(sJsCode, sHtmlCode);
     }
 
     public activate() : void {
@@ -264,7 +264,7 @@ class Debugger {
      * @param sJsCode code from js tab
      * @param sHtmlCode code from html tab
      */
-    private injectCode(sJsCode : string, sHtmlCode : string) : void {
+    private injectCode(sJsCode : string, sHtmlCode : string) : string {
         const prev : any = document.getElementById('preview');
         if (prev) {
             let indexOfString = sHtmlCode.indexOf('<head>');
@@ -283,18 +283,20 @@ class Debugger {
             }
             
             prev.setAttribute('srcdoc', sSrcDoc);
+            return sSrcDoc;
         }
+        return '';
     }
 
     public enableDebuggerButtons() {
-        this.seteButtonState(true);
+        this.setButtonState(true);
     }
 
     public disableDebuggerButtons() {
-        this.seteButtonState(false);
+        this.setButtonState(false);
     }
 
-    private seteButtonState(debugModeEnabled : boolean) {
+    private setButtonState(debugModeEnabled : boolean) {
         let btn : any = document.getElementById('btnStep');
         btn.disabled = !debugModeEnabled;
 

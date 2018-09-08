@@ -6,7 +6,7 @@ import {
 import EventBus from '../../core/EventBus';
 import Canvas from '../../core/Canvas';
 import MouseTracking from '../mouse-tracking/MouseTracking';
-import { Point } from 'interfaces';
+import { Point } from 'src/interfaces';
 
 
 function between(val: any, start: any, end: any) {

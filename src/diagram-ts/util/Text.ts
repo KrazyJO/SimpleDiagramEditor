@@ -168,7 +168,7 @@ function shortenLine(line: string, width: number, maxWidth: number) {
 
 
 function getHelperSvg() {
-	var helperSvg = document.getElementById('helper-svg');
+	var helperSvg : any = document.getElementById('helper-svg');
 
 	if (!helperSvg) {
 		helperSvg = svgCreate('svg');

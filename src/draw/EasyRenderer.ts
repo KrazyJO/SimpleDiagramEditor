@@ -188,7 +188,7 @@ export default class EasyRenderer extends BaseRenderer {
 	}
 
 	public renderLaneLabel(p, text, element, x1, y1, x2) {
-		var textBox = this.renderLabel(p, text, {
+		var textBox : any = this.renderLabel(p, text, {
 			box: {
 			  height: 30,
 			  width: element.height

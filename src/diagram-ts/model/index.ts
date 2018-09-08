@@ -234,7 +234,7 @@ var types = {
 // 	}
 // }
  
-export function create(type: string, attrs: any): any {
+export function create(type: string, attrs?: any): any {
 	var Type = types[type];
 	if (!Type) {
 		throw new Error('unknown type: <' + type + '>');

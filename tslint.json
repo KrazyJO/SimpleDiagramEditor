@@ -17,13 +17,12 @@
       "no-namespace": true,
       "no-reference": true,
       "no-trailing-whitespace": false,
-      "no-unused-expression": true,
+      "no-unused-expression": false,
       "no-use-before-declare": false,
       "one-line": false,
       "quotemark": false,
       "radix": true,
       "semicolon": false,
-
       "triple-equals": true,
       "check-whitespace" : false
     }

@@ -1,4 +1,4 @@
-//this is a port the awesome bbq applicaiton from programming methedologoies
+//this is a port of the awesome bbq applicaiton from programming methedologoies
 
 function newRandomID() {
     // https://gist.github.com/gordonbrander/2230317

@@ -40,6 +40,6 @@
 		</style>
 	</head>
 	<body>
-		<div id="bbqapplication" class="bbq-application">
+		<div id="bbqapplication" class="bbq-application" ></div>
 	</body>
 </html>

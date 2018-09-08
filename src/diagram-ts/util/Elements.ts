@@ -92,7 +92,7 @@ export function selfAndChildren(elements: any, unique: boolean, maxDepth: number
  *
  * @return {Array<djs.model.Base>} the collected elements
  */
-export function selfAndDirectChildren(elements: any, allowDuplicates: boolean): any {
+export function selfAndDirectChildren(elements: any, allowDuplicates?: boolean): any {
 	return selfAndChildren(elements, !allowDuplicates, 1);
 }
 
@@ -105,7 +105,7 @@ export function selfAndDirectChildren(elements: any, allowDuplicates: boolean): 
  *
  * @return {Array<djs.model.Base>} the collected elements
  */
-export function selfAndAllChildren(elements: any, allowDuplicates: boolean): any {
+export function selfAndAllChildren(elements: any, allowDuplicates?: boolean): any {
 	return selfAndChildren(elements, !allowDuplicates, -1);
 }
 
