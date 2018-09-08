@@ -3,6 +3,8 @@ Curse Software Engeneering 2 Project.
 
 Will be plnkr with diagram editor, hopefully ;)
 
+![](gitlab/application.png)
+
 Global functions can be debugged with annotation '//@debug' on the line before declaration:
 
 ```
@@ -13,10 +15,13 @@ function myFun(arg1, arg2) {
     */
 }
 ```
+![](gitlab/debugging.png)
 
 There is one important limitation: in the body may not be '}' as char. It will be parsed as end of function body. So somethin like if, while, try/catch etc. is not possible at this time of development.
 
 The body will be parsed and the function will get async. After all statements (sparated by ';') will be inserted a promise. The Step button resolves the promise and so debugging is realized. On start of a debug session a message from injected code will be sent to the debugger. 
+
+![](gitlab/diagram.png)
 
 Highlights:
 - highlight current line in debug mode
