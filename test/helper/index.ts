@@ -6,7 +6,7 @@ import {
 
 import TestContainer from 'mocha-test-container-support';
 
-import Diagram from '@diagram-ts/Diagram';
+import Diagram from '../../src/diagram-ts/Diagram';
 // import { event as domEvent } from 'min-dom';
 var domEvent = require('min-dom').event;
 

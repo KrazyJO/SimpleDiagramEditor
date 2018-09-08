@@ -2,7 +2,7 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from '@test/TestHelper';
+} from 'test/TestHelper';
 
 import {
   append as svgAppend,
