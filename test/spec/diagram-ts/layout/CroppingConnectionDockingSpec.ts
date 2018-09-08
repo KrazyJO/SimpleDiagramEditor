@@ -10,7 +10,8 @@ import {
   create as svgCreate
 } from 'tiny-svg';
 
-import CroppingConnectionDocking from '@diagram-ts/layout/CroppingConnectionDocking';
+// import CroppingConnectionDocking from '@diagram-ts/layout/CroppingConnectionDocking';
+import CroppingConnectionDocking from '../../../../src/diagram-ts/layout/CroppingConnectionDocking';
 
 import { expect } from "chai";
 var chai = require('chai');
