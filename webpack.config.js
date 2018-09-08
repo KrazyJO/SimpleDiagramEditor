@@ -19,7 +19,9 @@ const config = {
     resolve: {
         extensions: ['.ts', '.js'],
         modules: ['node_modules'],
-        plugins: [ new TsConfigPathsPlugin({})]
+        plugins: [ new TsConfigPathsPlugin({
+            configFile: "./tsconfig.json"
+        })]
     },
     output: {
         library: '[name]',

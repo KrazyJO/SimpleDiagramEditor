@@ -21,6 +21,16 @@ module.exports = function(karma) {
     preprocessors: {
       'test/**/*.ts': [ 'webpack', 'sourcemap' ]
     },
+    typescriptPreprocessor: {
+      // options passed to the typescript compiler
+      options: {
+        // relative path to tsconfig
+        project: 'tsconfig.json'
+      }
+    },
+    karmaTypescriptConfig: {
+      tsconfig: './tsconfig.json',
+    },
 
     webpack : {
       module : webpackCongig.module,
