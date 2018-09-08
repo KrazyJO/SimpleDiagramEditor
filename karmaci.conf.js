@@ -38,7 +38,8 @@ module.exports = function(karma) {
       devtool: 'inline-source-map',
       node: {
         fs: 'empty'
-      }
+      },
+      mode : 'development'
     },
     webpackMiddleware: {
       // webpack-dev-middleware configuration
