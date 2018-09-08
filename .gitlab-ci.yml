@@ -1,4 +1,4 @@
-image: node:latest
+image: geekykaran/headless-chrome-node-docker:latest
 
 stages:
   - test
@@ -26,6 +26,7 @@ test:
   script:
     - yarn install
     - yarn run tslint
+    - yarn run test
   artifacts:
     untracked: true
 
