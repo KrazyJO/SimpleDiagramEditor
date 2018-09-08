@@ -1,4 +1,4 @@
-image: weboaks/node-karma-protractor-chrome:latest
+image: popcornpool/chrome-node-yarn:latest
 
 stages:
   - test
