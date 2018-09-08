@@ -15,7 +15,7 @@ module.exports = function(karma) {
     ],
 
     files: [
-      'test/spec/diagram-ts/layout/CroppingConnectionDockingSpec.ts'
+      'test/spec/**/*Spec.ts'
     ],
 
     preprocessors: {
