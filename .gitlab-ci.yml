@@ -1,4 +1,4 @@
-image: selenium/node-chrome:latest
+image: weltn24/up-docker-node-chrome-headless:latest
 
 stages:
   - test
