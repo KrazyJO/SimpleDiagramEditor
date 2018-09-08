@@ -24,8 +24,7 @@ build:
 test:
   stage: test
   script:
-    - yarn install
-    - yarn run tslint
+    - yarn
     - yarn run test
   artifacts:
     untracked: true
